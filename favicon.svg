@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="MG">
+  <rect width="64" height="64" fill="#11151A"/>
+  <rect x="4" y="4" width="56" height="8" fill="#EE3D28"/>
+  <text x="32" y="46" text-anchor="middle"
+        font-family="'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace"
+        font-size="30" font-weight="700" fill="#F5F6F2" letter-spacing="-1">MG</text>
+</svg>

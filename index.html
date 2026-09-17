@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Manik Goyal — Throughput</title>
+<meta name="description" content="Manik Goyal — backend & distributed systems engineer in Gurugram. .NET 8, Kafka, TimescaleDB and C++/FFmpeg on a video analytics platform across 400+ cameras and 200+ servers.">
+<meta name="author" content="Manik Goyal">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E9EAE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1114" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://manik400.github.io/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Manik Goyal">
+<meta property="og:title" content="Manik Goyal — Backend & Distributed Systems">
+<meta property="og:description" content="Manik Goyal — backend & distributed systems engineer in Gurugram. .NET 8, Kafka, TimescaleDB and C++/FFmpeg on a video analytics platform across 400+ cameras and 200+ servers.">
+<meta property="og:url" content="https://manik400.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Manik Goyal — Backend & Distributed Systems">
+<meta name="twitter:description" content="Manik Goyal — backend & distributed systems engineer in Gurugram. .NET 8, Kafka, TimescaleDB and C++/FFmpeg on a video analytics platform across 400+ cameras and 200+ servers.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+  :root{
+    --paper:#E9EAE4; --paper-2:#F5F6F2; --card:#FFFFFF;
+    --ink:#11151A; --ink-soft:#4E575F; --line:#11151A;
+    --red:#EE3D28; --amber:#FFB400; --green:#1FA971; --blue:#1B3FA0;
+    --band:#11151A; --band-ink:#F5F6F2; --shadow:#11151A;
+    --meter-bg:#D8DAD2;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0D1114; --paper-2:#151A1F; --card:#151A1F;
+      --ink:#ECEEE9; --ink-soft:#98A4AC; --line:#2B333A;
+      --red:#FF5F49; --amber:#FFC42E; --green:#31CE88; --blue:#5B7BE0;
+      --band:#ECEEE9; --band-ink:#0D1114; --shadow:#000000;
+      --meter-bg:#232A30;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0D1114; --paper-2:#151A1F; --card:#151A1F;
+    --ink:#ECEEE9; --ink-soft:#98A4AC; --line:#2B333A;
+    --red:#FF5F49; --amber:#FFC42E; --green:#31CE88; --blue:#5B7BE0;
+    --band:#ECEEE9; --band-ink:#0D1114; --shadow:#000000;
+    --meter-bg:#232A30;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Archivo Black',Impact,system-ui,sans-serif;font-weight:400;line-height:.98;letter-spacing:-.02em;margin:0;text-wrap:balance}
+  .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+  a{color:inherit}
+  ::selection{background:var(--amber);color:#11151A}
+  :focus-visible{outline:3px solid var(--red);outline-offset:3px}
+  .wrap{max-width:1160px;margin:0 auto;padding-inline:16px}
+
+  /* ---------- chrome ---------- */
+  #progress{position:fixed;top:0;left:0;height:4px;width:0;background:var(--red);z-index:60}
+  .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--paper-2);border-bottom:2px solid var(--line)}
+  .nav-in{max-width:1160px;margin:0 auto;padding:9px 16px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:700}
+  .sig{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.06em;background:var(--ink);color:var(--paper-2);padding:4px 7px}
+  .nav-links{display:none;gap:2px;margin-left:auto}
+  @media(min-width:940px){.nav-links{display:flex}}
+  .nav-links a{font-family:'JetBrains Mono',monospace;font-size:12.5px;text-decoration:none;padding:6px 9px;border-bottom:2px solid transparent}
+  .nav-links a:hover,.nav-links a.on{border-bottom-color:var(--red);color:var(--red)}
+  .nav-right{margin-left:auto;display:flex;gap:8px}
+  @media(min-width:940px){.nav-right{margin-left:16px}}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--line);background:var(--card);color:var(--ink);
+       font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;padding:7px 12px;cursor:pointer;
+       box-shadow:3px 3px 0 var(--shadow);text-decoration:none;transition:transform .12s,box-shadow .12s}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--shadow)}
+  .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
+  .btn.red{background:var(--red);color:#fff}
+
+  section{padding-block:clamp(52px,8vw,96px)}
+  .head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;border-bottom:3px solid var(--line);padding-bottom:14px}
+  .head h2{font-size:clamp(30px,5.6vw,52px)}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.26em;color:var(--ink-soft)}
+  .head p{margin:0;max-width:44ch;color:var(--ink-soft);font-size:15px}
+  .mk{background:var(--amber);color:#11151A;padding:0 6px;box-shadow:2px 2px 0 var(--shadow)}
+  .mk.r{background:var(--red);color:#fff}
+
+  /* ---------- hero : split cockpit ---------- */
+  .hero{display:grid;gap:26px;padding-block:clamp(30px,5vw,58px)}
+  @media(min-width:1000px){.hero{grid-template-columns:1.12fr .88fr;align-items:start;gap:34px}}
+  .avail{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--line);background:var(--green);color:#06140E;
+         font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.09em;padding:5px 10px;box-shadow:3px 3px 0 var(--shadow)}
+  .dot{width:8px;height:8px;border-radius:50%;background:#06140E;animation:pulse 1.8s steps(1,end) infinite}
+  @keyframes pulse{0%,55%{opacity:1}56%,100%{opacity:.2}}
+  @media(prefers-reduced-motion:reduce){.dot{animation:none}}
+  .hero h1{font-size:clamp(46px,11vw,104px);margin-top:16px}
+  .hero h1 em{font-style:normal;-webkit-text-stroke:2px var(--line);color:transparent;display:block}
+  .role{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.12em;color:var(--ink-soft);text-transform:uppercase}
+  .hero p.lede{margin:18px 0 0;max-width:56ch;font-size:clamp(16px,2vw,18.5px)}
+  .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+
+  .console{border:3px solid var(--line);background:var(--band);color:var(--band-ink);box-shadow:8px 8px 0 var(--shadow);overflow:hidden}
+  .console header{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:2px solid var(--line);
+                  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;background:var(--red);color:#fff}
+  .console .rows{padding:12px;font-family:'JetBrains Mono',monospace;font-size:12.2px;line-height:1.85;min-height:206px}
+  .console .rows div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .console .t{color:var(--amber)}
+  .console .ok{color:var(--green)}
+  .console footer{border-top:2px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr)}
+  .console footer div{padding:10px;border-right:2px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em}
+  .console footer div:last-child{border-right:0}
+  .console footer b{display:block;font-family:'Archivo Black',Impact,sans-serif;font-size:21px;letter-spacing:0;font-variant-numeric:tabular-nums}
+
+  /* ---------- scrolling log band ---------- */
+  .band-log{background:var(--amber);border-block:3px solid var(--line);overflow:hidden;padding-block:9px}
+  .track{display:flex;width:max-content;animation:slide 40s linear infinite}
+  @media(prefers-reduced-motion:reduce){.track{animation:none}}
+  .track span{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;color:#11151A;padding-inline:14px;white-space:nowrap}
+  .track b{color:#EE3D28}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- deltas ---------- */
+  .deltas{margin-top:30px;display:grid;gap:14px}
+  .delta{border:3px solid var(--line);background:var(--card);box-shadow:6px 6px 0 var(--shadow);padding:16px 18px;
+         display:grid;gap:12px}
+  @media(min-width:860px){.delta{grid-template-columns:1fr 300px;align-items:center;gap:26px}}
+  .delta h3{font-size:19px}
+  .delta p{margin:8px 0 0;color:var(--ink-soft);font-size:14.5px}
+  .numbers{display:flex;align-items:baseline;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13px}
+  .from{color:var(--ink-soft);text-decoration:line-through}
+  .to{font-family:'Archivo Black',Impact,sans-serif;font-size:clamp(26px,4vw,34px);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+  .to.up{color:var(--green)} .to.down{color:var(--red)}
+  .meter{height:16px;background:var(--meter-bg);border:2px solid var(--line);position:relative;overflow:hidden}
+  .meter i{position:absolute;inset:0 auto 0 0;width:0;background:var(--line);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .meter.g i{background:var(--green)} .meter.r i{background:var(--red)} .meter.a i{background:var(--amber)}
+  .meter-cap{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--ink-soft);margin-top:6px;display:block}
+
+  /* ---------- system map ---------- */
+  .sys{margin-top:30px;display:grid;gap:18px}
+  @media(min-width:980px){.sys{grid-template-columns:1.05fr .95fr;align-items:start}}
+  .map{border:3px solid var(--line);background:var(--card);box-shadow:8px 8px 0 var(--shadow);padding:18px}
+  .map .lvl{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;color:var(--ink-soft);margin:14px 0 8px}
+  .map .lvl:first-child{margin-top:0}
+  .box{border:2px solid var(--line);padding:9px 11px;box-shadow:3px 3px 0 var(--shadow)}
+  .box b{display:block;font-family:'Archivo Black',Impact,sans-serif;font-size:13.5px}
+  .box small{font-family:'JetBrains Mono',monospace;font-size:10.8px;opacity:.8}
+  .row2{display:grid;gap:8px;grid-template-columns:1fr}
+  @media(min-width:520px){.row2{grid-template-columns:1fr 1fr}}
+  .row3{display:grid;gap:8px;grid-template-columns:1fr}
+  @media(min-width:520px){.row3{grid-template-columns:repeat(3,1fr)}}
+  .b-amber{background:var(--amber);color:#11151A} .b-red{background:var(--red);color:#fff}
+  .b-green{background:var(--green);color:#06140E} .b-plain{background:var(--paper-2);color:var(--ink)}
+  .down{text-align:center;font-family:'JetBrains Mono',monospace;color:var(--ink-soft);font-size:12px;margin:8px 0}
+  .owns{border:3px solid var(--line);background:var(--card);box-shadow:8px 8px 0 var(--shadow)}
+  .own{display:flex;gap:12px;padding:13px 16px;border-bottom:2px solid var(--line)}
+  .own:last-child{border-bottom:0}
+  .own span{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--red);font-weight:700;flex:0 0 auto}
+  .own p{margin:0;font-size:14.6px}
+
+  /* ---------- builds ---------- */
+  .builds{margin-top:30px;display:grid;gap:18px}
+  @media(min-width:900px){.builds{grid-template-columns:1fr 1fr}}
+  .build{border:3px solid var(--line);background:var(--card);box-shadow:8px 8px 0 var(--shadow);display:flex;flex-direction:column}
+  .build .top{border-bottom:3px solid var(--line);padding:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .build.one .top{background:var(--blue);color:#fff}
+  .build.two .top{background:var(--green);color:#06140E}
+  .build .top h3{font-size:clamp(22px,3.4vw,30px)}
+  .build .yr{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.14em;white-space:nowrap}
+  .build .sub{font-family:'JetBrains Mono',monospace;font-size:11.5px;margin-top:6px;opacity:.9}
+  .build .art{margin:0;padding:14px 16px;border-bottom:2px dashed var(--line);font-family:'JetBrains Mono',monospace;
+              font-size:11.4px;line-height:1.65;color:var(--ink-soft);white-space:pre;overflow-x:auto}
+  .build .body{padding:16px;flex:1}
+  .build ul{margin:0;padding-left:17px}
+  .build li{margin:8px 0;font-size:14.8px}
+  .build .chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 16px}
+  .chip{border:2px solid var(--line);background:var(--paper-2);padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:11.5px}
+  .also{margin-top:18px;border:3px solid var(--line);background:var(--paper-2);box-shadow:6px 6px 0 var(--shadow);padding:14px 16px;
+        font-family:'JetBrains Mono',monospace;font-size:12.6px;color:var(--ink-soft)}
+  .also b{color:var(--ink)}
+
+  /* ---------- toolbox inventory ---------- */
+  .inv{margin-top:30px;border:3px solid var(--line);background:var(--card);box-shadow:8px 8px 0 var(--shadow)}
+  .inv-row{display:grid;grid-template-columns:1fr;gap:6px;padding:14px 16px;border-bottom:2px solid var(--line)}
+  @media(min-width:760px){.inv-row{grid-template-columns:170px 1fr 120px;gap:18px;align-items:center}}
+  .inv-row:last-child{border-bottom:0}
+  .inv-row h4{font-size:14.5px;letter-spacing:.02em}
+  .inv-row .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .depth{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-align:left}
+  @media(min-width:760px){.depth{text-align:right}}
+  .chip.core{background:var(--amber);color:#11151A;font-weight:700}
+
+  /* ---------- closing: about + contact ---------- */
+  .close-grid{margin-top:30px;display:grid;gap:20px}
+  @media(min-width:940px){.close-grid{grid-template-columns:.85fr 1.15fr;align-items:start}}
+  .idcard{border:3px solid var(--line);background:var(--card);box-shadow:8px 8px 0 var(--shadow);overflow:hidden}
+  .idcard .top{background:var(--ink);color:var(--paper-2);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;padding:9px 12px}
+  #face{display:block;width:100%;height:auto;image-rendering:pixelated;border-bottom:2px solid var(--line)}
+  .idrow{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-top:2px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:11.8px}
+  .idrow span:first-child{color:var(--ink-soft);letter-spacing:.1em}
+  .idrow span:last-child{font-weight:700;text-align:right}
+  .bio{border:3px solid var(--line);background:var(--card);box-shadow:8px 8px 0 var(--shadow);padding:clamp(16px,3vw,26px)}
+  .bio p{margin:0 0 14px}
+  .bio p:last-of-type{margin-bottom:0}
+  .creds{display:grid;gap:10px;margin-top:18px;border-top:2px dashed var(--line);padding-top:16px}
+  @media(min-width:640px){.creds{grid-template-columns:1fr 1fr}}
+  .cred{border:2px solid var(--line);padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px}
+  .cred b{display:block;font-family:'Archivo Black',Impact,sans-serif;font-size:17px;letter-spacing:0;margin-bottom:3px}
+  .links{margin-top:26px;border-top:2px solid var(--line)}
+  .link{display:flex;align-items:center;gap:14px;border-bottom:2px solid var(--line);padding:15px 6px;text-decoration:none;transition:background .12s,padding-left .12s}
+  .link:hover{background:var(--amber);color:#11151A;padding-left:14px}
+  .link b{font-family:'Archivo Black',Impact,sans-serif;font-size:18px}
+  .link .h{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink-soft)}
+  .link:hover .h{color:#11151A}
+  .link .go{margin-left:auto;font-family:'JetBrains Mono',monospace}
+
+  footer{border-top:3px solid var(--line);background:var(--paper-2)}
+  .foot{max-width:1160px;margin:0 auto;padding:20px 16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+        font-family:'JetBrains Mono',monospace;font-size:11.8px;color:var(--ink-soft)}
+</style>
+<style>
+  /* SAMPLE badge on the hero console — the tail is illustrative, not a live feed */
+  .console header .sim{
+    font-size:9.5px;letter-spacing:.1em;border:1px solid currentColor;
+    padding:1px 4px;margin-left:6px;opacity:.75;vertical-align:1px;
+  }
+  /* print: give recruiters a clean page instead of a dark cockpit */
+  @media print{
+    .nav,#progress,.band-log,.console,.cta{display:none!important}
+    body{background:#fff;color:#000}
+    .wrap{max-width:none}
+  }
+</style>
+<noscript><style>.band-log,.console .rows{display:none}</style></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Manik Goyal",
+  "jobTitle": "Software Engineer",
+  "email": "mailto:manikgoyal400@gmail.com",
+  "url": "https://manik400.github.io/",
+  "address": { "@type": "PostalAddress", "addressLocality": "Gurugram", "addressRegion": "HR", "addressCountry": "IN" },
+  "worksFor": { "@type": "Organization", "name": "I2V Systems" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "USICT, GGSIPU" },
+  "knowsAbout": [".NET", "C#", "Distributed systems", "Apache Kafka", "RabbitMQ", "PostgreSQL", "TimescaleDB", "C++", "FFmpeg", "WebRTC"],
+  "sameAs": ["https://github.com/Manik400", "https://linkedin.com/in/manik-goyal", "https://leetcode.com/manik_23_"]
+}
+</script>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="sig">MG</span> manik.dev</a>
+    <div class="nav-links">
+      <a href="#deltas">Deltas</a>
+      <a href="#systems">Systems</a>
+      <a href="#builds">Builds</a>
+      <a href="#toolbox">Toolbox</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="btn" id="theme" type="button" aria-label="Switch colour theme">◑</button>
+      <a class="btn red" href="#about">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero wrap">
+  <div>
+    <span class="avail"><span class="dot"></span> OPEN TO SDE-2 / BACKEND ROLES</span>
+    <h1>MANIK<em>GOYAL</em></h1>
+    <div class="role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</div>
+    <p class="lede">
+      I work on a video analytics platform watching <span class="mk">400+ cameras</span> across
+      200+ servers — ANPR, face recognition and intrusion events, all of it arriving faster than
+      any single service wants to handle it. My job is making that traffic land correctly: event-specific
+      Kafka topics with dead-letter handling, TimescaleDB that ingests instead of choking, exports that
+      stream instead of dying.
+    </p>
+    <p class="lede" style="margin-top:12px;color:var(--ink-soft)">
+      Two years at <b style="color:var(--ink)">I2V Systems</b>, .NET 8 and Angular/React daily, with the
+      C++ and FFmpeg work when the problem drops below the service layer.
+    </p>
+    <div class="cta">
+      <a class="btn red" href="#deltas">The numbers ↓</a>
+      <a class="btn" href="mailto:manikgoyal400@gmail.com">manikgoyal400@gmail.com</a>
+    </div>
+  </div>
+
+  <div class="console">
+    <header>▌ ANALYTICS-MANAGER · EVENT TAIL <span class="sim" title="Illustrative sample of the event shapes this platform carries — not a live feed">SAMPLE</span></header>
+    <div class="rows" id="log" aria-hidden="true"></div>
+    <footer>
+      <div>CAMERAS<b>400+</b></div>
+      <div>SERVERS<b>200+</b></div>
+      <div>EVENTS/SEC<b id="eps">500</b></div>
+    </footer>
+  </div>
+</section>
+
+<!-- LOG BAND -->
+<div class="band-log" aria-hidden="true"><div class="track" id="track"></div></div>
+
+<!-- DELTAS -->
+<section class="wrap" id="deltas">
+  <div class="head">
+    <div>
+      <div class="kicker">MEASURED · PRODUCTION</div>
+      <h2>WHAT CHANGED AFTER I <span class="mk">TOUCHED IT</span>.</h2>
+    </div>
+    <p>Every line below is a before and an after on a system with real users on it. No estimates.</p>
+  </div>
+
+  <div class="deltas">
+    <div class="delta">
+      <div>
+        <h3>KAFKA EVENT THROUGHPUT</h3>
+        <p>Split one overloaded pipeline into event-specific topics with dead-letter handling, so a poisoned ANPR message stops blocking face and intrusion events instead of stalling all three.</p>
+        <div class="numbers"><span class="from">30 events/sec</span> → <span class="to up" data-count="500" data-suffix="+">500+</span> <span class="mono">events/sec</span></div>
+      </div>
+      <div>
+        <div class="meter g"><i data-fill="100"></i></div>
+        <span class="meter-cap">16× SUSTAINED · FAILED MESSAGES REPLAYABLE</span>
+      </div>
+    </div>
+
+    <div class="delta">
+      <div>
+        <h3>ANALYTICS EXPORT · 100K+ RECORDS</h3>
+        <p>Rebuilt the export around streaming reads and incremental batches. The out-of-memory failures on large ranges stopped with it.</p>
+        <div class="numbers"><span class="from">12 min</span> → <span class="to down" data-count="60" data-suffix="s">60s</span> <span class="mono">under 1 minute</span></div>
+      </div>
+      <div>
+        <div class="meter r"><i data-fill="8"></i></div>
+        <span class="meter-cap">92% FASTER · RUNTIME REMAINING</span>
+      </div>
+    </div>
+
+    <div class="delta">
+      <div>
+        <h3>CAMERA-FRAME INGESTION</h3>
+        <p>TimescaleDB hypertables with native compression, retention policies and composite indexes — sized for what 400 cameras actually push, not what a demo pushes.</p>
+        <div class="numbers"><span class="from">70 fps</span> → <span class="to up" data-count="300" data-suffix="+">300+</span> <span class="mono">frames/sec</span></div>
+      </div>
+      <div>
+        <div class="meter g"><i data-fill="100"></i></div>
+        <span class="meter-cap">4.3× INGEST · COMPRESSED &amp; RETAINED</span>
+      </div>
+    </div>
+
+    <div class="delta">
+      <div>
+        <h3>VECTOR INDEX MEMORY</h3>
+        <p>Face enrollment, watchlist matching and deduplication on Milvus / pgvector — re-tuned the index so it fits the box, with match accuracy held.</p>
+        <div class="numbers"><span class="from">baseline</span> → <span class="to down" data-count="75" data-suffix="%">75%</span> <span class="mono">less memory</span></div>
+      </div>
+      <div>
+        <div class="meter a"><i data-fill="25"></i></div>
+        <span class="meter-cap">25% OF ORIGINAL FOOTPRINT</span>
+      </div>
+    </div>
+
+    <div class="delta">
+      <div>
+        <h3>QUERY LATENCY &amp; RELEASE TURNAROUND</h3>
+        <p>PostgreSQL and MongoDB index tuning on the hot paths; Docker builds and changelogs automated through GitHub Actions, with Grafana and Prometheus alerting so production triage starts from a dashboard, not a phone call.</p>
+        <div class="numbers"><span class="to down" data-count="35" data-suffix="%">35%</span> <span class="mono">faster queries</span> <span style="color:var(--ink-soft)">·</span> <span class="to down" data-count="40" data-suffix="%">40%</span> <span class="mono">faster releases</span></div>
+      </div>
+      <div>
+        <div class="meter a"><i data-fill="60"></i></div>
+        <span class="meter-cap">TIME REMAINING PER RELEASE CYCLE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEMS -->
+<section class="wrap" id="systems">
+  <div class="head">
+    <div>
+      <div class="kicker">OWNERSHIP · I2V SYSTEMS · OCT 2024 — PRESENT</div>
+      <h2>THE SYSTEM I <span class="mk r">OWN</span>.</h2>
+    </div>
+    <p>Analytics Manager — the service every camera event passes through on its way to being a record, an alert, or a challan.</p>
+  </div>
+
+  <div class="sys">
+    <div class="map">
+      <div class="lvl">SOURCES · 400+ CAMERAS</div>
+      <div class="row3">
+        <div class="box b-plain"><b>ANPR</b><small>plate reads</small></div>
+        <div class="box b-plain"><b>FACE</b><small>enroll · match</small></div>
+        <div class="box b-plain"><b>INTRUSION</b><small>zone breach</small></div>
+      </div>
+      <div class="down">↓ broker-agnostic pub/sub ↓</div>
+      <div class="lvl">TRANSPORT · RABBITMQ · KAFKA · MQTT</div>
+      <div class="box b-red"><b>EVENT-SPECIFIC TOPICS + DLQ</b><small>500+ events/sec sustained · failures isolated for replay</small></div>
+      <div class="down">↓</div>
+      <div class="lvl">ANALYTICS MANAGER · .NET 8 · CLEAN ARCHITECTURE</div>
+      <div class="box b-amber"><b>ROUTING ACROSS 8+ SERVICES</b><small>rules · enrichment · e-challan filing · SignalR progress</small></div>
+      <div class="down">↓</div>
+      <div class="lvl">STATE</div>
+      <div class="row3">
+        <div class="box b-green"><b>TIMESCALE</b><small>300+ fps</small></div>
+        <div class="box b-green"><b>MILVUS</b><small>−75% memory</small></div>
+        <div class="box b-green"><b>S3 · NAS</b><small>unified storage</small></div>
+      </div>
+      <div class="down">↓</div>
+      <div class="lvl">SURFACE</div>
+      <div class="row2">
+        <div class="box b-plain"><b>10+ NPM LIBRARIES</b><small>Angular &amp; React · every web app</small></div>
+        <div class="box b-plain"><b>GRAFANA / PROMETHEUS</b><small>alerts before the phone call</small></div>
+      </div>
+    </div>
+
+    <div class="owns">
+      <div class="own"><span>01</span><p>Led the Analytics Manager build, coordinating ANPR, face and intrusion events across <b>8+ backend and analytics services</b>.</p></div>
+      <div class="own"><span>02</span><p>Designed the broker-agnostic pub/sub module (RabbitMQ, Kafka, MQTT) and a unified storage module (local disk, NAS, AWS S3) — <b>adopted by 4+ services</b>, cutting new-service integration from days to hours.</p></div>
+      <div class="own"><span>03</span><p>Integrated government <b>e-challan APIs</b> into the ANPR violation pipeline, removing manual submission from the loop entirely.</p></div>
+      <div class="own"><span>04</span><p>Built bulk Excel face enrollment for <b>5,000+ records</b> with field-level server-side validation and live SignalR progress streaming.</p></div>
+      <div class="own"><span>05</span><p>Published <b>10+ reusable npm component libraries</b> used by every web app in a 200+ server deployment serving 60+ concurrent users.</p></div>
+      <div class="own"><span>06</span><p>Mentored <b>2 junior engineers</b> on Clean Architecture and async C#, and drove the code reviews that cut QA-reported regressions.</p></div>
+      <div class="own"><span>07</span><p>Carried features from requirements and technical design through testing and production deployment, coordinating backend, frontend and analytics dependencies across sprint releases.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDS -->
+<section class="wrap" id="builds">
+  <div class="head">
+    <div>
+      <div class="kicker">OUTSIDE THE JOB</div>
+      <h2>THINGS I BUILT <span class="mk">ON PURPOSE</span>.</h2>
+    </div>
+    <p>Two projects, each one an excuse to take a hard design decision seriously instead of shipping around it.</p>
+  </div>
+
+  <div class="builds">
+    <article class="build one">
+      <div class="top">
+        <div>
+          <h3>THE STREAMER</h3>
+          <div class="sub">Low-latency video streaming platform</div>
+        </div>
+        <div class="yr">2025</div>
+      </div>
+      <pre class="art">camera ─▶ FFmpeg decode ─▶ H.264 remux
+                     │
+              libdatachannel
+                     ▼
+        WebRTC / RTP ──▶ browser SDK
+        data channel: seek · pause · speed
+        ────────────────────────────────
+        glass-to-glass:  &lt; 200 ms</pre>
+      <div class="body">
+        <ul>
+          <li>Sub-200 ms camera playback for live and recorded sources, decoding and remuxing H.264 in C++17 over FFmpeg.</li>
+          <li>Moved transport off WebSocket streaming onto WebRTC/RTP with libdatachannel, adding HTTP signaling plus seek, pause and playback-speed controls over the data channel.</li>
+          <li>.NET 7 player server with a browser SDK; CMake, vcpkg, Docker and GitHub Actions producing a one-command Windows MSI.</li>
+        </ul>
+      </div>
+      <div class="chips">
+        <span class="chip">C++17</span><span class="chip">FFmpeg</span><span class="chip">WebRTC</span><span class="chip">.NET 7</span><span class="chip">Docker</span>
+      </div>
+    </article>
+
+    <article class="build two">
+      <div class="top">
+        <div>
+          <h3>PARKNEST</h3>
+          <div class="sub">Peer-to-peer parking marketplace</div>
+        </div>
+        <div class="yr">2025</div>
+      </div>
+      <pre class="art">host listing ──┐
+               ├─▶ booking (optimistic
+renter search ─┘      concurrency check)
+                        │
+                        ▼
+          credit ledger · idempotent
+          ────────────────────────────
+          no double-book, no double-charge</pre>
+      <div class="body">
+        <ul>
+          <li>Two-sided marketplace: host listings, renter bookings and prepaid credit settlement on .NET 8, PostgreSQL and a React front end.</li>
+          <li>Optimistic-concurrency booking safeguards and an idempotent credit ledger that hold under overlapping requests — the interesting half of the problem.</li>
+          <li>Service boundaries, data model and settlement flows written up as a PRD before any implementation started.</li>
+        </ul>
+      </div>
+      <div class="chips">
+        <span class="chip">.NET 8</span><span class="chip">PostgreSQL</span><span class="chip">React</span><span class="chip">Event-driven</span>
+      </div>
+    </article>
+  </div>
+
+  <div class="also">
+    ALSO ON THE BENCH → <b>800+ LeetCode problems</b> across arrays, strings, graphs, trees and algorithm design ·
+    <b>Adobe GenSolve</b>, top 5 percentile nationally · <b>Postman API Fundamentals</b> certified.
+  </div>
+</section>
+
+<!-- TOOLBOX -->
+<section class="wrap" id="toolbox">
+  <div class="head">
+    <div>
+      <div class="kicker">INVENTORY</div>
+      <h2>WHAT I ACTUALLY <span class="mk">REACH FOR</span>.</h2>
+    </div>
+    <p>Ordered by how often it's open on my screen, not by how it scans on a keyword filter. Highlighted = daily.</p>
+  </div>
+
+  <div class="inv">
+    <div class="inv-row">
+      <h4>SERVICES</h4>
+      <div class="chips">
+        <span class="chip core">.NET 8 / C#</span><span class="chip core">ASP.NET Core</span><span class="chip core">EF Core</span>
+        <span class="chip">Clean Architecture</span><span class="chip">C++17</span><span class="chip">Python</span><span class="chip">Go</span><span class="chip">Django</span>
+      </div>
+      <div class="depth">DAILY · 2 YRS</div>
+    </div>
+    <div class="inv-row">
+      <h4>MESSAGING</h4>
+      <div class="chips">
+        <span class="chip core">Kafka</span><span class="chip core">RabbitMQ</span><span class="chip">MQTT</span>
+        <span class="chip">Dead-letter queues</span><span class="chip">SignalR</span><span class="chip">Pub/Sub design</span>
+      </div>
+      <div class="depth">DAILY · PROD</div>
+    </div>
+    <div class="inv-row">
+      <h4>DATA</h4>
+      <div class="chips">
+        <span class="chip core">PostgreSQL</span><span class="chip core">TimescaleDB</span><span class="chip">Milvus</span>
+        <span class="chip">pgvector</span><span class="chip">MongoDB</span><span class="chip">Npgsql</span><span class="chip">Query tuning</span><span class="chip">Indexing</span>
+      </div>
+      <div class="depth">DAILY · PROD</div>
+    </div>
+    <div class="inv-row">
+      <h4>INTERFACES</h4>
+      <div class="chips">
+        <span class="chip core">Angular 18</span><span class="chip core">React</span><span class="chip">TypeScript</span>
+        <span class="chip">npm library authoring</span><span class="chip">Angular Material</span><span class="chip">Flutter</span>
+      </div>
+      <div class="depth">WEEKLY · 10+ LIBS</div>
+    </div>
+    <div class="inv-row">
+      <h4>MEDIA</h4>
+      <div class="chips">
+        <span class="chip">FFmpeg</span><span class="chip">WebRTC</span><span class="chip">libdatachannel</span><span class="chip">H.264</span><span class="chip">CMake / vcpkg</span>
+      </div>
+      <div class="depth">PROJECT DEPTH</div>
+    </div>
+    <div class="inv-row">
+      <h4>RUN &amp; SHIP</h4>
+      <div class="chips">
+        <span class="chip core">Docker</span><span class="chip">AWS (EC2, S3, RDS)</span><span class="chip">GitHub Actions</span>
+        <span class="chip">Grafana</span><span class="chip">Prometheus</span><span class="chip">Linux</span>
+      </div>
+      <div class="depth">DAILY</div>
+    </div>
+    <div class="inv-row">
+      <h4>PRACTICE</h4>
+      <div class="chips">
+        <span class="chip">System design</span><span class="chip">SOLID</span><span class="chip">API design</span>
+        <span class="chip">Performance tuning</span><span class="chip">Code review</span><span class="chip">Agile / Scrum</span><span class="chip">Unit testing</span>
+      </div>
+      <div class="depth">HOW I WORK</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT + CONTACT -->
+<section class="wrap" id="about">
+  <div class="head">
+    <div>
+      <div class="kicker">WHO'S TYPING</div>
+      <h2>HI, I'M <span class="mk r">MANIK</span>.</h2>
+    </div>
+    <p>Backend engineer in Gurugram. Open to SDE-2 and senior backend roles — India or relocation.</p>
+  </div>
+
+  <div class="close-grid">
+    <div class="idcard">
+      <div class="top">ENGINEER · ID CARD</div>
+      <canvas id="face" width="260" height="260" aria-label="Generated pixel portrait"></canvas>
+      <div class="idrow"><span>BASE</span><span>Gurugram, HR</span></div>
+      <div class="idrow"><span>LOCAL</span><span id="clock">--:--</span></div>
+      <div class="idrow"><span>SINCE</span><span>Oct 2024 @ I2V</span></div>
+      <div class="idrow"><span>DEGREE</span><span>B.Tech IT · 8.55</span></div>
+      <div class="idrow"><span>SPEAKS</span><span>EN · हिंदी · DE</span></div>
+      <div class="idrow"><span>PHONE</span><span>+91 93156 05606</span></div>
+    </div>
+
+    <div class="bio">
+      <p>
+        I write backend services for video analytics — the kind where a slow consumer isn't a red test,
+        it's a violation that never got filed. Most of my day is .NET 8 on Clean Architecture, event flow
+        over Kafka and RabbitMQ, and PostgreSQL/TimescaleDB schemas sized for 400 cameras rather than a demo.
+      </p>
+      <p>
+        The rest is the surface and the substrate: Angular and React libraries that ten apps depend on, and,
+        when the problem drops below the service layer, C++ and FFmpeg pushing frames over WebRTC.
+      </p>
+      <p>
+        I like the fixes that are structural — a pipeline split by event type instead of a bigger consumer,
+        a streaming export instead of a larger heap, an idempotent ledger instead of a retry guard.
+      </p>
+
+      <div class="creds">
+        <div class="cred"><b>USICT, GGSIPU</b>B.Tech IT · Dec 2021 — Jun 2025 · CGPA 8.55/10</div>
+        <div class="cred"><b>I2V Systems</b>Software Engineer · Oct 2024 — Present · Gurugram</div>
+        <div class="cred"><b>800+ problems</b>LeetCode · DSA across graphs, trees, strings</div>
+        <div class="cred"><b>Top 5%ile</b>Adobe GenSolve · national algorithmic contest</div>
+      </div>
+
+      <div class="links">
+        <a class="link" href="mailto:manikgoyal400@gmail.com"><b>EMAIL</b><span class="h">manikgoyal400@gmail.com</span><span class="go">↗</span></a>
+        <a class="link" href="https://github.com/Manik400" target="_blank" rel="noopener"><b>GITHUB</b><span class="h">/Manik400</span><span class="go">↗</span></a>
+        <a class="link" href="https://linkedin.com/in/manik-goyal" target="_blank" rel="noopener"><b>LINKEDIN</b><span class="h">/in/manik-goyal</span><span class="go">↗</span></a>
+        <a class="link" href="https://leetcode.com/manik_23_" target="_blank" rel="noopener"><b>LEETCODE</b><span class="h">/manik_23_</span><span class="go">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>© 2026 Manik Goyal — designed &amp; built from scratch.</span>
+    <span>No frameworks. No build step. ✦ Gurugram, IN</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+
+  // theme toggle — storage can throw in private windows
+  var tbtn=document.getElementById('theme');
+  try{ var s=localStorage.getItem('mg-theme'); if(s) root.setAttribute('data-theme',s); }catch(e){}
+  tbtn.addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark' ||
+      (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    var next=dark?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{ localStorage.setItem('mg-theme',next); }catch(e){}
+  });
+
+  // scroll progress
+  var bar=document.getElementById('progress');
+  function prog(){ var h=document.documentElement.scrollHeight-innerHeight; bar.style.width=(h>0?(scrollY/h)*100:0)+'%'; }
+  addEventListener('scroll',prog,{passive:true}); prog();
+
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // live tail — illustrative sample of the event shapes this platform carries
+  var log=document.getElementById('log');
+  var kinds=[
+    ['ANPR','plate HR26 ** **** · lane 3 · matched'],
+    ['FACE','watchlist hit · score 0.91 · dedup skip'],
+    ['ANPR','violation → e-challan API · accepted'],
+    ['INTRUSION','zone 7 breach · clip queued'],
+    ['FACE','enrollment batch 500/5000 · signalr'],
+    ['ANPR','plate read · no match · archived'],
+    ['SYS','timescale chunk compressed · 41 MB'],
+    ['SYS','dlq drained · 3 replayed · 0 lost']
+  ];
+  var idx=0;
+  function line(){
+    var k=kinds[idx++%kinds.length];
+    var t=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date());
+    var d=document.createElement('div');
+    d.innerHTML='<span class="t">'+t+'</span> <span class="ok">'+k[0]+'</span> '+k[1];
+    log.appendChild(d);
+    while(log.children.length>9) log.removeChild(log.firstChild);
+  }
+  for(var i=0;i<9;i++) line();
+  if(!reduce) setInterval(line,2200);
+
+  // events/sec readout jitters around the sustained figure
+  var eps=document.getElementById('eps');
+  if(!reduce) setInterval(function(){ eps.textContent=(500+Math.floor(Math.random()*90)); },1800);
+
+  // log band (duplicated once for the -50% loop)
+  var facts=['<b>400+</b> CAMERAS','<b>200+</b> SERVERS','<b>500+</b> EVENTS/SEC','<b>300+</b> FRAMES/SEC',
+             '<b>100K+</b> RECORD EXPORTS IN &lt;1 MIN','<b>10+</b> NPM LIBRARIES','<b>8+</b> SERVICES COORDINATED',
+             '<b>5,000+</b> BULK ENROLLMENTS','<b>−75%</b> VECTOR INDEX MEMORY','<b>−40%</b> RELEASE TURNAROUND'];
+  var track=document.getElementById('track'), h='';
+  facts.forEach(function(f){ h+='<span>'+f+'</span><span>✦</span>'; });
+  track.innerHTML=h+h;
+
+  // IST clock
+  var clock=document.getElementById('clock');
+  function tick(){ clock.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit'}).format(new Date())+' IST'; }
+  tick(); setInterval(tick,30000);
+
+  // count-ups render their final value first, then animate if seen
+  var nums=[].slice.call(document.querySelectorAll('[data-count]'));
+  nums.forEach(function(el){ el.textContent=(+el.dataset.count).toLocaleString('en-IN')+(el.dataset.suffix||''); });
+
+  var meters=[].slice.call(document.querySelectorAll('.meter i'));
+  function fillAll(){ meters.forEach(function(m){ m.style.width=m.dataset.fill+'%'; }); }
+
+  if('IntersectionObserver' in window){
+    if(!reduce){
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(!e.isIntersecting||e.target.dataset.done) return;
+          e.target.dataset.done='1';
+          var target=+e.target.dataset.count, suf=e.target.dataset.suffix||'', t0=performance.now();
+          function step(t){
+            var p=Math.min((t-t0)/900,1), k=1-Math.pow(1-p,3);
+            e.target.textContent=Math.round(target*k).toLocaleString('en-IN')+suf;
+            if(p<1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+      },{threshold:.5});
+      nums.forEach(function(n){ io.observe(n); });
+
+      var io3=new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ e.target.style.width=e.target.dataset.fill+'%'; } });
+      },{threshold:.4});
+      meters.forEach(function(m){ io3.observe(m); });
+    } else { fillAll(); }
+
+    var links={}; [].slice.call(document.querySelectorAll('.nav-links a')).forEach(function(a){ links[a.getAttribute('href').slice(1)]=a; });
+    var io2=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var a=links[e.target.id]; if(!a||!e.isIntersecting) return;
+        for(var k in links) links[k].classList.remove('on');
+        a.classList.add('on');
+      });
+    },{rootMargin:'-45% 0px -50% 0px'});
+    [].slice.call(document.querySelectorAll('main section[id]')).forEach(function(s){ io2.observe(s); });
+  } else { fillAll(); }
+
+  // deterministic pixel identicon seeded from the name
+  var c=document.getElementById('face'), ctx=c.getContext('2d'), seed=0, nm='MANIK GOYAL';
+  for(var j=0;j<nm.length;j++) seed=(seed*31+nm.charCodeAt(j))>>>0;
+  function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
+  var N=13, cell=c.width/N, pal=['#EE3D28','#FFB400','#1FA971','#1B3FA0'], accent=pal[Math.floor(rnd()*pal.length)];
+  ctx.fillStyle='#F5F6F2'; ctx.fillRect(0,0,c.width,c.height);
+  for(var y=0;y<N;y++) for(var x=0;x<Math.ceil(N/2);x++){
+    if(rnd()>.5){
+      ctx.fillStyle = rnd()>.78 ? '#11151A' : accent;
+      ctx.fillRect(x*cell,y*cell,cell,cell);
+      ctx.fillRect((N-1-x)*cell,y*cell,cell,cell);
+    }
+  }
+  ctx.strokeStyle='rgba(17,21,26,.10)'; ctx.lineWidth=1;
+  for(var g=1;g<N;g++){
+    ctx.beginPath(); ctx.moveTo(g*cell,0); ctx.lineTo(g*cell,c.height); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,g*cell); ctx.lineTo(c.width,g*cell); ctx.stroke();
+  }
+})();
+</script>
+
+</body>
+</html>

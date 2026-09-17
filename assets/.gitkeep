@@ -1,0 +1,3 @@
+Drop a resume PDF here (e.g. Manik_Goyal_Resume.pdf) and add a button in index.html:
+  <a class="btn" href="assets/Manik_Goyal_Resume.pdf" download>Resume (PDF)</a>
+next to the email button in the hero .cta block.

@@ -59,7 +59,7 @@ Everything is plain markup in `index.html`, top to bottom:
 
 | Section | id | What it holds |
 |---|---|---|
-| Hero | `#top` | name, one-paragraph pitch, event-tail console |
+| Hero | `#top` | event-tail console on the left, name and pitch on the right (mirrored at ≥1000px; stacks name-first on mobile) |
 | Deltas | `#deltas` | before → after rows; the numbers are the point |
 | Systems | `#systems` | the fan-in/fan-out map + numbered ownership list |
 | Builds | `#builds` | The Streamer, ParkNest — each with an inline SVG plate and source / live links |
@@ -74,6 +74,15 @@ Everything is plain markup in `index.html`, top to bottom:
   `href`/`download` pairs.
 - **Build-card plates** are inline `<svg>` drawn in the page's own palette variables, so they follow
   the light/dark toggle. Geometry lives in a 560×196 viewBox; the card scales it to its width.
+- **The typewriter** runs on the hero paragraphs and every section intro, firing when each one
+  scrolls into view. It walks text nodes rather than rewriting `innerHTML`, so the highlight spans
+  and bold runs survive and type out in place. The caret is a block that cycles red → amber → green.
+  Because the text starts emptied, a watchdog writes the full paragraph out if rAF stalls while the
+  page is visible, and `prefers-reduced-motion` skips the whole thing — the text just sits there.
+- **The cursor** is a reticle drawn as an inline SVG data URI, with a dark halo under a light stroke
+  so it reads on either theme. Its centre marker changes colour by context: red while reading, amber
+  over anything clickable, green over the console, the map and the build plates. Fine pointers only
+  (`@media (hover:hover) and (pointer:fine)`), and every rule keeps a keyword fallback.
 
 ## Two things to check before sharing widely
 

@@ -233,6 +233,31 @@
         font-family:'JetBrains Mono',monospace;font-size:11.8px;color:var(--ink-soft)}
 </style>
 <style>
+
+  /* ---------- mirrored hero: console left, identity right ---------- */
+  @media(min-width:1000px){
+    .hero{grid-template-columns:.88fr 1.12fr}
+    .hero .id{order:2;text-align:right}
+    .hero .console{order:1}
+    .hero .id .cta{justify-content:flex-end}
+    .hero .id p.lede{margin-left:auto}
+  }
+
+  /* ---------- typewriter ---------- */
+  .caret{display:inline-block;width:.58em;height:1.02em;vertical-align:-.16em;margin-inline-start:3px;
+         background:var(--red);animation:blink .9s steps(1,end) infinite,caretHue 5.4s steps(1,end) infinite}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  @keyframes caretHue{0%{background:var(--red)}34%{background:var(--amber)}67%{background:var(--green)}}
+  .mk.void,.void{padding:0;box-shadow:none;background:transparent}
+  @media(prefers-reduced-motion:reduce){.caret{animation:none;opacity:.55}}
+
+  /* ---------- reticle cursor ---------- */
+  @media(hover:hover) and (pointer:fine){
+    body{cursor:url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2728%27%20viewBox%3D%270%200%2028%2028%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%2311151A%27%20stroke-width%3D%275.5%27%20stroke-linecap%3D%27square%27%20opacity%3D%27.55%27%3E%3Cpath%20d%3D%27M4%2010V4h6M18%204h6v6M24%2018v6h-6M10%2024H4v-6%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23F5F6F2%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27square%27%3E%3Cpath%20d%3D%27M4%2010V4h6M18%204h6v6M24%2018v6h-6M10%2024H4v-6%27%2F%3E%3C%2Fg%3E%3Crect%20x%3D%2710.5%27%20y%3D%2710.5%27%20width%3D%277%27%20height%3D%277%27%20fill%3D%27%23EE3D28%27%20stroke%3D%27%2311151A%27%20stroke-width%3D%271.6%27%2F%3E%3C%2Fsvg%3E") 14 14,default}
+    a,button,summary,label,[role="button"],.chip,.link,.btn{cursor:url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2728%27%20viewBox%3D%270%200%2028%2028%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%2311151A%27%20stroke-width%3D%275.5%27%20stroke-linecap%3D%27square%27%20opacity%3D%27.55%27%3E%3Cpath%20d%3D%27M4%2010V4h6M18%204h6v6M24%2018v6h-6M10%2024H4v-6%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23F5F6F2%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27square%27%3E%3Cpath%20d%3D%27M4%2010V4h6M18%204h6v6M24%2018v6h-6M10%2024H4v-6%27%2F%3E%3C%2Fg%3E%3Crect%20x%3D%2710.5%27%20y%3D%2710.5%27%20width%3D%277%27%20height%3D%277%27%20fill%3D%27%23FFB400%27%20stroke%3D%27%2311151A%27%20stroke-width%3D%271.6%27%2F%3E%3C%2Fsvg%3E") 14 14,pointer}
+    .console,.band-log,.plate,.map,.meter{cursor:url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2728%27%20viewBox%3D%270%200%2028%2028%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%2311151A%27%20stroke-width%3D%275.5%27%20stroke-linecap%3D%27square%27%20opacity%3D%27.55%27%3E%3Cpath%20d%3D%27M4%2010V4h6M18%204h6v6M24%2018v6h-6M10%2024H4v-6%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23F5F6F2%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27square%27%3E%3Cpath%20d%3D%27M4%2010V4h6M18%204h6v6M24%2018v6h-6M10%2024H4v-6%27%2F%3E%3C%2Fg%3E%3Crect%20x%3D%2710.5%27%20y%3D%2710.5%27%20width%3D%277%27%20height%3D%277%27%20fill%3D%27%231FA971%27%20stroke%3D%27%2311151A%27%20stroke-width%3D%271.6%27%2F%3E%3C%2Fsvg%3E") 14 14,crosshair}
+  }
+
   /* SAMPLE badge on the hero console — the tail is illustrative, not a live feed */
   .console header .sim{
     font-size:9.5px;letter-spacing:.1em;border:1px solid currentColor;
@@ -288,7 +313,7 @@
 
 <!-- HERO -->
 <section class="hero wrap">
-  <div>
+  <div class="id">
     <span class="avail"><span class="dot"></span> OPEN TO SDE-2 / BACKEND ROLES</span>
     <h1>MANIK<em>GOYAL</em></h1>
     <div class="role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</div>
@@ -813,6 +838,90 @@
     },{rootMargin:'-45% 0px -50% 0px'});
     [].slice.call(document.querySelectorAll('main section[id]')).forEach(function(s){ io2.observe(s); });
   } else { fillAll(); }
+
+
+  // ---- typewriter -------------------------------------------------------
+  // Walks text nodes instead of rewriting innerHTML, so inline markup
+  // (highlights, bold) survives and types out in place.
+  var typers=[].slice.call(document.querySelectorAll('.hero .lede, .head p'));
+  typers.forEach(function(el){
+    var w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null), n, plan=[];
+    while((n=w.nextNode())) if(n.nodeValue.replace(/\s/g,'')!=='') plan.push({n:n,t:n.nodeValue});
+    if(!plan.length) return;
+    el._plan=plan;
+    if(reduce) return;                         // reduced motion: leave it written
+    el.style.minHeight=el.offsetHeight+'px';   // hold the space, no scroll jump
+    plan.forEach(function(p){
+      p.n.nodeValue='';
+      if(p.n.parentNode&&p.n.parentNode!==el&&p.n.parentNode.classList) p.n.parentNode.classList.add('void');
+    });
+  });
+
+  function writeAll(plan){
+    plan.forEach(function(p){
+      p.n.nodeValue=p.t;
+      if(p.n.parentNode&&p.n.parentNode.classList) p.n.parentNode.classList.remove('void');
+    });
+  }
+
+  function runType(el){
+    if(el._typed||!el._plan) return; el._typed=1;
+    if(reduce) return;
+    var plan=el._plan,i=0,j=0,last=0,seen=-1,stalled=0;
+    var caret=document.createElement('span');
+    caret.className='caret'; caret.setAttribute('aria-hidden','true');
+
+    function done(){
+      if(caret.parentNode) caret.parentNode.removeChild(caret);
+      el.style.minHeight=''; el._done=1;
+    }
+
+    function frame(t){
+      if(el._done) return;
+      if(!last) last=t;
+      var budget=Math.min(24,Math.max(1,Math.round((t-last)/7.5))); last=t;
+      while(budget-->0){
+        if(i>=plan.length){ done(); return; }
+        var p=plan[i];
+        if(j===0&&p.n.parentNode){
+          p.n.parentNode.insertBefore(caret,p.n.nextSibling);
+          if(p.n.parentNode!==el&&p.n.parentNode.classList) p.n.parentNode.classList.remove('void');
+        }
+        j++; p.n.nodeValue=p.t.slice(0,j);
+        if(j>=p.t.length){ i++; j=0; }
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    // watchdog: rAF is paused in background tabs and can stall. If the page
+    // is visible and nothing has advanced for ~3s, just write the text out.
+    var watch=setInterval(function(){
+      if(el._done){ clearInterval(watch); return; }
+      if(document.visibilityState!=='visible') return;
+      if(i>seen){ seen=i; stalled=0; return; }
+      if(++stalled>=3){ clearInterval(watch); writeAll(plan); done(); }
+    },1000);
+  }
+
+  if('IntersectionObserver' in window&&!reduce){
+    var tio=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ runType(e.target); tio.unobserve(e.target); } });
+    },{threshold:.2,rootMargin:'0px 0px -12% 0px'});
+    typers.forEach(function(el){ tio.observe(el); });
+  } else {
+    typers.forEach(runType);
+  }
+
+  // safety net: if the observer never fires for something the visitor has
+  // already scrolled past, type it anyway rather than leaving a blank line
+  setTimeout(function(){
+    typers.forEach(function(el){
+      if(el._typed) return;
+      var r=el.getBoundingClientRect();
+      if(r.top < innerHeight && r.bottom > 0) runType(el);
+    });
+  },3000);
 
   // deterministic pixel identicon seeded from the name
   var c=document.getElementById('face'), ctx=c.getContext('2d'), seed=0, nm='MANIK GOYAL';

@@ -15,7 +15,7 @@ index.html                  the whole site — structure, CSS and JS in one file
 favicon.svg                 MG monogram
 robots.txt / sitemap.xml    indexing
 .nojekyll                   tells Pages to serve files as-is (no Jekyll pass)
-assets/                     drop a resume PDF here (see assets/.gitkeep)
+assets/                     Manik_Goyal_Resume.pdf — served by the ↓ Résumé buttons
 .github/workflows/deploy.yml  publishes the repo root to GitHub Pages on push to main
 LICENSE                     MIT for the code
 ```
@@ -62,13 +62,18 @@ Everything is plain markup in `index.html`, top to bottom:
 | Hero | `#top` | name, one-paragraph pitch, event-tail console |
 | Deltas | `#deltas` | before → after rows; the numbers are the point |
 | Systems | `#systems` | the fan-in/fan-out map + numbered ownership list |
-| Builds | `#builds` | The Streamer, ParkNest |
+| Builds | `#builds` | The Streamer, ParkNest — each with an inline SVG plate and source / live links |
 | Toolbox | `#toolbox` | inventory table; `class="chip core"` = daily-use highlight |
 | About | `#about` | ID card, bio, credentials, contact links |
 
 - **Count-ups** animate to `data-count` and append `data-suffix`; the meter beside each row fills to `data-fill` (a percentage).
 - **Theme** follows the OS by default; the `◑` button overrides it and stores the choice in `localStorage`.
 - **Reduced motion** is respected — the tail, the marquee jitter and the count-ups fall back to static values.
+- **The résumé** is `assets/Manik_Goyal_Resume.pdf`, linked from the nav, the hero and the contact
+  list. Replacing that one file updates all three — keep the filename, or change it in the three
+  `href`/`download` pairs.
+- **Build-card plates** are inline `<svg>` drawn in the page's own palette variables, so they follow
+  the light/dark toggle. Geometry lives in a 560×196 viewBox; the card scales it to its width.
 
 ## Two things to check before sharing widely
 

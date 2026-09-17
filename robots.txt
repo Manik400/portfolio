@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://manik400.github.io/sitemap.xml
+Sitemap: https://manik400.github.io/portfolio/sitemap.xml

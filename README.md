@@ -3,7 +3,7 @@
 Personal site for **Manik Goyal** — backend & distributed systems engineer (Gurugram, IN).
 One hand-written `index.html`. No framework, no bundler, no build step: what's in the repo is what ships.
 
-**Live:** https://manik400.github.io/ *(after the first deploy — see below)*
+**Live:** https://manik400.github.io/portfolio/ *(after the first deploy — see below)*
 
 ---
 
@@ -35,26 +35,23 @@ Then http://localhost:8080.
 
 ## Deploy to GitHub Pages
 
-**Option A — user site at `https://<user>.github.io` (what the metadata assumes):**
-
-```bash
-gh repo create Manik400.github.io --public --source . --remote origin --push
-```
-
-**Option B — project site at `https://<user>.github.io/portfolio/`:**
+This repo is wired for a **project site** at `https://manik400.github.io/portfolio/` — the canonical
+link, `og:url`, JSON-LD `url` and `sitemap.xml` already carry that path.
 
 ```bash
 gh repo create portfolio --public --source . --remote origin --push
 ```
 
-With Option B, update `<link rel="canonical">` and the `og:url` / JSON-LD `url` in `index.html`,
-plus `robots.txt` and `sitemap.xml`, to include the `/portfolio/` path.
-
 Then, once: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-Every later `git push` to `main` redeploys in about a minute.
+Every later `git push` to `main` redeploys in about a minute; the run shows up under the Actions tab.
 
-Custom domain: add a `CNAME` file containing the domain, point the DNS at GitHub, and update the
-canonical/og/sitemap URLs to match.
+Moving to a **user site** (`https://manik400.github.io`, repo named `Manik400.github.io`) or a custom
+domain later means changing that path in four places — `index.html` (canonical, `og:url`, JSON-LD),
+`robots.txt`, `sitemap.xml`, and the `/portfolio/` links in `404.html`. For a custom domain, also add
+a `CNAME` file containing the domain and point the DNS at GitHub.
+
+Note: `robots.txt` is only read by crawlers at a domain root, so on a project site it is a no-op —
+harmless, and correct the moment the site moves to a root domain.
 
 ## Editing the content
 
@@ -78,9 +75,8 @@ Everything is plain markup in `index.html`, top to bottom:
 1. **The hero console is illustrative.** It prints sample event lines and jitters the events/sec
    readout around 500. It is labelled `SAMPLE` in the header and connected to nothing. Swap it for a
    frozen snapshot if even that reads as too live for you.
-2. **Your phone number is on the ID card** (`#about` → `.idcard`, the `PHONE` row). It's fine on a
-   PDF sent to one recruiter; it's a different thing on a page indexed by Google. Delete that one
-   `<div class="idrow">` if you'd rather not publish it.
+2. **Your phone number is on the ID card** (`#about` → `.idcard`, the `PHONE` row) — published
+   deliberately. To pull it later, delete that one `<div class="idrow">`.
 
 ## Resume reconciliation
 

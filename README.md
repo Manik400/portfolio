@@ -11,6 +11,7 @@ One hand-written `index.html`. No framework, no bundler, no build step: what's i
 
 ```
 index.html                  the whole site — structure, CSS and JS in one file
+i18n.js                     translations (de, nl, fi, es, ja, th) + the timezone → language map
 404.html                    styled not-found page
 favicon.svg                 MG monogram
 robots.txt / sitemap.xml    indexing
@@ -21,7 +22,8 @@ LICENSE                     MIT for the code
 ```
 
 Only external requests are Google Fonts (Archivo, Archivo Black, JetBrains Mono).
-Everything else — layout, count-ups, theme toggle, pixel identicon — is inline and dependency-free.
+Everything else — layout, count-ups, theme toggle, pixel identicon, language switching — is inline
+(or in `i18n.js`) and dependency-free.
 
 ## Run it locally
 
@@ -79,6 +81,22 @@ Everything is plain markup in `index.html`, top to bottom:
   and bold runs survive and type out in place. The caret is a block that cycles red → amber → green.
   Because the text starts emptied, a watchdog writes the full paragraph out if rAF stalls while the
   page is visible, and `prefers-reduced-motion` skips the whole thing — the text just sits there.
+- **Languages.** The page ships in English (the markup) plus German, Dutch, Finnish, Spanish,
+  Japanese and Thai, all in `i18n.js`. Every translatable element carries `data-i18n="key"`; the
+  script remembers each element's English `innerHTML` and swaps in the dictionary value for that key,
+  falling back to English when a key is missing (proper nouns like GITHUB are missing on purpose).
+  Values are HTML strings, so highlight spans and bold runs survive translation.
+  - **Detection order:** `?lang=de` in the URL → the choice saved from the dropdown (`localStorage`)
+    → the visitor's timezone (`Europe/Berlin` → `de`, `Asia/Tokyo` → `ja`, Spanish-speaking Americas
+    → `es`, …; the map is `MG_I18N.tz`) → the browser's language list → English.
+  - **The dropdown** is the `⌖ EN ▾` control at the far right of the nav: a native `<select>` laid
+    invisibly over a styled label, so it works with keyboard, screen readers and on phones.
+    Under 560px the nav's résumé button hides to make room (the hero has one too).
+  - **Editing English** in `index.html` does not update the other languages — change the same key in
+    `i18n.js`. Adding a language = one more object in `strings` (copy `de`, translate the 142 keys),
+    one `<option>` in the nav, and optionally timezones in `tz`.
+  - Switching language re-runs the typewriter on any paragraph already on screen; the console
+    log lines, the SVG plate labels and the résumé PDF stay English.
 - **The cursor** is a reticle drawn as an inline SVG data URI, with a dark halo under a light stroke
   so it reads on either theme. Its centre marker changes colour by context: red while reading, amber
   over anything clickable, green over the console, the map and the build plates. Fine pointers only

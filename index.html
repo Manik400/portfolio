@@ -84,6 +84,15 @@
   .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--shadow)}
   .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
   .btn.red{background:var(--red);color:#fff}
+  /* language / region switch: a styled label with the real <select> laid invisibly over it */
+  .lang{position:relative;gap:5px;padding-inline:9px}
+  .lang select{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:inherit;font-size:16px}
+  .lang:focus-within{outline:3px solid var(--red);outline-offset:3px}
+  @media(max-width:559px){.nav-right .r-resume{display:none}}   /* the hero carries the résumé button too */
+  /* CJK and Thai glyphs need air that the Latin display face doesn't */
+  html[lang="ja"] h2,html[lang="ja"] h3,html[lang="ja"] h4,
+  html[lang="th"] h2,html[lang="th"] h3,html[lang="th"] h4{line-height:1.22;letter-spacing:0}
+  html[lang="th"] body{line-height:1.7}
 
   section{padding-block:clamp(38px,5.4vw,68px)}
   .head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;border-bottom:3px solid var(--line);padding-bottom:14px}
@@ -295,16 +304,28 @@
   <div class="nav-in">
     <a class="brand" href="#top"><span class="sig">MG</span> manik.dev</a>
     <div class="nav-links">
-      <a href="#deltas">Deltas</a>
-      <a href="#systems">Systems</a>
-      <a href="#builds">Builds</a>
-      <a href="#toolbox">Toolbox</a>
-      <a href="#about">About</a>
+      <a href="#deltas" data-i18n="nav.deltas">Deltas</a>
+      <a href="#systems" data-i18n="nav.systems">Systems</a>
+      <a href="#builds" data-i18n="nav.builds">Builds</a>
+      <a href="#toolbox" data-i18n="nav.toolbox">Toolbox</a>
+      <a href="#about" data-i18n="nav.about">About</a>
     </div>
     <div class="nav-right">
-      <button class="btn" id="theme" type="button" aria-label="Switch colour theme">◑</button>
-      <a class="btn" href="assets/Manik_Goyal_Resume.pdf" download="Manik_Goyal_Resume.pdf">↓ Résumé</a>
-      <a class="btn red" href="#about">Get in touch</a>
+      <button class="btn" id="theme" type="button" aria-label="Switch colour theme" data-i18n-attr="aria-label:nav.theme">◑</button>
+      <a class="btn r-resume" href="assets/Manik_Goyal_Resume.pdf" download="Manik_Goyal_Resume.pdf" data-i18n="nav.resume">↓ Résumé</a>
+      <a class="btn red" href="#about" data-i18n="nav.contact">Get in touch</a>
+      <label class="btn lang">
+        <span aria-hidden="true">⌖</span><span id="lang-cur">EN</span><span aria-hidden="true">▾</span>
+        <select id="lang" aria-label="Change language and region" data-i18n-attr="aria-label:nav.lang">
+          <option value="en">English · International</option>
+          <option value="de">Deutsch · Deutschland</option>
+          <option value="nl">Nederlands · Nederland</option>
+          <option value="fi">Suomi · Suomi</option>
+          <option value="es">Español · España</option>
+          <option value="ja">日本語 · 日本</option>
+          <option value="th">ไทย · ประเทศไทย</option>
+        </select>
+      </label>
     </div>
   </div>
 </nav>
@@ -314,34 +335,34 @@
 <!-- HERO -->
 <section class="hero wrap">
   <div class="id">
-    <span class="avail"><span class="dot"></span> OPEN TO SDE-2 / BACKEND ROLES</span>
+    <span class="avail"><span class="dot"></span> <span data-i18n="hero.avail">OPEN TO SDE-2 / BACKEND ROLES</span></span>
     <h1>MANIK<em>GOYAL</em></h1>
-    <div class="role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</div>
-    <p class="lede">
+    <div class="role" data-i18n="hero.role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</div>
+    <p class="lede" data-i18n="hero.lede1">
       I work on a video analytics platform watching <span class="mk">400+ cameras</span> across
       200+ servers — ANPR, face recognition and intrusion events, all of it arriving faster than
       any single service wants to handle it. My job is making that traffic land correctly: event-specific
       Kafka topics with dead-letter handling, TimescaleDB that ingests instead of choking, exports that
       stream instead of dying.
     </p>
-    <p class="lede" style="margin-top:12px;color:var(--ink-soft)">
+    <p class="lede" style="margin-top:12px;color:var(--ink-soft)" data-i18n="hero.lede2">
       Two years at <b style="color:var(--ink)">I2V Systems</b>, .NET 8 and Angular/React daily, with the
       C++ and FFmpeg work when the problem drops below the service layer.
     </p>
     <div class="cta">
-      <a class="btn red" href="#deltas">The numbers ↓</a>
-      <a class="btn" href="assets/Manik_Goyal_Resume.pdf" download="Manik_Goyal_Resume.pdf">↓ Résumé (PDF)</a>
+      <a class="btn red" href="#deltas" data-i18n="hero.numbers">The numbers ↓</a>
+      <a class="btn" href="assets/Manik_Goyal_Resume.pdf" download="Manik_Goyal_Resume.pdf" data-i18n="hero.resume">↓ Résumé (PDF)</a>
       <a class="btn" href="mailto:manikgoyal400@gmail.com">manikgoyal400@gmail.com</a>
     </div>
   </div>
 
   <div class="console">
-    <header>▌ ANALYTICS-MANAGER · EVENT TAIL <span class="sim" title="Illustrative sample of the event shapes this platform carries — not a live feed">SAMPLE</span></header>
+    <header>▌ ANALYTICS-MANAGER · EVENT TAIL <span class="sim" data-i18n-attr="title:console.sim" title="Illustrative sample of the event shapes this platform carries — not a live feed">SAMPLE</span></header>
     <div class="rows" id="log" aria-hidden="true"></div>
     <footer>
-      <div>CAMERAS<b>400+</b></div>
-      <div>SERVERS<b>200+</b></div>
-      <div>EVENTS/SEC<b id="eps">500</b></div>
+      <div><span data-i18n="console.cameras">CAMERAS</span><b>400+</b></div>
+      <div><span data-i18n="console.servers">SERVERS</span><b>200+</b></div>
+      <div><span data-i18n="console.eps">EVENTS/SEC</span><b id="eps">500</b></div>
     </footer>
   </div>
 </section>
@@ -353,70 +374,70 @@
 <section class="wrap" id="deltas">
   <div class="head">
     <div>
-      <div class="kicker">MEASURED · PRODUCTION</div>
-      <h2>WHAT CHANGED AFTER I <span class="mk">TOUCHED IT</span>.</h2>
+      <div class="kicker" data-i18n="deltas.kicker">MEASURED · PRODUCTION</div>
+      <h2 data-i18n="deltas.h2">WHAT CHANGED AFTER I <span class="mk">TOUCHED IT</span>.</h2>
     </div>
-    <p>Every line below is a before and an after on a system with real users on it. No estimates.</p>
+    <p data-i18n="deltas.intro">Every line below is a before and an after on a system with real users on it. No estimates.</p>
   </div>
 
   <div class="deltas">
     <div class="delta">
       <div>
-        <h3>KAFKA EVENT THROUGHPUT</h3>
-        <p>Split one overloaded pipeline into event-specific topics with dead-letter handling, so a poisoned ANPR message stops blocking face and intrusion events instead of stalling all three.</p>
-        <div class="numbers"><span class="from">30 events/sec</span> → <span class="to up" data-count="500" data-suffix="+">500+</span> <span class="mono">events/sec</span></div>
+        <h3 data-i18n="d1.h">KAFKA EVENT THROUGHPUT</h3>
+        <p data-i18n="d1.p">Split one overloaded pipeline into event-specific topics with dead-letter handling, so a poisoned ANPR message stops blocking face and intrusion events instead of stalling all three.</p>
+        <div class="numbers"><span class="from" data-i18n="d1.from">30 events/sec</span> → <span class="to up" data-count="500" data-suffix="+">500+</span> <span class="mono" data-i18n="d1.unit">events/sec</span></div>
       </div>
       <div>
         <div class="meter g"><i data-fill="100"></i></div>
-        <span class="meter-cap">16× SUSTAINED · FAILED MESSAGES REPLAYABLE</span>
+        <span class="meter-cap" data-i18n="d1.cap">16× SUSTAINED · FAILED MESSAGES REPLAYABLE</span>
       </div>
     </div>
 
     <div class="delta">
       <div>
-        <h3>ANALYTICS EXPORT · 100K+ RECORDS</h3>
-        <p>Rebuilt the export around streaming reads and incremental batches. The out-of-memory failures on large ranges stopped with it.</p>
-        <div class="numbers"><span class="from">12 min</span> → <span class="to down" data-count="60" data-suffix="s">60s</span> <span class="mono">under 1 minute</span></div>
+        <h3 data-i18n="d2.h">ANALYTICS EXPORT · 100K+ RECORDS</h3>
+        <p data-i18n="d2.p">Rebuilt the export around streaming reads and incremental batches. The out-of-memory failures on large ranges stopped with it.</p>
+        <div class="numbers"><span class="from" data-i18n="d2.from">12 min</span> → <span class="to down" data-count="60" data-suffix="s">60s</span> <span class="mono" data-i18n="d2.unit">under 1 minute</span></div>
       </div>
       <div>
         <div class="meter r"><i data-fill="8"></i></div>
-        <span class="meter-cap">92% FASTER · RUNTIME REMAINING</span>
+        <span class="meter-cap" data-i18n="d2.cap">92% FASTER · RUNTIME REMAINING</span>
       </div>
     </div>
 
     <div class="delta">
       <div>
-        <h3>CAMERA-FRAME INGESTION</h3>
-        <p>TimescaleDB hypertables with native compression, retention policies and composite indexes — sized for what 400 cameras actually push, not what a demo pushes.</p>
-        <div class="numbers"><span class="from">70 fps</span> → <span class="to up" data-count="300" data-suffix="+">300+</span> <span class="mono">frames/sec</span></div>
+        <h3 data-i18n="d3.h">CAMERA-FRAME INGESTION</h3>
+        <p data-i18n="d3.p">TimescaleDB hypertables with native compression, retention policies and composite indexes — sized for what 400 cameras actually push, not what a demo pushes.</p>
+        <div class="numbers"><span class="from" data-i18n="d3.from">70 fps</span> → <span class="to up" data-count="300" data-suffix="+">300+</span> <span class="mono" data-i18n="d3.unit">frames/sec</span></div>
       </div>
       <div>
         <div class="meter g"><i data-fill="100"></i></div>
-        <span class="meter-cap">4.3× INGEST · COMPRESSED &amp; RETAINED</span>
+        <span class="meter-cap" data-i18n="d3.cap">4.3× INGEST · COMPRESSED &amp; RETAINED</span>
       </div>
     </div>
 
     <div class="delta">
       <div>
-        <h3>VECTOR INDEX MEMORY</h3>
-        <p>Face enrollment, watchlist matching and deduplication on Milvus / pgvector — re-tuned the index so it fits the box, with match accuracy held.</p>
-        <div class="numbers"><span class="from">baseline</span> → <span class="to down" data-count="75" data-suffix="%">75%</span> <span class="mono">less memory</span></div>
+        <h3 data-i18n="d4.h">VECTOR INDEX MEMORY</h3>
+        <p data-i18n="d4.p">Face enrollment, watchlist matching and deduplication on Milvus / pgvector — re-tuned the index so it fits the box, with match accuracy held.</p>
+        <div class="numbers"><span class="from" data-i18n="d4.from">baseline</span> → <span class="to down" data-count="75" data-suffix="%">75%</span> <span class="mono" data-i18n="d4.unit">less memory</span></div>
       </div>
       <div>
         <div class="meter a"><i data-fill="25"></i></div>
-        <span class="meter-cap">25% OF ORIGINAL FOOTPRINT</span>
+        <span class="meter-cap" data-i18n="d4.cap">25% OF ORIGINAL FOOTPRINT</span>
       </div>
     </div>
 
     <div class="delta">
       <div>
-        <h3>QUERY LATENCY &amp; RELEASE TURNAROUND</h3>
-        <p>PostgreSQL and MongoDB index tuning on the hot paths; Docker builds and changelogs automated through GitHub Actions, with Grafana and Prometheus alerting so production triage starts from a dashboard, not a phone call.</p>
-        <div class="numbers"><span class="to down" data-count="35" data-suffix="%">35%</span> <span class="mono">faster queries</span> <span style="color:var(--ink-soft)">·</span> <span class="to down" data-count="40" data-suffix="%">40%</span> <span class="mono">faster releases</span></div>
+        <h3 data-i18n="d5.h">QUERY LATENCY &amp; RELEASE TURNAROUND</h3>
+        <p data-i18n="d5.p">PostgreSQL and MongoDB index tuning on the hot paths; Docker builds and changelogs automated through GitHub Actions, with Grafana and Prometheus alerting so production triage starts from a dashboard, not a phone call.</p>
+        <div class="numbers"><span class="to down" data-count="35" data-suffix="%">35%</span> <span class="mono" data-i18n="d5.u1">faster queries</span> <span style="color:var(--ink-soft)">·</span> <span class="to down" data-count="40" data-suffix="%">40%</span> <span class="mono" data-i18n="d5.u2">faster releases</span></div>
       </div>
       <div>
         <div class="meter a"><i data-fill="60"></i></div>
-        <span class="meter-cap">TIME REMAINING PER RELEASE CYCLE</span>
+        <span class="meter-cap" data-i18n="d5.cap">TIME REMAINING PER RELEASE CYCLE</span>
       </div>
     </div>
   </div>
@@ -426,49 +447,49 @@
 <section class="wrap" id="systems">
   <div class="head">
     <div>
-      <div class="kicker">OWNERSHIP · I2V SYSTEMS · OCT 2024 — PRESENT</div>
-      <h2>THE SYSTEM I <span class="mk r">OWN</span>.</h2>
+      <div class="kicker" data-i18n="sys.kicker">OWNERSHIP · I2V SYSTEMS · OCT 2024 — PRESENT</div>
+      <h2 data-i18n="sys.h2">THE SYSTEM I <span class="mk r">OWN</span>.</h2>
     </div>
-    <p>Analytics Manager — the service every camera event passes through on its way to being a record, an alert, or a challan.</p>
+    <p data-i18n="sys.intro">Analytics Manager — the service every camera event passes through on its way to being a record, an alert, or a challan.</p>
   </div>
 
   <div class="sys">
     <div class="map">
-      <div class="lvl">SOURCES · 400+ CAMERAS</div>
+      <div class="lvl" data-i18n="map.src">SOURCES · 400+ CAMERAS</div>
       <div class="row3">
-        <div class="box b-plain"><b>ANPR</b><small>plate reads</small></div>
-        <div class="box b-plain"><b>FACE</b><small>enroll · match</small></div>
-        <div class="box b-plain"><b>INTRUSION</b><small>zone breach</small></div>
+        <div class="box b-plain"><b>ANPR</b><small data-i18n="map.anpr">plate reads</small></div>
+        <div class="box b-plain"><b>FACE</b><small data-i18n="map.face">enroll · match</small></div>
+        <div class="box b-plain"><b>INTRUSION</b><small data-i18n="map.intr">zone breach</small></div>
       </div>
-      <div class="down">↓ broker-agnostic pub/sub ↓</div>
-      <div class="lvl">TRANSPORT · RABBITMQ · KAFKA · MQTT</div>
-      <div class="box b-red"><b>EVENT-SPECIFIC TOPICS + DLQ</b><small>500+ events/sec sustained · failures isolated for replay</small></div>
+      <div class="down" data-i18n="map.arrow">↓ broker-agnostic pub/sub ↓</div>
+      <div class="lvl" data-i18n="map.transport">TRANSPORT · RABBITMQ · KAFKA · MQTT</div>
+      <div class="box b-red"><b data-i18n="map.dlq.b">EVENT-SPECIFIC TOPICS + DLQ</b><small data-i18n="map.dlq.s">500+ events/sec sustained · failures isolated for replay</small></div>
       <div class="down">↓</div>
       <div class="lvl">ANALYTICS MANAGER · .NET 8 · CLEAN ARCHITECTURE</div>
-      <div class="box b-amber"><b>ROUTING ACROSS 8+ SERVICES</b><small>rules · enrichment · e-challan filing · SignalR progress</small></div>
+      <div class="box b-amber"><b data-i18n="map.route.b">ROUTING ACROSS 8+ SERVICES</b><small data-i18n="map.route.s">rules · enrichment · e-challan filing · SignalR progress</small></div>
       <div class="down">↓</div>
-      <div class="lvl">STATE</div>
+      <div class="lvl" data-i18n="map.state">STATE</div>
       <div class="row3">
-        <div class="box b-green"><b>TIMESCALE</b><small>300+ fps</small></div>
-        <div class="box b-green"><b>MILVUS</b><small>−75% memory</small></div>
-        <div class="box b-green"><b>S3 · NAS</b><small>unified storage</small></div>
+        <div class="box b-green"><b>TIMESCALE</b><small data-i18n="map.ts">300+ fps</small></div>
+        <div class="box b-green"><b>MILVUS</b><small data-i18n="map.milvus">−75% memory</small></div>
+        <div class="box b-green"><b>S3 · NAS</b><small data-i18n="map.s3">unified storage</small></div>
       </div>
       <div class="down">↓</div>
-      <div class="lvl">SURFACE</div>
+      <div class="lvl" data-i18n="map.surface">SURFACE</div>
       <div class="row2">
-        <div class="box b-plain"><b>10+ NPM LIBRARIES</b><small>Angular &amp; React · every web app</small></div>
-        <div class="box b-plain"><b>GRAFANA / PROMETHEUS</b><small>alerts before the phone call</small></div>
+        <div class="box b-plain"><b data-i18n="map.npm.b">10+ NPM LIBRARIES</b><small data-i18n="map.npm.s">Angular &amp; React · every web app</small></div>
+        <div class="box b-plain"><b>GRAFANA / PROMETHEUS</b><small data-i18n="map.graf">alerts before the phone call</small></div>
       </div>
     </div>
 
     <div class="owns">
-      <div class="own"><span>01</span><p>Led the Analytics Manager build, coordinating ANPR, face and intrusion events across <b>8+ backend and analytics services</b>.</p></div>
-      <div class="own"><span>02</span><p>Designed the broker-agnostic pub/sub module (RabbitMQ, Kafka, MQTT) and a unified storage module (local disk, NAS, AWS S3) — <b>adopted by 4+ services</b>, cutting new-service integration from days to hours.</p></div>
-      <div class="own"><span>03</span><p>Integrated government <b>e-challan APIs</b> into the ANPR violation pipeline, removing manual submission from the loop entirely.</p></div>
-      <div class="own"><span>04</span><p>Built bulk Excel face enrollment for <b>5,000+ records</b> with field-level server-side validation and live SignalR progress streaming.</p></div>
-      <div class="own"><span>05</span><p>Published <b>10+ reusable npm component libraries</b> used by every web app in a 200+ server deployment serving 60+ concurrent users.</p></div>
-      <div class="own"><span>06</span><p>Mentored <b>2 junior engineers</b> on Clean Architecture and async C#, and drove the code reviews that cut QA-reported regressions.</p></div>
-      <div class="own"><span>07</span><p>Carried features from requirements and technical design through testing and production deployment, coordinating backend, frontend and analytics dependencies across sprint releases.</p></div>
+      <div class="own"><span>01</span><p data-i18n="own1">Led the Analytics Manager build, coordinating ANPR, face and intrusion events across <b>8+ backend and analytics services</b>.</p></div>
+      <div class="own"><span>02</span><p data-i18n="own2">Designed the broker-agnostic pub/sub module (RabbitMQ, Kafka, MQTT) and a unified storage module (local disk, NAS, AWS S3) — <b>adopted by 4+ services</b>, cutting new-service integration from days to hours.</p></div>
+      <div class="own"><span>03</span><p data-i18n="own3">Integrated government <b>e-challan APIs</b> into the ANPR violation pipeline, removing manual submission from the loop entirely.</p></div>
+      <div class="own"><span>04</span><p data-i18n="own4">Built bulk Excel face enrollment for <b>5,000+ records</b> with field-level server-side validation and live SignalR progress streaming.</p></div>
+      <div class="own"><span>05</span><p data-i18n="own5">Published <b>10+ reusable npm component libraries</b> used by every web app in a 200+ server deployment serving 60+ concurrent users.</p></div>
+      <div class="own"><span>06</span><p data-i18n="own6">Mentored <b>2 junior engineers</b> on Clean Architecture and async C#, and drove the code reviews that cut QA-reported regressions.</p></div>
+      <div class="own"><span>07</span><p data-i18n="own7">Carried features from requirements and technical design through testing and production deployment, coordinating backend, frontend and analytics dependencies across sprint releases.</p></div>
     </div>
   </div>
 </section>
@@ -477,10 +498,10 @@
 <section class="wrap" id="builds">
   <div class="head">
     <div>
-      <div class="kicker">OUTSIDE THE JOB</div>
-      <h2>THINGS I BUILT <span class="mk">ON PURPOSE</span>.</h2>
+      <div class="kicker" data-i18n="builds.kicker">OUTSIDE THE JOB</div>
+      <h2 data-i18n="builds.h2">THINGS I BUILT <span class="mk">ON PURPOSE</span>.</h2>
     </div>
-    <p>Two projects, each one an excuse to take a hard design decision seriously instead of shipping around it.</p>
+    <p data-i18n="builds.intro">Two projects, each one an excuse to take a hard design decision seriously instead of shipping around it.</p>
   </div>
 
   <div class="builds">
@@ -488,7 +509,7 @@
       <div class="top">
         <div>
           <h3>THE STREAMER</h3>
-          <div class="sub">Low-latency video streaming platform</div>
+          <div class="sub" data-i18n="b1.sub">Low-latency video streaming platform</div>
         </div>
         <div class="yr">2025</div>
       </div>
@@ -527,16 +548,16 @@
       </svg>
       <div class="body">
         <ul>
-          <li>Sub-200 ms camera playback for live and recorded sources, decoding and remuxing H.264 in C++17 over FFmpeg.</li>
-          <li>Moved transport off WebSocket streaming onto WebRTC/RTP with libdatachannel, adding HTTP signaling plus seek, pause and playback-speed controls over the data channel.</li>
-          <li>.NET 7 player server with a browser SDK; CMake, vcpkg, Docker and GitHub Actions producing a one-command Windows MSI.</li>
+          <li data-i18n="b1.li1">Sub-200 ms camera playback for live and recorded sources, decoding and remuxing H.264 in C++17 over FFmpeg.</li>
+          <li data-i18n="b1.li2">Moved transport off WebSocket streaming onto WebRTC/RTP with libdatachannel, adding HTTP signaling plus seek, pause and playback-speed controls over the data channel.</li>
+          <li data-i18n="b1.li3">.NET 7 player server with a browser SDK; CMake, vcpkg, Docker and GitHub Actions producing a one-command Windows MSI.</li>
         </ul>
       </div>
       <div class="chips">
         <span class="chip">C++17</span><span class="chip">FFmpeg</span><span class="chip">WebRTC</span><span class="chip">.NET 7</span><span class="chip">Docker</span>
       </div>
       <div class="repo">
-        <a href="https://github.com/Manik400/TheStreamer" target="_blank" rel="noopener">◧ SOURCE ↗</a>
+        <a href="https://github.com/Manik400/TheStreamer" target="_blank" rel="noopener" data-i18n="src">◧ SOURCE ↗</a>
       </div>
     </article>
 
@@ -544,7 +565,7 @@
       <div class="top">
         <div>
           <h3>PARKNEST</h3>
-          <div class="sub">Peer-to-peer parking marketplace</div>
+          <div class="sub" data-i18n="b2.sub">Peer-to-peer parking marketplace</div>
         </div>
         <div class="yr">2025</div>
       </div>
@@ -582,22 +603,22 @@
       </svg>
       <div class="body">
         <ul>
-          <li>Two-sided marketplace: host listings, renter bookings and prepaid credit settlement on .NET 8, PostgreSQL and a React front end.</li>
-          <li>Optimistic-concurrency booking safeguards and an idempotent credit ledger that hold under overlapping requests — the interesting half of the problem.</li>
-          <li>Service boundaries, data model and settlement flows written up as a PRD before any implementation started.</li>
+          <li data-i18n="b2.li1">Two-sided marketplace: host listings, renter bookings and prepaid credit settlement on .NET 8, PostgreSQL and a React front end.</li>
+          <li data-i18n="b2.li2">Optimistic-concurrency booking safeguards and an idempotent credit ledger that hold under overlapping requests — the interesting half of the problem.</li>
+          <li data-i18n="b2.li3">Service boundaries, data model and settlement flows written up as a PRD before any implementation started.</li>
         </ul>
       </div>
       <div class="chips">
         <span class="chip">.NET 8</span><span class="chip">PostgreSQL</span><span class="chip">React</span><span class="chip">Event-driven</span>
       </div>
       <div class="repo">
-        <a href="https://github.com/Manik400/ParkNest" target="_blank" rel="noopener">◧ SOURCE ↗</a>
-        <a class="live" href="https://parknest.onrender.com/" target="_blank" rel="noopener">▶ LIVE DEMO ↗</a>
+        <a href="https://github.com/Manik400/ParkNest" target="_blank" rel="noopener" data-i18n="src">◧ SOURCE ↗</a>
+        <a class="live" href="https://parknest.onrender.com/" target="_blank" rel="noopener" data-i18n="live">▶ LIVE DEMO ↗</a>
       </div>
     </article>
   </div>
 
-  <div class="also">
+  <div class="also" data-i18n="builds.also">
     ALSO ON THE BENCH → <b>800+ LeetCode problems</b> across arrays, strings, graphs, trees and algorithm design ·
     <b>Adobe GenSolve</b>, top 5 percentile nationally · <b>Postman API Fundamentals</b> certified.
   </div>
@@ -607,67 +628,67 @@
 <section class="wrap" id="toolbox">
   <div class="head">
     <div>
-      <div class="kicker">INVENTORY</div>
-      <h2>WHAT I ACTUALLY <span class="mk">REACH FOR</span>.</h2>
+      <div class="kicker" data-i18n="tb.kicker">INVENTORY</div>
+      <h2 data-i18n="tb.h2">WHAT I ACTUALLY <span class="mk">REACH FOR</span>.</h2>
     </div>
-    <p>Ordered by how often it's open on my screen, not by how it scans on a keyword filter. Highlighted = daily.</p>
+    <p data-i18n="tb.intro">Ordered by how often it's open on my screen, not by how it scans on a keyword filter. Highlighted = daily.</p>
   </div>
 
   <div class="inv">
     <div class="inv-row">
-      <h4>SERVICES</h4>
+      <h4 data-i18n="tb.services">SERVICES</h4>
       <div class="chips">
         <span class="chip core">.NET 8 / C#</span><span class="chip core">ASP.NET Core</span><span class="chip core">EF Core</span>
         <span class="chip">Clean Architecture</span><span class="chip">C++17</span><span class="chip">Python</span><span class="chip">Go</span><span class="chip">Django</span>
       </div>
-      <div class="depth">DAILY · 2 YRS</div>
+      <div class="depth" data-i18n="tb.d1">DAILY · 2 YRS</div>
     </div>
     <div class="inv-row">
-      <h4>MESSAGING</h4>
+      <h4 data-i18n="tb.msg">MESSAGING</h4>
       <div class="chips">
         <span class="chip core">Kafka</span><span class="chip core">RabbitMQ</span><span class="chip">MQTT</span>
-        <span class="chip">Dead-letter queues</span><span class="chip">SignalR</span><span class="chip">Pub/Sub design</span>
+        <span class="chip" data-i18n="chip.dlq">Dead-letter queues</span><span class="chip">SignalR</span><span class="chip" data-i18n="chip.pubsub">Pub/Sub design</span>
       </div>
-      <div class="depth">DAILY · PROD</div>
+      <div class="depth" data-i18n="tb.d2">DAILY · PROD</div>
     </div>
     <div class="inv-row">
-      <h4>DATA</h4>
+      <h4 data-i18n="tb.data">DATA</h4>
       <div class="chips">
         <span class="chip core">PostgreSQL</span><span class="chip core">TimescaleDB</span><span class="chip">Milvus</span>
-        <span class="chip">pgvector</span><span class="chip">MongoDB</span><span class="chip">Npgsql</span><span class="chip">Query tuning</span><span class="chip">Indexing</span>
+        <span class="chip">pgvector</span><span class="chip">MongoDB</span><span class="chip">Npgsql</span><span class="chip" data-i18n="chip.qtune">Query tuning</span><span class="chip" data-i18n="chip.index">Indexing</span>
       </div>
-      <div class="depth">DAILY · PROD</div>
+      <div class="depth" data-i18n="tb.d2">DAILY · PROD</div>
     </div>
     <div class="inv-row">
-      <h4>INTERFACES</h4>
+      <h4 data-i18n="tb.ui">INTERFACES</h4>
       <div class="chips">
         <span class="chip core">Angular 18</span><span class="chip core">React</span><span class="chip">TypeScript</span>
-        <span class="chip">npm library authoring</span><span class="chip">Angular Material</span><span class="chip">Flutter</span>
+        <span class="chip" data-i18n="chip.npm">npm library authoring</span><span class="chip">Angular Material</span><span class="chip">Flutter</span>
       </div>
-      <div class="depth">WEEKLY · 10+ LIBS</div>
+      <div class="depth" data-i18n="tb.d4">WEEKLY · 10+ LIBS</div>
     </div>
     <div class="inv-row">
-      <h4>MEDIA</h4>
+      <h4 data-i18n="tb.media">MEDIA</h4>
       <div class="chips">
         <span class="chip">FFmpeg</span><span class="chip">WebRTC</span><span class="chip">libdatachannel</span><span class="chip">H.264</span><span class="chip">CMake / vcpkg</span>
       </div>
-      <div class="depth">PROJECT DEPTH</div>
+      <div class="depth" data-i18n="tb.d5">PROJECT DEPTH</div>
     </div>
     <div class="inv-row">
-      <h4>RUN &amp; SHIP</h4>
+      <h4 data-i18n="tb.ship">RUN &amp; SHIP</h4>
       <div class="chips">
         <span class="chip core">Docker</span><span class="chip">AWS (EC2, S3, RDS)</span><span class="chip">GitHub Actions</span>
         <span class="chip">Grafana</span><span class="chip">Prometheus</span><span class="chip">Linux</span>
       </div>
-      <div class="depth">DAILY</div>
+      <div class="depth" data-i18n="tb.d6">DAILY</div>
     </div>
     <div class="inv-row">
-      <h4>PRACTICE</h4>
+      <h4 data-i18n="tb.practice">PRACTICE</h4>
       <div class="chips">
-        <span class="chip">System design</span><span class="chip">SOLID</span><span class="chip">API design</span>
-        <span class="chip">Performance tuning</span><span class="chip">Code review</span><span class="chip">Agile / Scrum</span><span class="chip">Unit testing</span>
+        <span class="chip" data-i18n="chip.sysdesign">System design</span><span class="chip">SOLID</span><span class="chip" data-i18n="chip.api">API design</span>
+        <span class="chip" data-i18n="chip.perf">Performance tuning</span><span class="chip" data-i18n="chip.review">Code review</span><span class="chip" data-i18n="chip.agile">Agile / Scrum</span><span class="chip" data-i18n="chip.unit">Unit testing</span>
       </div>
-      <div class="depth">HOW I WORK</div>
+      <div class="depth" data-i18n="tb.d7">HOW I WORK</div>
     </div>
   </div>
 </section>
@@ -676,52 +697,52 @@
 <section class="wrap" id="about">
   <div class="head">
     <div>
-      <div class="kicker">WHO'S TYPING</div>
-      <h2>HI, I'M <span class="mk r">MANIK</span>.</h2>
+      <div class="kicker" data-i18n="ab.kicker">WHO'S TYPING</div>
+      <h2 data-i18n="ab.h2">HI, I'M <span class="mk r">MANIK</span>.</h2>
     </div>
-    <p>Backend engineer in Gurugram. Open to SDE-2 and senior backend roles — India or relocation.</p>
+    <p data-i18n="ab.intro">Backend engineer in Gurugram. Open to SDE-2 and senior backend roles — India or relocation.</p>
   </div>
 
   <div class="close-grid">
     <div class="idcard">
-      <div class="top">ENGINEER · ID CARD</div>
+      <div class="top" data-i18n="id.top">ENGINEER · ID CARD</div>
       <canvas id="face" width="260" height="260" aria-label="Generated pixel portrait"></canvas>
-      <div class="idrow"><span>BASE</span><span>Gurugram, HR</span></div>
-      <div class="idrow"><span>LOCAL</span><span id="clock">--:--</span></div>
-      <div class="idrow"><span>SINCE</span><span>Oct 2024 @ I2V</span></div>
-      <div class="idrow"><span>DEGREE</span><span>B.Tech IT · 8.55</span></div>
-      <div class="idrow"><span>SPEAKS</span><span>EN · हिंदी · DE</span></div>
-      <div class="idrow"><span>PHONE</span><span>+91 93156 05606</span></div>
+      <div class="idrow"><span data-i18n="id.base">BASE</span><span data-i18n="id.base.v">Gurugram, HR</span></div>
+      <div class="idrow"><span data-i18n="id.local">LOCAL</span><span id="clock">--:--</span></div>
+      <div class="idrow"><span data-i18n="id.since">SINCE</span><span data-i18n="id.since.v">Oct 2024 @ I2V</span></div>
+      <div class="idrow"><span data-i18n="id.degree">DEGREE</span><span data-i18n="id.degree.v">B.Tech IT · 8.55</span></div>
+      <div class="idrow"><span data-i18n="id.speaks">SPEAKS</span><span>EN · हिंदी · DE</span></div>
+      <div class="idrow"><span data-i18n="id.phone">PHONE</span><span>+91 93156 05606</span></div>
     </div>
 
     <div class="bio">
-      <p>
+      <p data-i18n="bio1">
         I write backend services for video analytics — the kind where a slow consumer isn't a red test,
         it's a violation that never got filed. Most of my day is .NET 8 on Clean Architecture, event flow
         over Kafka and RabbitMQ, and PostgreSQL/TimescaleDB schemas sized for 400 cameras rather than a demo.
       </p>
-      <p>
+      <p data-i18n="bio2">
         The rest is the surface and the substrate: Angular and React libraries that ten apps depend on, and,
         when the problem drops below the service layer, C++ and FFmpeg pushing frames over WebRTC.
       </p>
-      <p>
+      <p data-i18n="bio3">
         I like the fixes that are structural — a pipeline split by event type instead of a bigger consumer,
         a streaming export instead of a larger heap, an idempotent ledger instead of a retry guard.
       </p>
 
       <div class="creds">
-        <div class="cred"><b>USICT, GGSIPU</b>B.Tech IT · Dec 2021 — Jun 2025 · CGPA 8.55/10</div>
-        <div class="cred"><b>I2V Systems</b>Software Engineer · Oct 2024 — Present · Gurugram</div>
-        <div class="cred"><b>800+ problems</b>LeetCode · DSA across graphs, trees, strings</div>
-        <div class="cred"><b>Top 5%ile</b>Adobe GenSolve · national algorithmic contest</div>
+        <div class="cred" data-i18n="cred1"><b>USICT, GGSIPU</b>B.Tech IT · Dec 2021 — Jun 2025 · CGPA 8.55/10</div>
+        <div class="cred" data-i18n="cred2"><b>I2V Systems</b>Software Engineer · Oct 2024 — Present · Gurugram</div>
+        <div class="cred" data-i18n="cred3"><b>800+ problems</b>LeetCode · DSA across graphs, trees, strings</div>
+        <div class="cred" data-i18n="cred4"><b>Top 5%ile</b>Adobe GenSolve · national algorithmic contest</div>
       </div>
 
       <div class="links">
-        <a class="link" href="mailto:manikgoyal400@gmail.com"><b>EMAIL</b><span class="h">manikgoyal400@gmail.com</span><span class="go">↗</span></a>
-        <a class="link" href="https://github.com/Manik400" target="_blank" rel="noopener"><b>GITHUB</b><span class="h">/Manik400</span><span class="go">↗</span></a>
-        <a class="link" href="https://linkedin.com/in/manik-goyal" target="_blank" rel="noopener"><b>LINKEDIN</b><span class="h">/in/manik-goyal</span><span class="go">↗</span></a>
-        <a class="link" href="https://leetcode.com/manik_23_" target="_blank" rel="noopener"><b>LEETCODE</b><span class="h">/manik_23_</span><span class="go">↗</span></a>
-        <a class="link" href="assets/Manik_Goyal_Resume.pdf" download="Manik_Goyal_Resume.pdf"><b>RÉSUMÉ</b><span class="h">Manik_Goyal_Resume.pdf</span><span class="go">↓</span></a>
+        <a class="link" href="mailto:manikgoyal400@gmail.com"><b data-i18n="link.email">EMAIL</b><span class="h">manikgoyal400@gmail.com</span><span class="go">↗</span></a>
+        <a class="link" href="https://github.com/Manik400" target="_blank" rel="noopener"><b data-i18n="link.github">GITHUB</b><span class="h">/Manik400</span><span class="go">↗</span></a>
+        <a class="link" href="https://linkedin.com/in/manik-goyal" target="_blank" rel="noopener"><b data-i18n="link.linkedin">LINKEDIN</b><span class="h">/in/manik-goyal</span><span class="go">↗</span></a>
+        <a class="link" href="https://leetcode.com/manik_23_" target="_blank" rel="noopener"><b data-i18n="link.leetcode">LEETCODE</b><span class="h">/manik_23_</span><span class="go">↗</span></a>
+        <a class="link" href="assets/Manik_Goyal_Resume.pdf" download="Manik_Goyal_Resume.pdf"><b data-i18n="link.resume">RÉSUMÉ</b><span class="h">Manik_Goyal_Resume.pdf</span><span class="go">↓</span></a>
       </div>
     </div>
   </div>
@@ -730,11 +751,12 @@
 
 <footer>
   <div class="foot">
-    <span>© 2026 Manik Goyal — designed &amp; built from scratch.</span>
-    <span>No frameworks. No build step. ✦ Gurugram, IN</span>
+    <span data-i18n="foot1">© 2026 Manik Goyal — designed &amp; built from scratch.</span>
+    <span data-i18n="foot2">No frameworks. No build step. ✦ Gurugram, IN</span>
   </div>
 </footer>
 
+<script src="i18n.js"></script>
 <script>
 (function(){
   var root=document.documentElement;
@@ -789,9 +811,60 @@
   var facts=['<b>400+</b> CAMERAS','<b>200+</b> SERVERS','<b>500+</b> EVENTS/SEC','<b>300+</b> FRAMES/SEC',
              '<b>100K+</b> RECORD EXPORTS IN &lt;1 MIN','<b>10+</b> NPM LIBRARIES','<b>8+</b> SERVICES COORDINATED',
              '<b>5,000+</b> BULK ENROLLMENTS','<b>−75%</b> VECTOR INDEX MEMORY','<b>−40%</b> RELEASE TURNAROUND'];
-  var track=document.getElementById('track'), h='';
-  facts.forEach(function(f){ h+='<span>'+f+'</span><span>✦</span>'; });
-  track.innerHTML=h+h;
+  var track=document.getElementById('track');
+  function buildBand(list){
+    var h=''; list.forEach(function(f){ h+='<span>'+f+'</span><span>✦</span>'; });
+    track.innerHTML=h+h;
+  }
+
+  // ---- language / region ------------------------------------------------
+  // Strings live in i18n.js. English is the markup itself: every [data-i18n]
+  // node remembers its own English innerHTML and falls back to it.
+  var I18N=window.MG_I18N||{strings:{},tz:{}};
+  var i18nNodes=[].slice.call(document.querySelectorAll('[data-i18n]'));
+  i18nNodes.forEach(function(el){ el._en=el.innerHTML; });
+  var i18nAttrs=[].slice.call(document.querySelectorAll('[data-i18n-attr]'));
+  i18nAttrs.forEach(function(el){
+    var p=el.getAttribute('data-i18n-attr').split(':');
+    el._attr=p[0]; el._key=p[1]; el._en=el.getAttribute(p[0]);
+  });
+  var enTitle=document.title;
+  var langSel=document.getElementById('lang'), langCur=document.getElementById('lang-cur');
+
+  function hasLang(c){ return c==='en'||!!I18N.strings[c]; }
+  function detectLang(){
+    var q=null; try{ q=new URLSearchParams(location.search).get('lang'); }catch(e){}
+    if(q&&hasLang(q)) return q;
+    try{ var s=localStorage.getItem('mg-lang'); if(s&&hasLang(s)) return s; }catch(e){}
+    // where the visitor is, from the timezone their machine reports
+    try{
+      var tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+      for(var k in I18N.tz) if(tz===k||(k.slice(-1)==='/'&&tz.indexOf(k)===0)) return I18N.tz[k];
+    }catch(e){}
+    // then what their browser speaks
+    var ls=navigator.languages||[navigator.language||''];
+    for(var i=0;i<ls.length;i++){ var c=String(ls[i]).slice(0,2).toLowerCase(); if(hasLang(c)) return c; }
+    return 'en';
+  }
+  function applyLang(code){
+    var d=code==='en'?{}:(I18N.strings[code]||{});
+    i18nNodes.forEach(function(el){
+      var v=d[el.getAttribute('data-i18n')];
+      el.innerHTML=v!=null?v:el._en;
+      retype(el);
+    });
+    i18nAttrs.forEach(function(el){ var v=d[el._key]; el.setAttribute(el._attr,v!=null?v:el._en); });
+    root.setAttribute('lang',code);
+    document.title=d.title||enTitle;
+    buildBand(d.band||facts);
+    if(langSel) langSel.value=code;
+    if(langCur) langCur.textContent=code.toUpperCase();
+  }
+  applyLang(detectLang());              // before the typewriter snapshots the text
+  if(langSel) langSel.addEventListener('change',function(){
+    applyLang(langSel.value);
+    try{ localStorage.setItem('mg-lang',langSel.value); }catch(e){}
+  });
 
   // IST clock
   var clock=document.getElementById('clock');
@@ -864,10 +937,28 @@
     });
   }
 
+  // A language switch replaces the text under an element mid-flight; the
+  // generation counter lets the old frame loop and watchdog notice and quit.
+  function retype(el){
+    if(!el._plan) return;                       // typewriter not wired up yet
+    var w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null),n,plan=[];
+    while((n=w.nextNode())) if(n.nodeValue.replace(/\s/g,'')!=='') plan.push({n:n,t:n.nodeValue});
+    el._plan=plan; el._gen=(el._gen||0)+1;
+    if(reduce||!plan.length) return;
+    var again=el._typed;                        // was already on screen: type it again
+    el._typed=0; el._done=0;
+    el.style.minHeight=el.offsetHeight+'px';
+    plan.forEach(function(p){
+      p.n.nodeValue='';
+      if(p.n.parentNode&&p.n.parentNode!==el&&p.n.parentNode.classList) p.n.parentNode.classList.add('void');
+    });
+    if(again) runType(el);
+  }
+
   function runType(el){
     if(el._typed||!el._plan) return; el._typed=1;
     if(reduce) return;
-    var plan=el._plan,i=0,j=0,last=0,seen=-1,stalled=0;
+    var gen=el._gen=(el._gen||0), plan=el._plan,i=0,j=0,last=0,seen=-1,stalled=0;
     var caret=document.createElement('span');
     caret.className='caret'; caret.setAttribute('aria-hidden','true');
 
@@ -877,7 +968,7 @@
     }
 
     function frame(t){
-      if(el._done) return;
+      if(el._done||el._gen!==gen) return;
       if(!last) last=t;
       var budget=Math.min(24,Math.max(1,Math.round((t-last)/7.5))); last=t;
       while(budget-->0){
@@ -897,7 +988,7 @@
     // watchdog: rAF is paused in background tabs and can stall. If the page
     // is visible and nothing has advanced for ~3s, just write the text out.
     var watch=setInterval(function(){
-      if(el._done){ clearInterval(watch); return; }
+      if(el._done||el._gen!==gen){ clearInterval(watch); return; }
       if(document.visibilityState!=='visible') return;
       if(i>seen){ seen=i; stalled=0; return; }
       if(++stalled>=3){ clearInterval(watch); writeAll(plan); done(); }

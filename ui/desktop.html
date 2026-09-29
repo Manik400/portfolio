@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" data-ui="desktop" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MG-OS — Manik Goyal</title>
+<meta name="description" content="Manik Goyal — backend & distributed systems engineer. Retro desktop view.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://manik400.github.io/portfolio/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+  :root{--desk:#008080;--face:#C0C0C0;--dark:#808080;--darker:#404040;--light:#FFFFFF;--title:#000080;--title2:#1084d0;--ink:#000}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--desk);color:var(--ink);font:13px/1.4 Tahoma,'MS Sans Serif',Verdana,system-ui,sans-serif;overflow:hidden;user-select:none}
+  .icons{position:absolute;left:12px;top:12px;display:grid;gap:14px;grid-template-columns:repeat(2,78px)}
+  @media(min-width:700px){.icons{grid-template-columns:78px}}
+  .ico{width:78px;text-align:center;color:#fff;cursor:pointer;padding:4px 2px}
+  .ico i{display:block;width:36px;height:36px;margin:0 auto 4px;background:#FFFFE0;border:1px solid #000;box-shadow:2px 2px 0 rgba(0,0,0,.4);position:relative}
+  .ico i::before{content:attr(data-g);position:absolute;inset:0;display:grid;place-items:center;font-size:20px}
+  .ico i.exe{background:var(--face)}.ico i.dir{background:#F5D76E;border-radius:2px 6px 2px 2px}.ico i.pdf{background:#E85D5D;color:#fff}
+  .ico span{display:inline-block;padding:1px 3px;text-shadow:1px 1px 0 #000}
+  .ico:hover span,.ico.sel span{background:var(--title);text-shadow:none}
+  .win{position:absolute;min-width:280px;width:min(560px,calc(100vw - 24px));background:var(--face);border:2px solid;border-color:var(--light) var(--darker) var(--darker) var(--light);box-shadow:1px 1px 0 var(--dark) inset,-1px -1px 0 #dfdfdf inset,3px 3px 0 rgba(0,0,0,.3);display:none;flex-direction:column;max-height:calc(100vh - 60px)}
+  .win.open{display:flex}
+  .tb{display:flex;align-items:center;gap:6px;padding:3px 4px;background:linear-gradient(90deg,var(--title),var(--title2));color:#fff;font-weight:700;cursor:move;touch-action:none}
+  .win.inactive .tb{background:linear-gradient(90deg,#7b7b7b,#b0b0b0)}
+  .tb .t{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb button{width:18px;height:16px;border:1px solid;border-color:var(--light) var(--darker) var(--darker) var(--light);background:var(--face);color:#000;font:700 10px/1 Tahoma;cursor:pointer;padding:0}
+  .menu{display:flex;gap:10px;padding:2px 6px;border-bottom:1px solid var(--dark);font-size:12px}.menu span{cursor:default}.menu span:first-letter{text-decoration:underline}
+  .body{background:#fff;margin:6px;border:2px solid;border-color:var(--dark) var(--light) var(--light) var(--dark);padding:10px 12px;overflow:auto;flex:1;user-select:text;font-size:13px}
+  .body h3{margin:0 0 8px;font-size:14px}.body p{margin:0 0 8px}.body ul{margin:0;padding-left:18px}.body li{margin:3px 0}
+  .body table{width:100%;border-collapse:collapse;font-size:12.5px}.body td,.body th{border:1px solid #ccc;padding:4px 6px;text-align:left;vertical-align:top}.body th{background:#e8e8e8}
+  .body .mk{background:#FFFF00;box-shadow:none;padding:0 2px}.body .mk.r{background:#FFD1D1}
+  .status{display:flex;gap:6px;padding:0 6px 4px;font-size:11px}.status span{flex:1;border:1px solid;border-color:var(--dark) var(--light) var(--light) var(--dark);padding:1px 4px}
+  .task{position:absolute;left:0;right:0;bottom:0;height:34px;background:var(--face);border-top:2px solid var(--light);display:flex;align-items:center;gap:4px;padding:2px 4px;z-index:1000}
+  .start{display:flex;align-items:center;gap:4px;font-weight:700;padding:2px 8px;border:2px solid;border-color:var(--light) var(--darker) var(--darker) var(--light);cursor:pointer;background:var(--face)}
+  .start i{width:16px;height:16px;background:conic-gradient(#E33 0 25%,#3C3 0 50%,#39F 0 75%,#FC3 0);display:inline-block}
+  .tasks{flex:1;display:flex;gap:3px;overflow:hidden}
+  .tasks button{border:2px solid;border-color:var(--light) var(--darker) var(--darker) var(--light);background:var(--face);font:12px Tahoma;padding:2px 8px;cursor:pointer;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tasks button.on{border-color:var(--darker) var(--light) var(--light) var(--darker);background:#dfdfdf;font-weight:700}
+  .tray{border:1px solid;border-color:var(--dark) var(--light) var(--light) var(--dark);padding:3px 8px;font-size:12px;display:flex;gap:8px;align-items:center}
+  .tray select{font:11px Tahoma;border:1px solid var(--dark)}
+  .startmenu{position:absolute;left:4px;bottom:36px;width:220px;background:var(--face);border:2px solid;border-color:var(--light) var(--darker) var(--darker) var(--light);display:none;z-index:1001}
+  .startmenu.open{display:flex}
+  .startmenu .side{width:26px;background:linear-gradient(#000080,#1084d0);color:#fff;writing-mode:vertical-rl;transform:rotate(180deg);font-weight:700;padding:8px 4px;letter-spacing:.1em}
+  .startmenu ul{list-style:none;margin:0;padding:4px 0;flex:1}.startmenu li{padding:6px 12px;cursor:pointer}.startmenu li:hover{background:var(--title);color:#fff}
+  .startmenu a{color:inherit;text-decoration:none;display:block}
+  .dlg .body{background:var(--face);border:0;margin:10px}
+  .btnrow{text-align:right;padding:0 10px 10px}.btnrow a,.btnrow button{display:inline-block;border:2px solid;border-color:var(--light) var(--darker) var(--darker) var(--light);background:var(--face);color:#000;padding:4px 14px;font:12px Tahoma;text-decoration:none;cursor:pointer;margin-left:6px}
+  a{color:#0000CC}
+</style>
+</head>
+<body>
+<div class="icons" id="icons">
+  <div class="ico" data-win="about"><i data-g="📄"></i><span>About.txt</span></div>
+  <div class="ico" data-win="job"><i class="exe" data-g="🏢"></i><span>I2V.exe</span></div>
+  <div class="ico" data-win="deltas"><i data-g="📈"></i><span>Deltas.xls</span></div>
+  <div class="ico" data-win="stack"><i data-g="🧰"></i><span>Stack.ini</span></div>
+  <div class="ico" data-win="proj"><i class="dir" data-g="📁"></i><span>Projects</span></div>
+  <div class="ico" data-win="faq"><i class="exe" data-g="❓"></i><span>FAQ.hlp</span></div>
+  <div class="ico" data-win="contact"><i class="exe" data-g="✉"></i><span>Contact.exe</span></div>
+  <a class="ico" href="../assets/Manik_Goyal_Resume.pdf" download style="text-decoration:none"><i class="pdf" data-g="⬇"></i><span>Resume.pdf</span></a>
+</div>
+
+<!-- windows -->
+<div class="win" id="w-about" style="left:12%;top:8%"><div class="tb"><span class="t">About.txt — Notepad</span><button data-min>_</button><button data-close>×</button></div><div class="menu"><span>File</span><span>Edit</span><span>Help</span></div>
+  <div class="body"><h3>Manik Goyal</h3><p><b data-i18n="hero.role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</b><br><span data-i18n="hero.avail">OPEN TO SOFTWARE ENGINEERING ROLES</span></p>
+  <p data-i18n="hero.lede1">I work on a video analytics platform watching <span class="mk">400+ cameras</span> across 200+ servers — ANPR, face recognition and intrusion events, all of it arriving faster than any single service wants to handle it. My job is making that traffic land correctly: event-specific Kafka topics with dead-letter handling, TimescaleDB that ingests instead of choking, exports that stream instead of dying.</p>
+  <p data-i18n="hero.lede2">Two years at <b>I2V Systems</b>, .NET 8 and Angular/React daily, with the C++ and FFmpeg work when the problem drops below the service layer.</p>
+  <p data-i18n="bio3">I like the fixes that are structural — a pipeline split by event type instead of a bigger consumer, a streaming export instead of a larger heap, an idempotent ledger instead of a retry guard.</p>
+  <table><tr><th data-i18n="gl.role">CURRENT ROLE</th><td data-i18n="gl.role.s">I2V Systems · Gurugram, India · Oct 2024 → present</td></tr><tr><th data-i18n="gl.exp">EXPERIENCE</th><td data-i18n="gl.exp.v">2 years, in production</td></tr><tr><th data-i18n="gl.edu">EDUCATION</th><td><span data-i18n="gl.edu.v">B.Tech IT · CGPA 8.55/10</span> · <span data-i18n="gl.edu.s">USICT, GGSIPU, Delhi · 2021 — 2025</span></td></tr><tr><th data-i18n="gl.lang">LANGUAGES</th><td data-i18n="gl.lang.s">EN fluent · HI native · DE basic</td></tr><tr><th data-i18n="gl.seek">LOOKING FOR</th><td><span data-i18n="gl.seek.v">Software engineering roles</span> — <span data-i18n="gl.seek.s">backend first · India, or relocation to Europe / Japan / Thailand</span></td></tr></table></div>
+  <div class="status"><span>Ln 1, Col 1</span><span>UTF-8</span></div></div>
+
+<div class="win" id="w-job" style="left:20%;top:14%"><div class="tb"><span class="t">I2V.exe — Analytics Manager</span><button data-min>_</button><button data-close>×</button></div><div class="menu"><span>File</span><span>View</span><span>Help</span></div>
+  <div class="body"><h3 data-i18n="sys.h2">THE SYSTEM I <span class="mk r">OWN</span>.</h3><p data-i18n="sys.intro">Analytics Manager — the service every camera event passes through on its way to being a record, an alert, or a challan.</p>
+  <ul><li data-i18n="own1">Led the Analytics Manager build, coordinating ANPR, face and intrusion events across <b>8+ backend and analytics services</b>.</li><li data-i18n="own2">Designed the broker-agnostic pub/sub module (RabbitMQ, Kafka, MQTT) and a unified storage module (local disk, NAS, AWS S3) — <b>adopted by 4+ services</b>, cutting new-service integration from days to hours.</li><li data-i18n="own3">Integrated government <b>e-challan APIs</b> into the ANPR violation pipeline, removing manual submission from the loop entirely.</li><li data-i18n="own4">Built bulk Excel face enrollment for <b>5,000+ records</b> with field-level server-side validation and live SignalR progress streaming.</li><li data-i18n="own5">Published <b>10+ reusable npm component libraries</b> used by every web app in a 200+ server deployment serving 60+ concurrent users.</li><li data-i18n="own6">Mentored <b>2 junior engineers</b> on Clean Architecture and async C#, and drove the code reviews that cut QA-reported regressions.</li><li data-i18n="own7">Carried features from requirements and technical design through testing and production deployment, coordinating backend, frontend and analytics dependencies across sprint releases.</li></ul></div>
+  <div class="status"><span>Oct 2024 → present</span><span>400+ cameras · 200+ servers</span></div></div>
+
+<div class="win" id="w-deltas" style="left:26%;top:20%"><div class="tb"><span class="t">Deltas.xls — Spreadsheet</span><button data-min>_</button><button data-close>×</button></div><div class="menu"><span>File</span><span>Data</span><span>Help</span></div>
+  <div class="body"><table><tr><th>#</th><th>Metric</th><th>Before</th><th>After</th><th>Δ</th></tr>
+  <tr><td>1</td><td data-i18n="d1.h">KAFKA EVENT THROUGHPUT</td><td data-i18n="d1.from">30 events/sec</td><td>500+ /s</td><td>16×</td></tr>
+  <tr><td>2</td><td data-i18n="d2.h">ANALYTICS EXPORT · 100K+ RECORDS</td><td data-i18n="d2.from">12 min</td><td>&lt;60 s</td><td>−92%</td></tr>
+  <tr><td>3</td><td data-i18n="d3.h">CAMERA-FRAME INGESTION</td><td data-i18n="d3.from">70 fps</td><td>300+ fps</td><td>4.3×</td></tr>
+  <tr><td>4</td><td data-i18n="d4.h">VECTOR INDEX MEMORY</td><td data-i18n="d4.from">baseline</td><td>25%</td><td>−75%</td></tr>
+  <tr><td>5</td><td data-i18n="d5.h">QUERY LATENCY &amp; RELEASE TURNAROUND</td><td>—</td><td>—</td><td>−35% · −40%</td></tr></table>
+  <p style="margin-top:8px" data-i18n="deltas.intro">Every line below is a before and an after on a system with real users on it. No estimates.</p>
+  <p data-i18n="d1.p">Split one overloaded pipeline into event-specific topics with dead-letter handling, so a poisoned ANPR message stops blocking face and intrusion events instead of stalling all three.</p><p data-i18n="d2.p">Rebuilt the export around streaming reads and incremental batches. The out-of-memory failures on large ranges stopped with it.</p><p data-i18n="d3.p">TimescaleDB hypertables with native compression, retention policies and composite indexes — sized for what 400 cameras actually push, not what a demo pushes.</p><p data-i18n="d4.p">Face enrollment, watchlist matching and deduplication on Milvus / pgvector — re-tuned the index so it fits the box, with match accuracy held.</p></div>
+  <div class="status"><span>Sheet1</span><span>Measured · production</span></div></div>
+
+<div class="win" id="w-stack" style="left:30%;top:24%"><div class="tb"><span class="t">Stack.ini</span><button data-min>_</button><button data-close>×</button></div>
+  <div class="body" style="font-family:Consolas,'Courier New',monospace;font-size:12.5px;white-space:pre-wrap">[services]
+primary   = .NET 8 / C#, ASP.NET Core, EF Core, LINQ
+also      = Java, Spring Boot, Hibernate/JPA, REST, microservices, C++17
+style     = Clean Architecture, SOLID, design patterns
+
+[messaging]
+kafka     = consumer groups, event-specific topics, dead-letter queues
+brokers   = RabbitMQ, MQTT, SignalR
+
+[data]
+sql       = PostgreSQL, TimescaleDB (hypertables, compression, retention)
+vector    = Milvus, pgvector
+other     = MongoDB, partitioning, indexing, query tuning
+
+[interfaces]
+web       = Angular 18, React, TypeScript, RxJS, npm library authoring
+
+[media]
+native    = FFmpeg, WebRTC, libdatachannel, H.264, CMake/vcpkg
+
+[ops]
+cloud     = AWS (EC2, S3, RDS), Microsoft Azure
+ship      = Docker, GitHub Actions, CI/CD, Linux
+observe   = Grafana, Prometheus</div><div class="status"><span>7 sections</span><span>daily = primary</span></div></div>
+
+<div class="win" id="w-proj" style="left:34%;top:28%"><div class="tb"><span class="t">Projects</span><button data-min>_</button><button data-close>×</button></div><div class="menu"><span>File</span><span>View</span></div>
+  <div class="body"><h3>📁 TheStreamer <small style="font-weight:400;color:#555">2025 · C++17 · FFmpeg · WebRTC</small></h3><p data-i18n="b1.sub">Low-latency video streaming platform</p><ul><li data-i18n="b1.li1">Sub-200 ms camera playback for live and recorded sources, decoding and remuxing H.264 in C++17 over FFmpeg.</li><li data-i18n="b1.li2">Moved transport off WebSocket streaming onto WebRTC/RTP with libdatachannel, adding HTTP signaling plus seek, pause and playback-speed controls over the data channel.</li><li data-i18n="b1.li3">.NET 7 player server with a browser SDK; CMake, vcpkg, Docker and GitHub Actions producing a one-command Windows MSI.</li></ul><p><a href="https://github.com/Manik400/TheStreamer" target="_blank" rel="noopener">github.com/Manik400/TheStreamer</a></p>
+  <h3 style="margin-top:12px">📁 ParkNest <small style="font-weight:400;color:#555">2025 · .NET 8 · PostgreSQL · React</small></h3><p data-i18n="b2.sub">Peer-to-peer parking marketplace</p><ul><li data-i18n="b2.li1">Two-sided marketplace: host listings, renter bookings and prepaid credit settlement on .NET 8, PostgreSQL and a React front end.</li><li data-i18n="b2.li2">Optimistic-concurrency booking safeguards and an idempotent credit ledger that hold under overlapping requests — the interesting half of the problem.</li></ul><p><a href="https://github.com/Manik400/ParkNest" target="_blank" rel="noopener">github.com/Manik400/ParkNest</a> · <a href="https://parknest.onrender.com/" target="_blank" rel="noopener">live demo</a></p>
+  <p data-i18n="builds.also">ALSO ON THE BENCH → <b>800+ LeetCode problems</b> across arrays, strings, graphs, trees and algorithm design · <b>Adobe GenSolve</b>, top 5 percentile nationally · <b>Postman API Fundamentals</b> certified.</p></div>
+  <div class="status"><span>2 object(s)</span></div></div>
+
+<div class="win" id="w-faq" style="left:38%;top:32%"><div class="tb"><span class="t">FAQ.hlp — Help</span><button data-min>_</button><button data-close>×</button></div><div class="menu"><span>Contents</span><span>Index</span></div>
+  <div class="body"><h3 data-i18n="gl.h2">THE <span class="mk">30-SECOND</span> VERSION.</h3>
+  <p><b data-i18n="q1">Where do you work, and since when?</b><br><span data-i18n="a1">Software Engineer at <b>I2V Systems</b> in Gurugram since October 2024 — a video-surveillance analytics company. I own the Analytics Manager, the .NET 8 service every camera event passes through.</span></p>
+  <p><b data-i18n="q2">Primary language and stack?</b><br><span data-i18n="a2">C# on .NET 8 (ASP.NET Core, EF Core, Clean Architecture) every day. Around it: Kafka and RabbitMQ for events, PostgreSQL and TimescaleDB for state, Angular 18 and React for the interfaces, Docker and AWS to run it. C++17 with FFmpeg and WebRTC when the work drops to the media layer.</span></p>
+  <p><b data-i18n="q3">How many years of experience?</b><br><span data-i18n="a3">Two years in production, starting in the final year of my B.Tech (graduated June 2025). Not internship years — I have been the owner of a production service for most of it.</span></p>
+  <p><b data-i18n="q4">What have you shipped that actually mattered?</b><br><span data-i18n="a4">Kafka throughput from 30 to 500+ events/sec, a 100K-record export from 12 minutes to under 60 seconds, camera-frame ingestion from 70 to 300+ fps, vector-index memory down 75%. All measured on the live system.</span></p>
+  <p><b data-i18n="q5">Backend only, or full-stack?</b><br><span data-i18n="a5">Backend first. But I published the 10+ Angular/React npm libraries every one of our web apps is built from, so owning a feature end to end is familiar.</span></p>
+  <p><b data-i18n="q6">Open to relocation, remote or hybrid?</b><br><span data-i18n="a6">All three. Based in Gurugram, India; open to relocating to Germany, the Netherlands, Finland, Spain, Japan or Thailand, and to remote roles in overlapping time zones. Notice period and compensation: ask by email — I reply within a day.</span></p></div></div>
+
+<div class="win dlg" id="w-contact" style="left:40%;top:36%;width:min(400px,calc(100vw - 24px))"><div class="tb"><span class="t">Contact.exe</span><button data-close>×</button></div>
+  <div class="body"><p><b data-i18n="q7">How do I reach you?</b></p><p><a href="mailto:manikgoyal400@gmail.com">manikgoyal400@gmail.com</a><br>+91 93156 05606<br><a href="https://www.linkedin.com/in/manik-goyal-29203a228" target="_blank" rel="noopener">linkedin.com/in/manik-goyal-29203a228</a><br><a href="https://github.com/Manik400" target="_blank" rel="noopener">github.com/Manik400</a> · <a href="https://leetcode.com/manik_23_" target="_blank" rel="noopener">leetcode.com/manik_23_</a></p></div>
+  <div class="btnrow"><a href="mailto:manikgoyal400@gmail.com">Send mail</a><a href="../assets/Manik_Goyal_Resume.pdf" download>Résumé PDF</a><button data-close>OK</button></div></div>
+
+<div class="startmenu" id="startmenu"><div class="side">MG-OS 2026</div><ul>
+  <li data-win="about">📄 About</li><li data-win="job">🏢 I2V — Analytics Manager</li><li data-win="deltas">📈 Deltas</li><li data-win="stack">🧰 Stack</li><li data-win="proj">📁 Projects</li><li data-win="faq">❓ FAQ</li><li data-win="contact">✉ Contact</li>
+  <li><a href="../assets/Manik_Goyal_Resume.pdf" download>⬇ Résumé (PDF)</a></li><li id="ui-switch">⊞ Switch UI…</li>
+</ul></div>
+
+<div class="task"><div class="start" id="start"><i></i>Start</div><div class="tasks" id="tasks"></div><div class="tray"><select id="lang" aria-label="Language"></select><span id="clock">--:--</span></div></div>
+
+<script src="../i18n.js"></script>
+<script src="../common.js"></script>
+<script>
+(function(){
+  document.getElementById('lang').innerHTML=MG.langOptions; MG.lang();
+  var z=10, wins={}, tasks=document.getElementById('tasks');
+  [].slice.call(document.querySelectorAll('.win')).forEach(function(w){ wins[w.id.slice(2)]=w; });
+  function focus(w){ for(var k in wins) wins[k].classList.add('inactive'); w.classList.remove('inactive'); w.style.zIndex=++z; [].slice.call(tasks.children).forEach(function(b){ b.classList.toggle('on',b.dataset.win===w.id.slice(2)); }); }
+  function open(id){ var w=wins[id]; if(!w) return; if(!w.classList.contains('open')){ w.classList.add('open'); var b=document.createElement('button'); b.dataset.win=id; b.textContent=w.querySelector('.t').textContent; b.addEventListener('click',function(){ if(w.classList.contains('open')&&!w.classList.contains('inactive')){ w.classList.remove('open'); b.classList.remove('on'); } else { w.classList.add('open'); focus(w); } }); tasks.appendChild(b); if(innerWidth<700){ w.style.left='6px'; w.style.top='6px'; } } focus(w); }
+  function close(w){ w.classList.remove('open'); var b=tasks.querySelector('[data-win="'+w.id.slice(2)+'"]'); if(b) b.remove(); }
+  document.addEventListener('click',function(e){
+    var ico=e.target.closest('[data-win]'); if(ico){ open(ico.dataset.win); document.getElementById('startmenu').classList.remove('open'); return; }
+    if(e.target.closest('[data-close]')){ close(e.target.closest('.win')); return; }
+    if(e.target.closest('[data-min]')){ var w=e.target.closest('.win'); w.classList.remove('open'); return; }
+    var w=e.target.closest('.win'); if(w) focus(w);
+    if(!e.target.closest('#start')&&!e.target.closest('#startmenu')) document.getElementById('startmenu').classList.remove('open');
+  });
+  document.getElementById('start').addEventListener('click',function(){ document.getElementById('startmenu').classList.toggle('open'); });
+  document.getElementById('ui-switch').addEventListener('click',function(){ document.querySelector('.mgui-btn').click(); });
+  // drag
+  [].slice.call(document.querySelectorAll('.tb')).forEach(function(tb){
+    var w=tb.parentNode, sx,sy,ox,oy,drag=false;
+    tb.addEventListener('pointerdown',function(e){ if(e.target.tagName==='BUTTON') return; drag=true; sx=e.clientX; sy=e.clientY; ox=w.offsetLeft; oy=w.offsetTop; tb.setPointerCapture(e.pointerId); focus(w); });
+    tb.addEventListener('pointermove',function(e){ if(!drag) return; w.style.left=Math.max(0,ox+e.clientX-sx)+'px'; w.style.top=Math.max(0,oy+e.clientY-sy)+'px'; });
+    tb.addEventListener('pointerup',function(){ drag=false; }); tb.addEventListener('pointercancel',function(){ drag=false; });
+  });
+  var c=document.getElementById('clock'); function tick(){ c.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit'}).format(new Date()); } tick(); setInterval(tick,30000);
+  open('about');
+})();
+</script>
+</body>
+</html>

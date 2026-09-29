@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" data-ui="paper" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sustaining 500 events/s on a 400-camera analytics platform — M. Goyal</title>
+<meta name="description" content="Manik Goyal — backend & distributed systems engineer. Academic-paper view.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://manik400.github.io/portfolio/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;600&display=swap">
+<style>
+  :root{--ink:#111;--soft:#555;--rule:#111;--link:#1a3d8f}
+  *{box-sizing:border-box}
+  body{margin:0;background:#E9E9E9;color:var(--ink);font:15.5px/1.45 'STIX Two Text','Times New Roman',serif}
+  .sheet{max-width:920px;margin:20px auto;background:#fff;padding:clamp(22px,5vw,64px) clamp(18px,5vw,64px);box-shadow:0 4px 24px rgba(0,0,0,.18)}
+  .arxiv{font:11px 'Source Code Pro',monospace;color:var(--soft);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+  .arxiv select{font:inherit;border:1px solid #999;background:#fff;padding:1px 4px}
+  h1{font:700 clamp(22px,3.4vw,30px)/1.2 'STIX Two Text',serif;text-align:center;margin:0 0 14px}
+  .auth{text-align:center;font-size:15px}.auth i{color:var(--soft);font-size:13px;display:block;margin-top:2px}
+  .auth sup{color:var(--link)}
+  .abs{margin:22px auto 18px;max-width:78ch}.abs b{font-variant:small-caps;letter-spacing:.06em}.abs p{margin:4px 0 0;text-align:justify;font-size:14.5px}
+  .kw{font-size:13px;color:var(--soft);max-width:78ch;margin:0 auto 18px}
+  .cols{column-count:1;column-gap:32px}
+  @media(min-width:760px){.cols{column-count:2}}
+  h2{font:700 14px 'STIX Two Text',serif;margin:18px 0 6px;text-transform:uppercase;letter-spacing:.04em;break-after:avoid}
+  h2 .n{margin-right:8px}
+  h3{font:italic 600 14.5px 'STIX Two Text',serif;margin:12px 0 4px;break-after:avoid}
+  p{margin:0 0 9px;text-align:justify;hyphens:auto;font-size:14.5px}
+  .mk{background:transparent;box-shadow:none;padding:0;font-weight:700}.mk.r{font-style:italic}
+  figure{margin:10px 0 14px;break-inside:avoid;column-span:all}
+  figure table{width:100%;border-collapse:collapse;font-size:13px;border-top:2px solid var(--rule);border-bottom:2px solid var(--rule)}
+  figure th{border-bottom:1px solid var(--rule);text-align:left;padding:5px 6px;font-weight:600}
+  figure td{padding:5px 6px;vertical-align:top}figure td.num{font-family:'Source Code Pro',monospace;font-size:12.5px;text-align:right;white-space:nowrap}
+  figcaption{font-size:13px;margin-top:6px}figcaption b{font-weight:700}
+  .eq{font-family:'Source Code Pro',monospace;font-size:13px;text-align:center;margin:8px 0;padding:6px;background:#f6f6f6;border:1px solid #e3e3e3}
+  ol.refs{padding-left:26px;font-size:13px;column-span:all}ol.refs li{margin:3px 0}
+  .fn{font-size:12.5px;color:var(--soft);border-top:1px solid #ccc;padding-top:6px;margin-top:16px}
+  a{color:var(--link)}
+  dl.app dt{font-weight:600;margin-top:8px;font-size:14px}dl.app dd{margin:2px 0 0;font-size:14px;text-align:justify}
+  .code{font:12.5px/1.5 'Source Code Pro',monospace;background:#f6f6f6;border:1px solid #e3e3e3;padding:8px 10px;white-space:pre;overflow:auto;margin:8px 0}
+</style>
+</head>
+<body>
+<article class="sheet">
+  <div class="arxiv"><span>manik.dev:2026.0930 [cs.DC] · <span data-i18n="hero.avail">OPEN TO SOFTWARE ENGINEERING ROLES</span></span><label>lang <select id="lang" aria-label="Language"></select></label></div>
+  <h1>Sustaining 500 events per second on a 400-camera video-analytics platform: event-specific topics, dead-letter isolation and streaming exports</h1>
+  <div class="auth">Manik Goyal<sup>1</sup><i><sup>1</sup> <span data-i18n="hero.role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</span> — I2V Systems, Gurugram, India · <a href="mailto:manikgoyal400@gmail.com">manikgoyal400@gmail.com</a></i></div>
+
+  <div class="abs"><b>Abstract.</b><p data-i18n="hero.lede1">I work on a video analytics platform watching <span class="mk">400+ cameras</span> across 200+ servers — ANPR, face recognition and intrusion events, all of it arriving faster than any single service wants to handle it. My job is making that traffic land correctly: event-specific Kafka topics with dead-letter handling, TimescaleDB that ingests instead of choking, exports that stream instead of dying.</p><p data-i18n="deltas.intro">Every line below is a before and an after on a system with real users on it. No estimates.</p></div>
+  <div class="kw"><b>Keywords:</b> distributed systems · Apache Kafka · dead-letter queues · TimescaleDB · vector search · .NET 8 · Java / Spring Boot · streaming exports · observability</div>
+
+  <div class="cols">
+    <h2><span class="n">1</span>Introduction</h2>
+    <p data-i18n="bio1">I write backend services for video analytics — the kind where a slow consumer isn't a red test, it's a violation that never got filed. Most of my day is .NET 8 on Clean Architecture, event flow over Kafka and RabbitMQ, and PostgreSQL/TimescaleDB schemas sized for 400 cameras rather than a demo.</p>
+    <p data-i18n="hero.lede2">Two years at <b>I2V Systems</b>, .NET 8 and Angular/React daily, with the C++ and FFmpeg work when the problem drops below the service layer.</p>
+    <p data-i18n="sys.intro">Analytics Manager — the service every camera event passes through on its way to being a record, an alert, or a challan.</p>
+
+    <h2><span class="n">2</span>Method</h2>
+    <h3>2.1 Topic partitioning with dead-letter isolation</h3>
+    <p data-i18n="d1.p">Split one overloaded pipeline into event-specific topics with dead-letter handling, so a poisoned ANPR message stops blocking face and intrusion events instead of stalling all three.</p>
+    <div class="eq">throughput(t) = Σ<sub>k∈{anpr,face,intr}</sub> consume<sub>k</sub>(t) ,  failed(m) → DLQ<sub>k</sub> ⇒ replayable</div>
+    <h3>2.2 Streaming export</h3>
+    <p data-i18n="d2.p">Rebuilt the export around streaming reads and incremental batches. The out-of-memory failures on large ranges stopped with it.</p>
+    <h3>2.3 Time-series ingestion</h3>
+    <p data-i18n="d3.p">TimescaleDB hypertables with native compression, retention policies and composite indexes — sized for what 400 cameras actually push, not what a demo pushes.</p>
+    <h3>2.4 Vector index footprint</h3>
+    <p data-i18n="d4.p">Face enrollment, watchlist matching and deduplication on Milvus / pgvector — re-tuned the index so it fits the box, with match accuracy held.</p>
+
+    <h2><span class="n">3</span>Results</h2>
+    <figure><table>
+      <tr><th>Metric</th><th>Before</th><th>After</th><th>Δ</th></tr>
+      <tr><td data-i18n="d1.h">KAFKA EVENT THROUGHPUT</td><td class="num">30 /s</td><td class="num">500+ /s</td><td class="num">16×</td></tr>
+      <tr><td data-i18n="d2.h">ANALYTICS EXPORT · 100K+ RECORDS</td><td class="num">12 min</td><td class="num">&lt; 60 s</td><td class="num">−92%</td></tr>
+      <tr><td data-i18n="d3.h">CAMERA-FRAME INGESTION</td><td class="num">70 fps</td><td class="num">300+ fps</td><td class="num">4.3×</td></tr>
+      <tr><td data-i18n="d4.h">VECTOR INDEX MEMORY</td><td class="num">1.00</td><td class="num">0.25</td><td class="num">−75%</td></tr>
+      <tr><td>Query latency (hot paths)</td><td class="num">1.00</td><td class="num">0.65</td><td class="num">−35%</td></tr>
+      <tr><td>Release turnaround</td><td class="num">1.00</td><td class="num">0.60</td><td class="num">−40%</td></tr>
+    </table><figcaption><b>Table 1.</b> Measured on the production deployment (400+ cameras, 200+ servers, 60+ concurrent users). All figures are sustained, not peak.</figcaption></figure>
+    <p data-i18n="d5.p">PostgreSQL and MongoDB index tuning on the hot paths; Docker builds and changelogs automated through GitHub Actions, with Grafana and Prometheus alerting so production triage starts from a dashboard, not a phone call.</p>
+
+    <h2><span class="n">4</span>System ownership</h2>
+    <p data-i18n="own1">Led the Analytics Manager build, coordinating ANPR, face and intrusion events across <b>8+ backend and analytics services</b>.</p>
+    <p data-i18n="own2">Designed the broker-agnostic pub/sub module (RabbitMQ, Kafka, MQTT) and a unified storage module (local disk, NAS, AWS S3) — <b>adopted by 4+ services</b>, cutting new-service integration from days to hours.</p>
+    <p data-i18n="own3">Integrated government <b>e-challan APIs</b> into the ANPR violation pipeline, removing manual submission from the loop entirely.</p>
+    <p data-i18n="own4">Built bulk Excel face enrollment for <b>5,000+ records</b> with field-level server-side validation and live SignalR progress streaming.</p>
+    <p data-i18n="own5">Published <b>10+ reusable npm component libraries</b> used by every web app in a 200+ server deployment serving 60+ concurrent users.</p>
+    <p data-i18n="own6">Mentored <b>2 junior engineers</b> on Clean Architecture and async C#, and drove the code reviews that cut QA-reported regressions.</p>
+
+    <h2><span class="n">5</span>Related work (own)</h2>
+    <p><b>The Streamer</b> [1]. <span data-i18n="b1.li1">Sub-200 ms camera playback for live and recorded sources, decoding and remuxing H.264 in C++17 over FFmpeg.</span> <span data-i18n="b1.li2">Moved transport off WebSocket streaming onto WebRTC/RTP with libdatachannel, adding HTTP signaling plus seek, pause and playback-speed controls over the data channel.</span></p>
+    <p><b>ParkNest</b> [2]. <span data-i18n="b2.li1">Two-sided marketplace: host listings, renter bookings and prepaid credit settlement on .NET 8, PostgreSQL and a React front end.</span> <span data-i18n="b2.li2">Optimistic-concurrency booking safeguards and an idempotent credit ledger that hold under overlapping requests — the interesting half of the problem.</span></p>
+
+    <h2><span class="n">6</span>Apparatus</h2>
+    <div class="code">services   .NET 8 / C# · ASP.NET Core · EF Core · LINQ
+           Java · Spring Boot · Hibernate/JPA · REST · µservices
+messaging  Kafka (consumer groups) · RabbitMQ · MQTT · DLQ · SignalR
+data       PostgreSQL · TimescaleDB · Milvus · pgvector · MongoDB
+ui         Angular 18 · React · TypeScript · RxJS
+media      C++17 · FFmpeg · WebRTC · libdatachannel · H.264
+ops        Docker · AWS · Azure · GitHub Actions · Grafana · Prometheus</div>
+
+    <h2><span class="n">7</span>Discussion</h2>
+    <p data-i18n="bio3">I like the fixes that are structural — a pipeline split by event type instead of a bigger consumer, a streaming export instead of a larger heap, an idempotent ledger instead of a retry guard.</p>
+    <p data-i18n="bio2">The rest is the surface and the substrate: Angular and React libraries that ten apps depend on, and, when the problem drops below the service layer, C++ and FFmpeg pushing frames over WebRTC.</p>
+
+    <h2>Appendix A — <span data-i18n="gl.kicker">FOR RECRUITERS &amp; HIRING ENGINEERS</span></h2>
+    <dl class="app">
+      <dt data-i18n="q1">Where do you work, and since when?</dt><dd data-i18n="a1">Software Engineer at <b>I2V Systems</b> in Gurugram since October 2024 — a video-surveillance analytics company. I own the Analytics Manager, the .NET 8 service every camera event passes through.</dd>
+      <dt data-i18n="q3">How many years of experience?</dt><dd data-i18n="a3">Two years in production, starting in the final year of my B.Tech (graduated June 2025). Not internship years — I have been the owner of a production service for most of it.</dd>
+      <dt data-i18n="q6">Open to relocation, remote or hybrid?</dt><dd data-i18n="a6">All three. Based in Gurugram, India; open to relocating to Germany, the Netherlands, Finland, Spain, Japan or Thailand, and to remote roles in overlapping time zones. Notice period and compensation: ask by email — I reply within a day.</dd>
+      <dt data-i18n="gl.edu">EDUCATION</dt><dd><span data-i18n="gl.edu.v">B.Tech IT · CGPA 8.55/10</span>, <span data-i18n="gl.edu.s">USICT, GGSIPU, Delhi · 2021 — 2025</span>. <span data-i18n="gl.lang.s">EN fluent · HI native · DE basic</span>. <span data-i18n="builds.also">ALSO ON THE BENCH → <b>800+ LeetCode problems</b> across arrays, strings, graphs, trees and algorithm design · <b>Adobe GenSolve</b>, top 5 percentile nationally · <b>Postman API Fundamentals</b> certified.</span></dd>
+    </dl>
+  </div>
+
+  <h2>References</h2>
+  <ol class="refs">
+    <li>M. Goyal, <i>The Streamer: low-latency video streaming over WebRTC/RTP</i>, 2025. <a href="https://github.com/Manik400/TheStreamer" target="_blank" rel="noopener">github.com/Manik400/TheStreamer</a></li>
+    <li>M. Goyal, <i>ParkNest: a peer-to-peer parking marketplace with an idempotent ledger</i>, 2025. <a href="https://github.com/Manik400/ParkNest" target="_blank" rel="noopener">github.com/Manik400/ParkNest</a> · <a href="https://parknest.onrender.com/" target="_blank" rel="noopener">live</a></li>
+    <li>M. Goyal, <i>Curriculum vitae</i> (PDF). <a href="../assets/Manik_Goyal_Resume.pdf" download>Manik_Goyal_Resume.pdf</a></li>
+    <li>Correspondence: <a href="mailto:manikgoyal400@gmail.com">manikgoyal400@gmail.com</a> · +91 93156 05606 · <a href="https://www.linkedin.com/in/manik-goyal-29203a228" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/Manik400" target="_blank" rel="noopener">GitHub</a> · <a href="https://leetcode.com/manik_23_" target="_blank" rel="noopener">LeetCode</a></li>
+  </ol>
+  <div class="fn">Preprint. Numbers are from the live system; the author reserves the right to be asked hard questions about them.</div>
+</article>
+<script src="../i18n.js"></script>
+<script src="../common.js"></script>
+<script>document.getElementById('lang').innerHTML=MG.langOptions; MG.lang();</script>
+</body>
+</html>

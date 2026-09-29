@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" data-ui="terminal" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>manik@i2v:~ — Manik Goyal</title>
+<meta name="description" content="Manik Goyal — backend & distributed systems engineer. Terminal view of the portfolio.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://manik400.github.io/portfolio/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root{--bg:#050807;--panel:#0B100E;--fg:#C8F5D0;--dim:#6FA67C;--acc:#33FF7A;--warn:#FFB86B;--err:#FF5E5E;--line:#1E3A2A;--sel:#123422}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+       background-image:radial-gradient(ellipse at top,#0B1A12 0%,#050807 60%)}
+  body::after{content:"";pointer-events:none;position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+  .term{max-width:1100px;margin:0 auto;min-height:100%;display:grid;grid-template-rows:auto 1fr auto;grid-template-columns:minmax(0,1fr);padding:18px 14px}
+  .bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;border:1px solid var(--line);border-bottom:0;background:var(--panel);padding:8px 12px;font-size:12px;color:var(--dim)}
+  .bar .dots{display:flex;gap:6px}.bar .dots i{width:11px;height:11px;border-radius:50%;background:#2A4033}.bar .dots i:first-child{background:var(--err)}.bar .dots i:nth-child(2){background:var(--warn)}.bar .dots i:last-child{background:var(--acc)}
+  .bar .title{flex:1;text-align:center}
+  .bar select{background:var(--panel);color:var(--fg);border:1px solid var(--line);font:inherit;padding:2px 6px}
+  .screen{border:1px solid var(--line);background:var(--panel);padding:16px 16px 8px;overflow:auto;min-height:60vh}
+  .screen a{color:var(--acc)}
+  .ln{white-space:pre-wrap;word-break:break-word}
+  .p{color:var(--acc)}.p b{color:var(--warn);font-weight:600}
+  .out{margin:2px 0 14px;padding-left:2px;border-left:2px solid var(--line);padding-left:12px}
+  .out h3{margin:0 0 6px;font-size:14px;color:var(--acc);font-weight:600;text-transform:uppercase;letter-spacing:.12em}
+  .out p{margin:0 0 8px;max-width:78ch}
+  .out ul{margin:0;padding-left:18px}.out li{margin:3px 0;max-width:78ch}
+  .kv{display:grid;grid-template-columns:max-content 1fr;gap:2px 18px}.kv b{color:var(--dim);font-weight:400}
+  .row{display:grid;grid-template-columns:1fr auto auto;gap:14px;max-width:78ch;padding:3px 0;border-bottom:1px dashed var(--line)}
+  .row .n{color:var(--warn)}.row .u{color:var(--dim)}
+  .mk{background:var(--sel);color:var(--acc);padding:0 4px}.mk.r{background:#3A1010;color:var(--err)}
+  .out b{color:#fff;font-weight:600}
+  .bar-meter{display:inline-block;width:160px;height:8px;border:1px solid var(--line);vertical-align:middle;margin-left:8px}.bar-meter i{display:block;height:100%;background:var(--acc)}
+  .in{display:flex;gap:8px;border:1px solid var(--line);border-top:0;background:var(--panel);padding:10px 16px;align-items:center}
+  .in input{flex:1;background:transparent;border:0;color:var(--fg);font:inherit;outline:none;caret-color:var(--acc)}
+  .cmds{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-right:170px}   /* room for the fixed UI button */
+  @media(max-width:640px){.row{grid-template-columns:1fr}.row .n{text-align:left}.bar-meter{width:90px}.cmds{padding-right:0;padding-bottom:64px}.kv{grid-template-columns:1fr}.kv b{margin-top:6px}}
+  .cmds button{background:transparent;border:1px solid var(--line);color:var(--acc);font:inherit;font-size:12px;padding:4px 9px;cursor:pointer}
+  .cmds button:hover{background:var(--sel)}
+  .err{color:var(--err)}.dim{color:var(--dim)}
+  #tpl{display:none}
+  .cursor{display:inline-block;width:8px;height:15px;background:var(--acc);vertical-align:-2px;animation:b 1s steps(1) infinite}@keyframes b{50%{opacity:0}}
+</style>
+</head>
+<body>
+<div class="term">
+  <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="title">manik@i2v: ~/portfolio — bash</span>
+    <label class="dim">lang <select id="lang" aria-label="Language"></select></label></div>
+  <div class="screen" id="screen"></div>
+  <div class="in"><span class="p">manik@i2v:~$</span><input id="cmd" type="text" autocomplete="off" spellcheck="false" aria-label="Command" placeholder="type help"></div>
+  <div class="cmds" id="cmds"></div>
+</div>
+
+<!-- command outputs: translated through the same keys as the main site -->
+<div id="tpl">
+  <div data-cmd="whoami">
+    <h3>whoami</h3>
+    <div class="kv">
+      <b>name</b><span>Manik Goyal</span>
+      <b>role</b><span data-i18n="hero.role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</span>
+      <b>status</b><span data-i18n="hero.avail">OPEN TO SOFTWARE ENGINEERING ROLES</span>
+      <b>employer</b><span data-i18n="gl.role.s">I2V Systems · Gurugram, India · Oct 2024 → present</span>
+      <b>experience</b><span data-i18n="gl.exp.v">2 years, in production</span>
+      <b>education</b><span data-i18n="gl.edu.v">B.Tech IT · CGPA 8.55/10</span>
+      <b>languages</b><span data-i18n="gl.lang.v">English · Hindi · German</span>
+    </div>
+    <p style="margin-top:10px" data-i18n="hero.lede1">I work on a video analytics platform watching <span class="mk">400+ cameras</span> across 200+ servers — ANPR, face recognition and intrusion events, all of it arriving faster than any single service wants to handle it. My job is making that traffic land correctly: event-specific Kafka topics with dead-letter handling, TimescaleDB that ingests instead of choking, exports that stream instead of dying.</p>
+  </div>
+  <div data-cmd="work">
+    <h3>work — I2V Systems</h3>
+    <p data-i18n="sys.intro">Analytics Manager — the service every camera event passes through on its way to being a record, an alert, or a challan.</p>
+    <ul>
+      <li data-i18n="own1">Led the Analytics Manager build, coordinating ANPR, face and intrusion events across <b>8+ backend and analytics services</b>.</li>
+      <li data-i18n="own2">Designed the broker-agnostic pub/sub module (RabbitMQ, Kafka, MQTT) and a unified storage module (local disk, NAS, AWS S3) — <b>adopted by 4+ services</b>, cutting new-service integration from days to hours.</li>
+      <li data-i18n="own3">Integrated government <b>e-challan APIs</b> into the ANPR violation pipeline, removing manual submission from the loop entirely.</li>
+      <li data-i18n="own4">Built bulk Excel face enrollment for <b>5,000+ records</b> with field-level server-side validation and live SignalR progress streaming.</li>
+      <li data-i18n="own5">Published <b>10+ reusable npm component libraries</b> used by every web app in a 200+ server deployment serving 60+ concurrent users.</li>
+      <li data-i18n="own6">Mentored <b>2 junior engineers</b> on Clean Architecture and async C#, and drove the code reviews that cut QA-reported regressions.</li>
+      <li data-i18n="own7">Carried features from requirements and technical design through testing and production deployment, coordinating backend, frontend and analytics dependencies across sprint releases.</li>
+    </ul>
+  </div>
+  <div data-cmd="numbers">
+    <h3>numbers — measured in production</h3>
+    <div class="row"><span data-i18n="d1.h">KAFKA EVENT THROUGHPUT</span><span class="u" data-i18n="d1.from">30 events/sec</span><span class="n">→ 500+ <span class="bar-meter"><i style="width:100%"></i></span></span></div>
+    <div class="row"><span data-i18n="d2.h">ANALYTICS EXPORT · 100K+ RECORDS</span><span class="u" data-i18n="d2.from">12 min</span><span class="n">→ 60s <span class="bar-meter"><i style="width:8%"></i></span></span></div>
+    <div class="row"><span data-i18n="d3.h">CAMERA-FRAME INGESTION</span><span class="u" data-i18n="d3.from">70 fps</span><span class="n">→ 300+ <span class="bar-meter"><i style="width:100%"></i></span></span></div>
+    <div class="row"><span data-i18n="d4.h">VECTOR INDEX MEMORY</span><span class="u" data-i18n="d4.from">baseline</span><span class="n">−75% <span class="bar-meter"><i style="width:25%"></i></span></span></div>
+    <div class="row"><span data-i18n="d5.h">QUERY LATENCY &amp; RELEASE TURNAROUND</span><span class="u">—</span><span class="n">−35% · −40%</span></div>
+    <p class="dim" style="margin-top:8px" data-i18n="deltas.intro">Every line below is a before and an after on a system with real users on it. No estimates.</p>
+  </div>
+  <div data-cmd="stack">
+    <h3>stack</h3>
+    <div class="kv">
+      <b data-i18n="tb.services">SERVICES</b><span>.NET 8 / C# · ASP.NET Core · EF Core · LINQ · Java · Spring Boot · Hibernate/JPA · REST · Microservices · Clean Architecture · C++17</span>
+      <b data-i18n="tb.msg">MESSAGING</b><span>Kafka (consumer groups) · RabbitMQ · MQTT · dead-letter queues · SignalR</span>
+      <b data-i18n="tb.data">DATA</b><span>PostgreSQL · TimescaleDB · Milvus · pgvector · MongoDB</span>
+      <b data-i18n="tb.ui">INTERFACES</b><span>Angular 18 · React · TypeScript · RxJS · npm libraries</span>
+      <b data-i18n="tb.media">MEDIA</b><span>FFmpeg · WebRTC · libdatachannel · H.264 · CMake / vcpkg</span>
+      <b data-i18n="tb.ship">RUN &amp; SHIP</b><span>Docker · AWS (EC2, S3, RDS) · Azure · GitHub Actions · CI/CD · Grafana · Prometheus · Linux</span>
+    </div>
+  </div>
+  <div data-cmd="projects">
+    <h3>projects</h3>
+    <p><b>TheStreamer</b> — <span data-i18n="b1.sub">Low-latency video streaming platform</span> · <a href="https://github.com/Manik400/TheStreamer" target="_blank" rel="noopener">github</a></p>
+    <ul><li data-i18n="b1.li1">Sub-200 ms camera playback for live and recorded sources, decoding and remuxing H.264 in C++17 over FFmpeg.</li><li data-i18n="b1.li2">Moved transport off WebSocket streaming onto WebRTC/RTP with libdatachannel, adding HTTP signaling plus seek, pause and playback-speed controls over the data channel.</li></ul>
+    <p style="margin-top:10px"><b>ParkNest</b> — <span data-i18n="b2.sub">Peer-to-peer parking marketplace</span> · <a href="https://github.com/Manik400/ParkNest" target="_blank" rel="noopener">github</a> · <a href="https://parknest.onrender.com/" target="_blank" rel="noopener">live</a></p>
+    <ul><li data-i18n="b2.li1">Two-sided marketplace: host listings, renter bookings and prepaid credit settlement on .NET 8, PostgreSQL and a React front end.</li><li data-i18n="b2.li2">Optimistic-concurrency booking safeguards and an idempotent credit ledger that hold under overlapping requests — the interesting half of the problem.</li></ul>
+    <p class="dim" style="margin-top:8px" data-i18n="builds.also">ALSO ON THE BENCH → <b>800+ LeetCode problems</b> across arrays, strings, graphs, trees and algorithm design · <b>Adobe GenSolve</b>, top 5 percentile nationally · <b>Postman API Fundamentals</b> certified.</p>
+  </div>
+  <div data-cmd="faq">
+    <h3>faq</h3>
+    <p><span class="p">?</span> <span data-i18n="q3">How many years of experience?</span><br><span data-i18n="a3">Two years in production, starting in the final year of my B.Tech (graduated June 2025). Not internship years — I have been the owner of a production service for most of it.</span></p>
+    <p><span class="p">?</span> <span data-i18n="q5">Backend only, or full-stack?</span><br><span data-i18n="a5">Backend first. But I published the 10+ Angular/React npm libraries every one of our web apps is built from, so owning a feature end to end is familiar.</span></p>
+    <p><span class="p">?</span> <span data-i18n="q6">Open to relocation, remote or hybrid?</span><br><span data-i18n="a6">All three. Based in Gurugram, India; open to relocating to Germany, the Netherlands, Finland, Spain, Japan or Thailand, and to remote roles in overlapping time zones. Notice period and compensation: ask by email — I reply within a day.</span></p>
+  </div>
+  <div data-cmd="contact">
+    <h3>contact</h3>
+    <div class="kv">
+      <b>email</b><span><a href="mailto:manikgoyal400@gmail.com">manikgoyal400@gmail.com</a></span>
+      <b>phone</b><span>+91 93156 05606</span>
+      <b>github</b><span><a href="https://github.com/Manik400" target="_blank" rel="noopener">github.com/Manik400</a></span>
+      <b>linkedin</b><span><a href="https://www.linkedin.com/in/manik-goyal-29203a228" target="_blank" rel="noopener">linkedin.com/in/manik-goyal-29203a228</a></span>
+      <b>leetcode</b><span><a href="https://leetcode.com/manik_23_" target="_blank" rel="noopener">leetcode.com/manik_23_</a></span>
+      <b>resume</b><span><a href="../assets/Manik_Goyal_Resume.pdf" download>Manik_Goyal_Resume.pdf</a></span>
+    </div>
+  </div>
+  <div data-cmd="help">
+    <h3>help</h3>
+    <div class="kv">
+      <b>whoami</b><span>who is this</span>
+      <b>work</b><span>current job and what I own</span>
+      <b>numbers</b><span>before → after, measured in production</span>
+      <b>stack</b><span>what I actually use</span>
+      <b>projects</b><span>things built outside the job</span>
+      <b>faq</b><span>the questions recruiters ask</span>
+      <b>contact</b><span>email, phone, links, résumé</span>
+      <b>lang de|nl|fi|es|ja|th|en</b><span>switch language</span>
+      <b>ui</b><span>switch to another interface</span>
+      <b>clear</b><span>clear the screen</span>
+    </div>
+  </div>
+</div>
+
+<script src="../i18n.js"></script>
+<script src="../common.js"></script>
+<script>
+(function(){
+  document.getElementById('lang').innerHTML=MG.langOptions;
+  MG.lang();
+  var screen=document.getElementById('screen'), input=document.getElementById('cmd'), tpl=document.getElementById('tpl');
+  var order=['whoami','work','numbers','stack','projects','faq','contact','help'];
+  var history=[];
+  function echo(cmd){ var d=document.createElement('div'); d.className='ln'; d.innerHTML='<span class="p">manik@i2v:~$</span> <b style="color:#fff">'+cmd+'</b>'; screen.appendChild(d); }
+  function out(html,cls){ var d=document.createElement('div'); d.className='out '+(cls||''); d.innerHTML=html; screen.appendChild(d); screen.scrollTop=screen.scrollHeight; }
+  function run(raw,silent){
+    var parts=raw.trim().split(/\s+/), cmd=(parts[0]||'').toLowerCase(), arg=parts[1];
+    if(!cmd) return;
+    if(!silent) echo(raw);
+    if(cmd==='clear'){ screen.innerHTML=''; history=[]; return; }
+    if(cmd==='ui'){ document.querySelector('.mgui-btn').click(); return; }
+    if(cmd==='lang'){ var s=document.getElementById('lang'); if(arg&&[].some.call(s.options,function(o){return o.value===arg;})){ s.value=arg; s.dispatchEvent(new Event('change')); out('<p>lang → '+arg+'</p>'); } else out('<p class="err">usage: lang de|nl|fi|es|ja|th|en</p>'); return; }
+    if(cmd==='resume'){ location.href='../assets/Manik_Goyal_Resume.pdf'; return; }
+    var t=tpl.querySelector('[data-cmd="'+cmd+'"]');
+    if(!t){ out('<p class="err">bash: '+cmd.replace(/</g,'&lt;')+': command not found</p><p class="dim">try <b>help</b></p>'); return; }
+    history.push(cmd); out(t.innerHTML);
+  }
+  input.addEventListener('keydown',function(e){ if(e.key==='Enter'){ run(input.value); input.value=''; } });
+  var cmds=document.getElementById('cmds');
+  order.forEach(function(c){ var b=document.createElement('button'); b.type='button'; b.textContent=c; b.addEventListener('click',function(){ run(c); input.focus(); }); cmds.appendChild(b); });
+  // re-render the scrollback when the language changes
+  document.addEventListener('mg:lang',function(){ var h=history.slice(); screen.innerHTML=''; history=[]; h.forEach(function(c){ run(c,true); }); });
+  // boot
+  out('<p class="dim">Manik Goyal · portfolio shell · <span data-i18n="hero.avail">OPEN TO SOFTWARE ENGINEERING ROLES</span></p><p class="dim">type <b>help</b> or click a command below. <span class="cursor"></span></p>');
+  run('whoami',true); history=['whoami'];
+  screen.scrollTop=0; input.focus();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" data-ui="passport" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Passport — Manik Goyal</title>
+<meta name="description" content="Manik Goyal — backend & distributed systems engineer. Passport view.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://manik400.github.io/portfolio/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap">
+<style>
+  :root{--cover:#1B2A4A;--gold:#C9A961;--page:#F3EBDD;--page2:#E9DFCB;--ink:#2B2B2B;--soft:#6D6558;--red:#B3261E;--blue:#2B4C7E;--green:#2E6B3F;--purple:#5B2C8E}
+  *{box-sizing:border-box}
+  body{margin:0;background:#0E1626;color:var(--ink);font:15px/1.5 'Libre Baskerville',Georgia,serif}
+  .book{max-width:1100px;margin:22px auto 90px;padding:0 12px}
+  .cover{background:var(--cover);color:var(--gold);border-radius:8px 14px 14px 8px;padding:clamp(24px,5vw,56px);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.6),inset 0 0 0 2px rgba(201,169,97,.5);position:relative}
+  .cover::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:linear-gradient(90deg,#0d1424,#1B2A4A);border-radius:8px 0 0 8px}
+  .cover .t{font-size:11px;letter-spacing:.4em;text-transform:uppercase}
+  .cover h1{font:700 clamp(24px,4.6vw,44px)/1.1 'Libre Baskerville',serif;margin:14px 0;letter-spacing:.08em;text-transform:uppercase}
+  .emblem{width:110px;height:110px;margin:14px auto;border:3px solid var(--gold);border-radius:50%;display:grid;place-items:center;font:700 34px 'Share Tech Mono',monospace}
+  .cover .s{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+  .cover select{margin-top:14px;font:inherit;background:transparent;color:var(--gold);border:1px solid var(--gold);padding:4px 8px}
+  .cover select option{color:#000}
+  .spread{display:grid;gap:14px;margin-top:18px;grid-template-columns:1fr}
+  @media(min-width:860px){.spread{grid-template-columns:1fr 1fr}}
+  .pg{background:var(--page);padding:clamp(16px,3vw,28px);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.45);position:relative;overflow:hidden;
+      background-image:repeating-linear-gradient(45deg,transparent 0 12px,rgba(43,76,126,.035) 12px 13px)}
+  .pg::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(0,0,0,.06))}
+  .pg h2{font:700 12px 'Share Tech Mono',monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--blue);margin:0 0 12px;border-bottom:1px solid var(--blue);padding-bottom:5px}
+  .data{display:grid;gap:14px;grid-template-columns:1fr}
+  @media(min-width:520px){.data{grid-template-columns:130px 1fr}}
+  .photo{border:1px solid #888;background:#d8d2c4;padding:4px}.photo canvas{display:block;width:100%;image-rendering:pixelated;filter:sepia(.4)}
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+  .fields div{min-width:0}
+  .fields b{display:block;font:10px 'Share Tech Mono',monospace;letter-spacing:.14em;color:var(--soft);text-transform:uppercase}
+  .fields span{font-size:14px;display:block}
+  .fields .w{grid-column:1/-1}
+  .mrz{margin-top:14px;font:15px/1.4 'Share Tech Mono',monospace;background:#fff;padding:8px 10px;letter-spacing:.08em;white-space:pre;overflow:auto;border-top:1px dashed #999}
+  .stamp{display:inline-block;border:3px double var(--c);color:var(--c);padding:8px 12px;font:700 11px 'Share Tech Mono',monospace;letter-spacing:.14em;text-transform:uppercase;transform:rotate(var(--r));margin:8px 6px;max-width:100%;opacity:.9;mix-blend-mode:multiply;text-align:center;line-height:1.5}
+  .stamp b{display:block;font-size:15px}
+  .stamp small{display:block;font-family:'Libre Baskerville',serif;text-transform:none;letter-spacing:0;font-size:12px}
+  .stamp.round{border-radius:50%;padding:18px 12px;border-style:solid;border-width:2px;box-shadow:inset 0 0 0 3px var(--page),inset 0 0 0 4px var(--c)}
+  .visas{display:flex;flex-wrap:wrap;align-items:flex-start}
+  ul.end{margin:0;padding-left:18px;font-size:14px}ul.end li{margin:5px 0}ul.end b{color:var(--blue)}
+  .mk{background:rgba(201,169,97,.4);padding:0 3px;box-shadow:none}.mk.r{background:transparent;color:var(--red);font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13px}td{padding:5px 4px;border-bottom:1px dotted #999;vertical-align:top}td.v{font:700 12px 'Share Tech Mono',monospace;color:var(--green);white-space:nowrap;text-align:right}
+  p{margin:0 0 10px;font-size:14px}
+  a{color:var(--blue)}
+  .pnum{position:absolute;bottom:8px;right:14px;font:10px 'Share Tech Mono',monospace;color:var(--soft)}
+  .qa dt{font-weight:700;font-size:13.5px;margin-top:8px}.qa dd{margin:2px 0 0;font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="cover">
+    <div class="t">Republic of Backend · Distributed Systems Authority</div>
+    <h1>Passport</h1>
+    <div class="emblem">MG</div>
+    <div class="s">Manik Goyal · <span data-i18n="hero.avail">OPEN TO SOFTWARE ENGINEERING ROLES</span></div>
+    <select id="lang" aria-label="Language"></select>
+  </div>
+
+  <div class="spread">
+    <div class="pg">
+      <h2>Data page · P&lt;IND</h2>
+      <div class="data">
+        <div class="photo"><canvas id="face" width="120" height="150" aria-label="Portrait"></canvas></div>
+        <div class="fields">
+          <div><b>Surname</b><span>GOYAL</span></div><div><b>Given names</b><span>MANIK</span></div>
+          <div><b>Nationality</b><span>INDIAN</span></div><div><b>Place of residence</b><span data-i18n="id.base.v">Gurugram, HR</span></div>
+          <div class="w"><b>Occupation</b><span data-i18n="hero.role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</span></div>
+          <div><b>Issuing authority</b><span>I2V Systems</span></div><div><b>Date of issue</b><span data-i18n="id.since.v">Oct 2024 @ I2V</span></div>
+          <div><b>Level</b><span data-i18n="gl.exp.v">2 years, in production</span></div><div><b>Languages</b><span data-i18n="gl.lang.s">EN fluent · HI native · DE basic</span></div>
+          <div class="w"><b>Education</b><span><span data-i18n="gl.edu.v">B.Tech IT · CGPA 8.55/10</span> · <span data-i18n="gl.edu.s">USICT, GGSIPU, Delhi · 2021 — 2025</span></span></div>
+          <div class="w"><b>Seeks</b><span><span data-i18n="gl.seek.v">Software engineering roles</span> — <span data-i18n="gl.seek.s">backend first · India, or relocation to Europe / Japan / Thailand</span></span></div>
+        </div>
+      </div>
+      <div class="mrz">P&lt;INDGOYAL&lt;&lt;MANIK&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+MG2024001&lt;0IND2021&lt;&lt;2025&lt;BACKEND&lt;DOTNET&lt;KAFKA&lt;PG&lt;04</div>
+      <span class="pnum">02</span>
+    </div>
+
+    <div class="pg">
+      <h2>Visas · <span data-i18n="gl.seek">LOOKING FOR</span></h2>
+      <p style="font-size:13px;color:var(--soft)">Entry permitted for software engineering roles. Each stamp is a country this profile is written for — switch the language on the cover.</p>
+      <div class="visas">
+        <span class="stamp" style="--c:#B3261E;--r:-7deg"><b>DEUTSCHLAND</b>Einreise · Software Engineer<small>Offen für Umzug · EU Blue Card ready</small></span>
+        <span class="stamp round" style="--c:#2B4C7E;--r:5deg"><b>NEDERLAND</b>Toegang<small>Kennismigrant · open</small></span>
+        <span class="stamp" style="--c:#2E6B3F;--r:-3deg"><b>SUOMI</b>Maahantulo · ohjelmistokehittäjä<small>avoinna muutolle</small></span>
+        <span class="stamp round" style="--c:#B3261E;--r:8deg"><b>ESPAÑA</b>Entrada<small>ingeniero · abierto</small></span>
+        <span class="stamp" style="--c:#5B2C8E;--r:-5deg"><b>日本</b>入国 · ソフトウェアエンジニア<small>移住可</small></span>
+        <span class="stamp round" style="--c:#2E6B3F;--r:4deg"><b>ประเทศไทย</b>เข้าเมือง<small>วิศวกร · เปิดรับ</small></span>
+        <span class="stamp" style="--c:#2B4C7E;--r:2deg"><b>INDIA · HOME</b>Resident · Gurugram<small>remote &amp; hybrid welcome</small></span>
+      </div>
+      <p style="font-size:13px" data-i18n="a6">All three. Based in Gurugram, India; open to relocating to Germany, the Netherlands, Finland, Spain, Japan or Thailand, and to remote roles in overlapping time zones. Notice period and compensation: ask by email — I reply within a day.</p>
+      <span class="pnum">03</span>
+    </div>
+
+    <div class="pg">
+      <h2>Entry stamps · <span data-i18n="sys.h2">THE SYSTEM I <span class="mk r">OWN</span>.</span></h2>
+      <p data-i18n="hero.lede1">I work on a video analytics platform watching <span class="mk">400+ cameras</span> across 200+ servers — ANPR, face recognition and intrusion events, all of it arriving faster than any single service wants to handle it. My job is making that traffic land correctly: event-specific Kafka topics with dead-letter handling, TimescaleDB that ingests instead of choking, exports that stream instead of dying.</p>
+      <ul class="end">
+        <li data-i18n="own1">Led the Analytics Manager build, coordinating ANPR, face and intrusion events across <b>8+ backend and analytics services</b>.</li>
+        <li data-i18n="own2">Designed the broker-agnostic pub/sub module (RabbitMQ, Kafka, MQTT) and a unified storage module (local disk, NAS, AWS S3) — <b>adopted by 4+ services</b>, cutting new-service integration from days to hours.</li>
+        <li data-i18n="own3">Integrated government <b>e-challan APIs</b> into the ANPR violation pipeline, removing manual submission from the loop entirely.</li>
+        <li data-i18n="own4">Built bulk Excel face enrollment for <b>5,000+ records</b> with field-level server-side validation and live SignalR progress streaming.</li>
+        <li data-i18n="own5">Published <b>10+ reusable npm component libraries</b> used by every web app in a 200+ server deployment serving 60+ concurrent users.</li>
+        <li data-i18n="own6">Mentored <b>2 junior engineers</b> on Clean Architecture and async C#, and drove the code reviews that cut QA-reported regressions.</li>
+      </ul>
+      <span class="pnum">04</span>
+    </div>
+
+    <div class="pg">
+      <h2>Endorsements · <span data-i18n="deltas.kicker">MEASURED · PRODUCTION</span></h2>
+      <table>
+        <tr><td data-i18n="d1.h">KAFKA EVENT THROUGHPUT</td><td class="v">30 → 500+ /s</td></tr>
+        <tr><td data-i18n="d2.h">ANALYTICS EXPORT · 100K+ RECORDS</td><td class="v">12 min → &lt;60 s</td></tr>
+        <tr><td data-i18n="d3.h">CAMERA-FRAME INGESTION</td><td class="v">70 → 300+ fps</td></tr>
+        <tr><td data-i18n="d4.h">VECTOR INDEX MEMORY</td><td class="v">−75%</td></tr>
+        <tr><td data-i18n="d5.h">QUERY LATENCY &amp; RELEASE TURNAROUND</td><td class="v">−35% · −40%</td></tr>
+      </table>
+      <p style="margin-top:10px" data-i18n="d1.p">Split one overloaded pipeline into event-specific topics with dead-letter handling, so a poisoned ANPR message stops blocking face and intrusion events instead of stalling all three.</p>
+      <div class="visas"><span class="stamp round" style="--c:#2E6B3F;--r:-6deg"><b>VERIFIED</b>in production<small>no estimates</small></span></div>
+      <span class="pnum">05</span>
+    </div>
+
+    <div class="pg">
+      <h2>Declared items · <span data-i18n="tb.kicker">INVENTORY</span></h2>
+      <table>
+        <tr><td data-i18n="tb.services">SERVICES</td><td>.NET 8 / C#, ASP.NET Core, EF Core, LINQ, Java, Spring Boot, Hibernate/JPA, REST, microservices, Clean Architecture, C++17</td></tr>
+        <tr><td data-i18n="tb.msg">MESSAGING</td><td>Kafka (consumer groups), RabbitMQ, MQTT, dead-letter queues, SignalR</td></tr>
+        <tr><td data-i18n="tb.data">DATA</td><td>PostgreSQL, TimescaleDB, Milvus, pgvector, MongoDB, partitioning, compression</td></tr>
+        <tr><td data-i18n="tb.ui">INTERFACES</td><td>Angular 18, React, TypeScript, RxJS, npm libraries</td></tr>
+        <tr><td data-i18n="tb.media">MEDIA</td><td>FFmpeg, WebRTC, libdatachannel, H.264</td></tr>
+        <tr><td data-i18n="tb.ship">RUN &amp; SHIP</td><td>Docker, AWS, Azure, GitHub Actions, CI/CD, Grafana, Prometheus, Linux</td></tr>
+      </table>
+      <p style="margin-top:12px"><b>The Streamer</b> — <span data-i18n="b1.li1">Sub-200 ms camera playback for live and recorded sources, decoding and remuxing H.264 in C++17 over FFmpeg.</span> <a href="https://github.com/Manik400/TheStreamer" target="_blank" rel="noopener">↗</a></p>
+      <p><b>ParkNest</b> — <span data-i18n="b2.li2">Optimistic-concurrency booking safeguards and an idempotent credit ledger that hold under overlapping requests — the interesting half of the problem.</span> <a href="https://github.com/Manik400/ParkNest" target="_blank" rel="noopener">↗</a> <a href="https://parknest.onrender.com/" target="_blank" rel="noopener">live ↗</a></p>
+      <p data-i18n="builds.also">ALSO ON THE BENCH → <b>800+ LeetCode problems</b> across arrays, strings, graphs, trees and algorithm design · <b>Adobe GenSolve</b>, top 5 percentile nationally · <b>Postman API Fundamentals</b> certified.</p>
+      <span class="pnum">06</span>
+    </div>
+
+    <div class="pg">
+      <h2>Emergency contact · <span data-i18n="nav.contact">Get in touch</span></h2>
+      <dl class="qa">
+        <dt data-i18n="q3">How many years of experience?</dt><dd data-i18n="a3">Two years in production, starting in the final year of my B.Tech (graduated June 2025). Not internship years — I have been the owner of a production service for most of it.</dd>
+        <dt data-i18n="q5">Backend only, or full-stack?</dt><dd data-i18n="a5">Backend first. But I published the 10+ Angular/React npm libraries every one of our web apps is built from, so owning a feature end to end is familiar.</dd>
+        <dt data-i18n="q7">How do I reach you?</dt><dd data-i18n="a7"><a href="mailto:manikgoyal400@gmail.com">manikgoyal400@gmail.com</a> · +91 93156 05606 · <a href="https://www.linkedin.com/in/manik-goyal-29203a228" target="_blank" rel="noopener">LinkedIn</a>. The résumé PDF is in the nav.</dd>
+      </dl>
+      <p style="margin-top:12px"><a href="../assets/Manik_Goyal_Resume.pdf" download data-i18n="hero.resume">↓ Résumé (PDF)</a> · <a href="https://github.com/Manik400" target="_blank" rel="noopener">GitHub</a> · <a href="https://leetcode.com/manik_23_" target="_blank" rel="noopener">LeetCode</a></p>
+      <span class="pnum">07</span>
+    </div>
+  </div>
+</div>
+<script src="../i18n.js"></script>
+<script src="../common.js"></script>
+<script>
+document.getElementById('lang').innerHTML=MG.langOptions; MG.lang();
+(function(){ var c=document.getElementById('face'),ctx=c.getContext('2d'),seed=0,nm='MANIK GOYAL'; for(var j=0;j<nm.length;j++) seed=(seed*31+nm.charCodeAt(j))>>>0;
+  function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; } var N=13,cell=c.width/N; ctx.fillStyle='#e6dfd0'; ctx.fillRect(0,0,c.width,c.height);
+  for(var y=0;y<N+3;y++) for(var x=0;x<Math.ceil(N/2);x++){ if(rnd()>.5){ ctx.fillStyle=rnd()>.78?'#2B2B2B':'#6D6558'; ctx.fillRect(x*cell,y*cell,cell,cell); ctx.fillRect((N-1-x)*cell,y*cell,cell,cell);} } })();
+</script>
+</body>
+</html>

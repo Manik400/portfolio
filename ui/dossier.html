@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" data-ui="dossier" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CASE FILE MG-2024 — Manik Goyal</title>
+<meta name="description" content="Manik Goyal — backend & distributed systems engineer. Dossier view.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://manik400.github.io/portfolio/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=Caveat:wght@500;700&display=swap">
+<style>
+  :root{--desk:#3B3127;--paper:#EFE6D0;--paper2:#E6DBC2;--ink:#2A2118;--faded:#6B5B48;--red:#B3261E;--blue:#2B4C7E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--desk);color:var(--ink);font:15px/1.6 'Courier Prime','Courier New',monospace;
+       background-image:radial-gradient(ellipse at top,rgba(255,255,255,.06),transparent 60%)}
+  .folder{max-width:900px;margin:26px auto 80px;position:relative}
+  .tab{display:inline-block;background:#C9A96E;color:var(--ink);padding:8px 18px 6px;font:700 13px 'Special Elite',monospace;letter-spacing:.2em;border-radius:6px 6px 0 0;margin-left:26px;border:1px solid #9E8250;border-bottom:0}
+  .sheet{background:var(--paper);padding:clamp(22px,5vw,56px);box-shadow:0 20px 50px rgba(0,0,0,.45),0 2px 0 #d9cfb4,0 4px 0 #cbc0a6;position:relative;
+         background-image:repeating-linear-gradient(0deg,transparent 0 27px,rgba(42,33,24,.05) 27px 28px)}
+  .sheet+.sheet{margin-top:18px}
+  .hd{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px;font:13px 'Special Elite',monospace;letter-spacing:.16em}
+  .hd select{font:inherit;background:var(--paper2);color:var(--ink);border:1px solid var(--ink);padding:2px 6px}
+  h1{font:400 clamp(26px,5vw,44px)/1.1 'Special Elite',monospace;margin:22px 0 4px;letter-spacing:.04em;text-transform:uppercase}
+  .sub{color:var(--faded)}
+  .stamp{position:absolute;right:6%;top:26px;border:3px double var(--red);color:var(--red);padding:6px 12px;font:700 14px 'Special Elite',monospace;letter-spacing:.2em;text-transform:uppercase;transform:rotate(-9deg);opacity:.85;mix-blend-mode:multiply;max-width:46%;text-align:center}
+  .stamp.g{border-color:var(--blue);color:var(--blue);right:auto;left:8%;top:auto;bottom:24px;transform:rotate(5deg)}
+  @media(max-width:640px){.stamp{position:static;display:inline-block;transform:rotate(-3deg);margin:12px 0 0;max-width:none}.stamp.g{transform:rotate(2deg)}}
+  .row{display:grid;gap:14px;margin-top:22px}
+  @media(min-width:700px){.row{grid-template-columns:200px 1fr}}
+  .photo{background:#fff;padding:8px 8px 26px;box-shadow:0 3px 8px rgba(0,0,0,.25);transform:rotate(-2deg);width:180px;position:relative}
+  .photo canvas{display:block;width:100%;image-rendering:pixelated;border:1px solid #ccc}
+  .photo::before{content:"";position:absolute;left:50%;top:-12px;width:26px;height:44px;border:3px solid #7d8590;border-radius:14px;transform:translateX(-50%) rotate(12deg);border-bottom-color:transparent;box-sizing:border-box}
+  .photo small{position:absolute;bottom:6px;left:0;right:0;text-align:center;font:12px 'Caveat',cursive;color:#333}
+  dl.f{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px}
+  dl.f dt{color:var(--faded);text-transform:uppercase;font-size:12px;letter-spacing:.1em;padding-top:2px}dl.f dd{margin:0;border-bottom:1px dotted var(--faded)}
+  h2{font:400 15px 'Special Elite',monospace;letter-spacing:.24em;text-transform:uppercase;margin:34px 0 10px;border-bottom:1px solid var(--ink);padding-bottom:4px}
+  p{margin:0 0 12px}
+  .mk{background:#F3D46B;padding:0 3px;box-shadow:none}.mk.r{background:transparent;color:var(--red);font-weight:700}
+  .note{font:500 19px/1.2 'Caveat',cursive;color:var(--blue);transform:rotate(-1.5deg);display:inline-block;margin:6px 0}
+  ol.ex{padding-left:20px}ol.ex li{margin:8px 0}
+  .ledger{width:100%;border-collapse:collapse;font-size:13.5px}
+  .ledger th,.ledger td{border-bottom:1px solid var(--faded);padding:7px 6px;text-align:left;vertical-align:top}
+  .ledger th{font-weight:400;font-size:11px;letter-spacing:.18em;color:var(--faded)}
+  .ledger td.v{font-weight:700;white-space:nowrap;color:var(--red)}
+  .ledger td s{color:var(--faded)}
+  .redact{background:var(--ink);color:var(--ink);padding:0 4px;cursor:help;transition:background .2s,color .2s}
+  .redact:hover,.redact:focus{background:#F3D46B;color:var(--ink)}
+  .exhibit{border:1px dashed var(--ink);padding:12px 14px;margin:10px 0;background:rgba(255,255,255,.35)}
+  .exhibit b.t{display:block;font:400 13px 'Special Elite',monospace;letter-spacing:.2em;margin-bottom:6px}
+  .clip{position:absolute;right:30px;top:-14px;width:14px;height:52px;border:3px solid #8a8f98;border-radius:8px;box-sizing:border-box;border-top-color:#b0b5bd}
+  .foot{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;margin-top:20px;border-top:1px solid var(--ink);padding-top:10px}
+  a{color:var(--blue)}
+  .qa dt{font-weight:700;margin-top:10px}.qa dd{margin:2px 0 0 0}
+</style>
+</head>
+<body>
+<div class="folder">
+  <span class="tab">CASE FILE · MG-2024</span>
+  <div class="sheet">
+    <span class="clip"></span>
+    <div class="hd"><span>PERSONNEL RECORD · I2V SYSTEMS</span><span>FILE OPENED OCT 2024</span><label>LANG <select id="lang" aria-label="Language"></select></label></div>
+    <div class="stamp" data-i18n="hero.avail">OPEN TO SOFTWARE ENGINEERING ROLES</div>
+    <h1>Goyal, Manik</h1>
+    <div class="sub" data-i18n="hero.role">Software Engineer · Backend &amp; Distributed Systems · Gurugram</div>
+
+    <div class="row">
+      <div class="photo"><canvas id="face" width="120" height="120" aria-label="Pixel portrait"></canvas><small>subject, 2026</small></div>
+      <dl class="f">
+        <dt data-i18n="gl.role">CURRENT ROLE</dt><dd data-i18n="gl.role.s">I2V Systems · Gurugram, India · Oct 2024 → present</dd>
+        <dt data-i18n="gl.exp">EXPERIENCE</dt><dd data-i18n="gl.exp.v">2 years, in production</dd>
+        <dt data-i18n="gl.domain">DOMAIN</dt><dd data-i18n="gl.domain.v">Video analytics · distributed systems</dd>
+        <dt data-i18n="gl.stack">DAILY STACK</dt><dd>.NET 8 / C# · Java / Spring Boot · Kafka · RabbitMQ · PostgreSQL / TimescaleDB · Angular · React · AWS / Azure</dd>
+        <dt data-i18n="gl.edu">EDUCATION</dt><dd data-i18n="gl.edu.v">B.Tech IT · CGPA 8.55/10</dd>
+        <dt data-i18n="gl.lang">LANGUAGES</dt><dd data-i18n="gl.lang.s">EN fluent · HI native · DE basic</dd>
+        <dt data-i18n="gl.seek">LOOKING FOR</dt><dd><span data-i18n="gl.seek.v">Software engineering roles</span> — <span data-i18n="gl.seek.s">backend first · India, or relocation to Europe / Japan / Thailand</span></dd>
+        <dt data-i18n="id.phone">PHONE</dt><dd><span class="redact" tabindex="0" title="hover to reveal">+91 93156 05606</span> &nbsp;<span class="note">hover ↑</span></dd>
+      </dl>
+    </div>
+
+    <h2>1. Statement of the subject</h2>
+    <p data-i18n="hero.lede1">I work on a video analytics platform watching <span class="mk">400+ cameras</span> across 200+ servers — ANPR, face recognition and intrusion events, all of it arriving faster than any single service wants to handle it. My job is making that traffic land correctly: event-specific Kafka topics with dead-letter handling, TimescaleDB that ingests instead of choking, exports that stream instead of dying.</p>
+    <p data-i18n="bio3">I like the fixes that are structural — a pipeline split by event type instead of a bigger consumer, a streaming export instead of a larger heap, an idempotent ledger instead of a retry guard.</p>
+    <span class="note">— consistent with production logs. verified.</span>
+
+    <h2>2. Findings · <span data-i18n="deltas.kicker">MEASURED · PRODUCTION</span></h2>
+    <table class="ledger">
+      <tr><th>ITEM</th><th>BEFORE</th><th>AFTER</th></tr>
+      <tr><td data-i18n="d1.h">KAFKA EVENT THROUGHPUT</td><td><s data-i18n="d1.from">30 events/sec</s></td><td class="v">500+ /s (16×)</td></tr>
+      <tr><td data-i18n="d2.h">ANALYTICS EXPORT · 100K+ RECORDS</td><td><s data-i18n="d2.from">12 min</s></td><td class="v">&lt; 60 s (−92%)</td></tr>
+      <tr><td data-i18n="d3.h">CAMERA-FRAME INGESTION</td><td><s data-i18n="d3.from">70 fps</s></td><td class="v">300+ fps</td></tr>
+      <tr><td data-i18n="d4.h">VECTOR INDEX MEMORY</td><td><s data-i18n="d4.from">baseline</s></td><td class="v">−75%</td></tr>
+      <tr><td data-i18n="d5.h">QUERY LATENCY &amp; RELEASE TURNAROUND</td><td>—</td><td class="v">−35% · −40%</td></tr>
+    </table>
+    <p style="margin-top:10px" data-i18n="d1.p">Split one overloaded pipeline into event-specific topics with dead-letter handling, so a poisoned ANPR message stops blocking face and intrusion events instead of stalling all three.</p>
+    <div class="stamp g">VERIFIED IN PRODUCTION</div>
+  </div>
+
+  <div class="sheet">
+    <h2 style="margin-top:0">3. Record of activity · <span data-i18n="sys.kicker">OWNERSHIP · I2V SYSTEMS · OCT 2024 — PRESENT</span></h2>
+    <p data-i18n="sys.intro">Analytics Manager — the service every camera event passes through on its way to being a record, an alert, or a challan.</p>
+    <ol class="ex">
+      <li data-i18n="own1">Led the Analytics Manager build, coordinating ANPR, face and intrusion events across <b>8+ backend and analytics services</b>.</li>
+      <li data-i18n="own2">Designed the broker-agnostic pub/sub module (RabbitMQ, Kafka, MQTT) and a unified storage module (local disk, NAS, AWS S3) — <b>adopted by 4+ services</b>, cutting new-service integration from days to hours.</li>
+      <li data-i18n="own3">Integrated government <b>e-challan APIs</b> into the ANPR violation pipeline, removing manual submission from the loop entirely.</li>
+      <li data-i18n="own4">Built bulk Excel face enrollment for <b>5,000+ records</b> with field-level server-side validation and live SignalR progress streaming.</li>
+      <li data-i18n="own5">Published <b>10+ reusable npm component libraries</b> used by every web app in a 200+ server deployment serving 60+ concurrent users.</li>
+      <li data-i18n="own6">Mentored <b>2 junior engineers</b> on Clean Architecture and async C#, and drove the code reviews that cut QA-reported regressions.</li>
+      <li data-i18n="own7">Carried features from requirements and technical design through testing and production deployment, coordinating backend, frontend and analytics dependencies across sprint releases.</li>
+    </ol>
+
+    <h2>4. Exhibits · <span data-i18n="builds.kicker">OUTSIDE THE JOB</span></h2>
+    <div class="exhibit"><b class="t">EXHIBIT A — THE STREAMER (2025) · <a href="https://github.com/Manik400/TheStreamer" target="_blank" rel="noopener">source</a></b><span data-i18n="b1.li1">Sub-200 ms camera playback for live and recorded sources, decoding and remuxing H.264 in C++17 over FFmpeg.</span> <span data-i18n="b1.li2">Moved transport off WebSocket streaming onto WebRTC/RTP with libdatachannel, adding HTTP signaling plus seek, pause and playback-speed controls over the data channel.</span></div>
+    <div class="exhibit"><b class="t">EXHIBIT B — PARKNEST (2025) · <a href="https://github.com/Manik400/ParkNest" target="_blank" rel="noopener">source</a> · <a href="https://parknest.onrender.com/" target="_blank" rel="noopener">live</a></b><span data-i18n="b2.li1">Two-sided marketplace: host listings, renter bookings and prepaid credit settlement on .NET 8, PostgreSQL and a React front end.</span> <span data-i18n="b2.li2">Optimistic-concurrency booking safeguards and an idempotent credit ledger that hold under overlapping requests — the interesting half of the problem.</span></div>
+    <p data-i18n="builds.also">ALSO ON THE BENCH → <b>800+ LeetCode problems</b> across arrays, strings, graphs, trees and algorithm design · <b>Adobe GenSolve</b>, top 5 percentile nationally · <b>Postman API Fundamentals</b> certified.</p>
+
+    <h2>5. Equipment · <span data-i18n="tb.kicker">INVENTORY</span></h2>
+    <table class="ledger">
+      <tr><td data-i18n="tb.services">SERVICES</td><td>.NET 8 / C#, ASP.NET Core, EF Core, LINQ, Java, Spring Boot, Hibernate/JPA, REST APIs, microservices, Clean Architecture, C++17</td></tr>
+      <tr><td data-i18n="tb.msg">MESSAGING</td><td>Kafka (consumer groups), RabbitMQ, MQTT, dead-letter queues, SignalR</td></tr>
+      <tr><td data-i18n="tb.data">DATA</td><td>PostgreSQL, TimescaleDB, Milvus, pgvector, MongoDB, partitioning, compression, indexing</td></tr>
+      <tr><td data-i18n="tb.ui">INTERFACES</td><td>Angular 18, React, TypeScript, RxJS, npm library authoring</td></tr>
+      <tr><td data-i18n="tb.ship">RUN &amp; SHIP</td><td>Docker, AWS, Azure, GitHub Actions, CI/CD, Grafana, Prometheus, Linux</td></tr>
+    </table>
+
+    <h2>6. Interview notes · <span data-i18n="gl.kicker">FOR RECRUITERS &amp; HIRING ENGINEERS</span></h2>
+    <dl class="qa">
+      <dt data-i18n="q3">How many years of experience?</dt><dd data-i18n="a3">Two years in production, starting in the final year of my B.Tech (graduated June 2025). Not internship years — I have been the owner of a production service for most of it.</dd>
+      <dt data-i18n="q5">Backend only, or full-stack?</dt><dd data-i18n="a5">Backend first. But I published the 10+ Angular/React npm libraries every one of our web apps is built from, so owning a feature end to end is familiar.</dd>
+      <dt data-i18n="q6">Open to relocation, remote or hybrid?</dt><dd data-i18n="a6">All three. Based in Gurugram, India; open to relocating to Germany, the Netherlands, Finland, Spain, Japan or Thailand, and to remote roles in overlapping time zones. Notice period and compensation: ask by email — I reply within a day.</dd>
+    </dl>
+    <span class="note">recommend: interview. ask about the DLQ replay design.</span>
+    <div class="foot"><a href="mailto:manikgoyal400@gmail.com">manikgoyal400@gmail.com</a><a href="https://www.linkedin.com/in/manik-goyal-29203a228" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/Manik400" target="_blank" rel="noopener">GitHub</a><a href="../assets/Manik_Goyal_Resume.pdf" download data-i18n="hero.resume">↓ Résumé (PDF)</a></div>
+  </div>
+</div>
+<script src="../i18n.js"></script>
+<script src="../common.js"></script>
+<script>
+document.getElementById('lang').innerHTML=MG.langOptions; MG.lang();
+(function(){ var c=document.getElementById('face'),ctx=c.getContext('2d'),seed=0,nm='MANIK GOYAL'; for(var j=0;j<nm.length;j++) seed=(seed*31+nm.charCodeAt(j))>>>0;
+  function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; } var N=13,cell=c.width/N; ctx.fillStyle='#ddd6c4'; ctx.fillRect(0,0,c.width,c.height);
+  for(var y=0;y<N;y++) for(var x=0;x<Math.ceil(N/2);x++){ if(rnd()>.5){ ctx.fillStyle=rnd()>.78?'#2A2118':'#6B5B48'; ctx.fillRect(x*cell,y*cell,cell,cell); ctx.fillRect((N-1-x)*cell,y*cell,cell,cell); } } })();
+</script>
+</body>
+</html>

@@ -10,7 +10,10 @@ One hand-written `index.html`. No framework, no bundler, no build step: what's i
 ## What's in here
 
 ```
-index.html                  the whole site — structure, CSS and JS in one file
+index.html                  the default UI (Throughput) — structure, CSS and JS in one file
+ui/                         eight alternate page designs (see "UIs" below)
+demo.html                   interactive simulations: booking race, bulk enrollment, vector dedup
+common.js                   shared runtime: UI picker, language engine for the alternates, theme helper
 i18n.js                     translations (de, nl, fi, es, ja, th) + the timezone → language map
 404.html                    styled not-found page
 favicon.svg                 MG monogram
@@ -62,6 +65,7 @@ Everything is plain markup in `index.html`, top to bottom:
 | Section | id | What it holds |
 |---|---|---|
 | Hero | `#top` | event-tail console on the left, name and pitch on the right (mirrored at ≥1000px; stacks name-first on mobile) |
+| At a glance | `#glance` | the recruiter/interviewer fact sheet: 8 fact cards (role, experience, stack, domain, looking for, education, languages) + a 7-question Q&A whose answers link deeper into the page |
 | Deltas | `#deltas` | before → after rows; the numbers are the point |
 | Systems | `#systems` | the fan-in/fan-out map + numbered ownership list |
 | Builds | `#builds` | The Streamer, ParkNest — each with an inline SVG plate and source / live links |
@@ -70,6 +74,32 @@ Everything is plain markup in `index.html`, top to bottom:
 
 - **Count-ups** animate to `data-count` and append `data-suffix`; the meter beside each row fills to `data-fill` (a percentage).
 - **Theme** follows the OS by default; the `◑` button overrides it and stores the choice in `localStorage`.
+- **UIs.** Nine complete page designs sharing one content dictionary. `index.html` is Throughput
+  (default); the others live in `ui/`: `terminal` (a shell — type `help`), `editorial` (magazine
+  profile + TOC), `dossier` (typed case file with stamps), `newspaper` (broadsheet front page),
+  `transit` (metro map), `paper` (two-column academic paper), `passport` (data page + visa stamps per
+  target country), `desktop` (retro OS with draggable windows). The floating **UI** button
+  (bottom-right, from `common.js`) opens a picker with a thumbnail of each; the choice is stored in
+  `localStorage` (`mg-ui`) and `index.html` forwards to it on the next visit (`?stay=1` disables
+  that, `?ui=passport` selects one via URL). Every page uses the same `data-i18n` keys, so all seven
+  languages work everywhere — alternates call `MG.lang()` from `common.js`. They carry `noindex` + a
+  canonical to `/portfolio/`. All are responsive down to 360px. To add a UI: copy any file in
+  `ui/`, keep `<html data-ui="name" data-root="../">`, the two script tags and `MG.lang()`, then add
+  an entry (id, file, name, tag, thumbnail class) to `UIS` in `common.js`.
+- **Live demo** (`demo.html`, linked from the nav and the UI picker). Three client-side simulations:
+  (1) the ParkNest booking race — Alice and Bob book the same slot at once; toggle optimistic
+  concurrency to see the 409 vs the silent double-booking, and retry a payment with the same
+  idempotency key to see the ledger refuse a second charge; (2) bulk enrollment — generate a
+  5,000-row sheet with ~1.8% broken rows, run it through field-level validation with SignalR-style
+  progress events, download `rejects.csv`; (3) vector-search dedup — click to enroll embeddings,
+  drag the similarity threshold, toggle the product-quantised index for the −75% memory trade-off.
+  Deliberately *not* the Kafka/event-pipeline work. Data is generated in the browser; the honest
+  framing note at the bottom of the page should stay.
+- **SEO.** Descriptive `<title>` and description, `robots`, `geo.*`, `hreflang` alternates for the
+  seven `?lang=` variants, Open Graph `profile` + `og:image` (`og.png`, 1200×630, generated with
+  Pillow — regenerate if the numbers change), Twitter large card, and JSON-LD with `Person`
+  (occupation, skills, languages, `seeks`), `WebSite`, `ProfilePage` and a `FAQPage` mirroring the
+  at-a-glance Q&A. Bump `dateModified` in the JSON-LD and `lastmod` in `sitemap.xml` on content changes.
 - **Reduced motion** is respected — the tail, the marquee jitter and the count-ups fall back to static values.
 - **The résumé** is `assets/Manik_Goyal_Resume.pdf`, linked from the nav, the hero and the contact
   list. Replacing that one file updates all three — keep the filename, or change it in the three

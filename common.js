@@ -115,7 +115,7 @@
   var btn=document.createElement('button'); btn.type='button'; btn.className='mgui-btn'; btn.setAttribute('aria-haspopup','dialog');
   btn.innerHTML='<i></i> UI · '+(UIS.filter(function(x){return x.id===current;})[0]||UIS[0]).name.toUpperCase()+' ▾';
   var ov=document.createElement('div'); ov.className='mgui'; ov.hidden=true; ov.setAttribute('role','dialog'); ov.setAttribute('aria-label','Choose a UI');
-  var h='<div class="mgui-box"><div class="mgui-head"><h2>Same engineer, nine interfaces.</h2><p>Pick how you want to read this. Content and languages are identical; the choice is remembered. Or skip the reading: <a href="'+base+'demo.html" style="color:#EE3D28;font-weight:700">▶ run the live demo</a> of three engineering problems.</p><button type="button" class="mgui-x" aria-label="Close">✕</button></div><div class="mgui-grid">';
+  var h='<div class="mgui-box"><div class="mgui-head"><h2>Same engineer, nine interfaces.</h2><p>Pick how you want to read this. Content and languages are identical; the choice is remembered.</p><button type="button" class="mgui-x" aria-label="Close">✕</button></div><div class="mgui-grid">';
   UIS.forEach(function(u){
     var dots=''; for(var i=0;i<7;i++) dots+='<i></i>';
     h+='<a class="mgui-card'+(u.id===current?' on':'')+'" href="'+base+u.file+'?ui='+u.id+'" data-ui="'+u.id+'"><div class="th '+u.cls+'">'+dots+'</div><div class="nm">'+u.name+(u.id===current?'<span>CURRENT</span>':'')+'</div><div class="tg">'+u.tag+'</div></a>';

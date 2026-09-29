@@ -12,7 +12,6 @@ One hand-written `index.html`. No framework, no bundler, no build step: what's i
 ```
 index.html                  the default UI (Throughput) — structure, CSS and JS in one file
 ui/                         eight alternate page designs (see "UIs" below)
-demo.html                   interactive simulations: booking race, bulk enrollment, vector dedup
 common.js                   shared runtime: UI picker, language engine for the alternates, theme helper
 i18n.js                     translations (de, nl, fi, es, ja, th) + the timezone → language map
 404.html                    styled not-found page
@@ -86,7 +85,7 @@ Everything is plain markup in `index.html`, top to bottom:
   canonical to `/portfolio/`. All are responsive down to 360px. To add a UI: copy any file in
   `ui/`, keep `<html data-ui="name" data-root="../">`, the two script tags and `MG.lang()`, then add
   an entry (id, file, name, tag, thumbnail class) to `UIS` in `common.js`.
-- **Live demo** (`demo.html`, linked from the nav and the UI picker). Three client-side simulations:
+- **Inline demos** (in `index.html`, marked TRY IT — under ParkNest in `#builds`, and in `#systems`). Three client-side simulations:
   (1) the ParkNest booking race — Alice and Bob book the same slot at once; toggle optimistic
   concurrency to see the 409 vs the silent double-booking, and retry a payment with the same
   idempotency key to see the ledger refuse a second charge; (2) bulk enrollment — generate a

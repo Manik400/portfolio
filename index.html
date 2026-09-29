@@ -330,6 +330,53 @@
     font-size:9.5px;letter-spacing:.1em;border:1px solid currentColor;
     padding:1px 4px;margin-left:6px;opacity:.75;vertical-align:1px;
   }
+
+  /* ---------- inline demos ---------- */
+  .demo{border:3px solid var(--line);background:var(--card);box-shadow:8px 8px 0 var(--shadow);margin-top:22px;overflow:hidden;border-radius:var(--r)}
+  .demo .tag{display:inline-block;background:var(--red);color:#fff;font:700 10px var(--fm);letter-spacing:.2em;padding:3px 7px;margin-bottom:6px}
+  .demo header{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;padding:14px 16px;border-bottom:3px solid var(--line)}
+  .demo header h2{font:400 clamp(18px,2.4vw,26px)/1.05 var(--fd);margin:0}
+  .demo header p{margin:4px 0 0;color:var(--ink-soft);font-size:13.5px;max-width:64ch}
+  .demo header .ctl{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .demo .body{padding:14px 16px;display:grid;gap:14px}
+  @media(min-width:900px){.demo .body{grid-template-columns:1fr 320px}}
+  .demo .stats{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+  .demo .st{border:2px solid var(--line);padding:9px 11px}
+  .demo .st span{display:block;font:10.5px var(--fm);letter-spacing:.14em;color:var(--ink-soft)}
+  .demo .st b{display:block;font:400 24px/1.05 var(--fd);font-variant-numeric:tabular-nums;margin-top:2px}
+  .demo .st b.g{color:var(--green)}.st b.r{color:var(--red)}.st b.a{color:var(--amber)}
+  .demo .log{font:11.5px/1.7 var(--fm);color:var(--ink-soft);border-top:2px dashed var(--line);padding-top:8px;min-height:110px;grid-column:1/-1}
+  .demo .log .ok{color:var(--green)}.log .bad{color:var(--red)}.log .t{color:var(--amber)}.log .w{color:var(--blue)}
+  .demo .meter{height:18px;background:var(--meter-bg);border:2px solid var(--line);position:relative;overflow:hidden}
+  .demo .meter i{position:absolute;inset:0 auto 0 0;width:0;transition:width .2s linear}
+  .demo .meter.g i{background:var(--green)}.meter.r i{background:var(--red)}.meter.a i{background:var(--amber)}.meter.b i{background:var(--blue)}
+  .demo .meter span{position:absolute;right:6px;top:1px;font:700 11px/14px var(--fm);color:var(--ink)}
+  .demo .row{display:grid;gap:6px;grid-template-columns:150px 1fr;align-items:center;font:12px var(--fm)}
+  @media(max-width:520px){.demo .row{grid-template-columns:1fr}}
+  .demo .toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;border:2px solid var(--line);padding:9px 11px;cursor:pointer;background:var(--paper-2);user-select:none}
+  .demo .toggle b{font:700 12px var(--fm)}.toggle small{display:block;color:var(--ink-soft);font-size:12px;font-family:Archivo}
+  .demo .toggle .sw{width:40px;height:22px;border:2px solid var(--line);border-radius:999px;position:relative;flex:0 0 auto;background:var(--meter-bg)}
+  .demo .toggle .sw::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--ink);transition:left .15s}
+  .demo .toggle.on .sw{background:var(--green)}.toggle.on .sw::after{left:20px}
+  /* booking */
+  .demo .slots{display:grid;gap:8px;grid-template-columns:repeat(4,1fr)}
+  @media(max-width:520px){.demo .slots{grid-template-columns:repeat(2,1fr)}}
+  .demo .slot{border:2px solid var(--line);padding:10px;text-align:center;font:700 12px var(--fm);background:var(--paper-2);position:relative;min-height:74px}
+  .demo .slot small{display:block;font-weight:400;color:var(--ink-soft);margin-top:4px}
+  .demo .slot.a{background:var(--green);color:#06140E}.slot.b{background:var(--blue);color:#fff}.slot.x{background:var(--red);color:#fff}
+  .demo .slot .v{position:absolute;top:4px;right:6px;font-size:10px;opacity:.75}
+  .demo .ledger{width:100%;border-collapse:collapse;font:12px var(--fm)}
+  .demo .ledger th,.ledger td{border-bottom:1px solid var(--line);padding:5px 6px;text-align:left}.ledger th{font-size:10px;letter-spacing:.14em;color:var(--ink-soft)}
+  .demo .ledger td.n{text-align:right}.ledger tr.dup td{color:var(--red)}
+  /* enrollment */
+  table.rows{width:100%;border-collapse:collapse;font:11.5px var(--fm)}
+  table.rows th,table.rows td{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left;white-space:nowrap}
+  table.rows th{font-size:10px;letter-spacing:.14em;color:var(--ink-soft)}
+  table.rows tr.bad td{color:var(--red)}table.rows tr.ok td:first-child{color:var(--green)}
+  .demo .scroll{max-height:250px;overflow:auto;border:2px solid var(--line)}
+  /* vectors */
+  canvas{display:block;width:100%;height:auto;background:var(--paper-2);border:2px solid var(--line);cursor:crosshair}
+  input[type=range]{width:100%;accent-color:var(--red)}
   /* print: give recruiters a clean page instead of a dark cockpit */
   @media print{
     .nav,#progress,.band-log,.console,.cta{display:none!important}
@@ -426,7 +473,6 @@
       <a href="#builds" data-i18n="nav.builds">Builds</a>
       <a href="#toolbox" data-i18n="nav.toolbox">Toolbox</a>
       <a href="#about" data-i18n="nav.about">About</a>
-      <a href="demo.html" style="color:var(--red)">▶ Demo</a>
     </div>
     <div class="nav-right">
       <button class="btn" id="theme" type="button" aria-label="Switch colour theme" data-i18n-attr="aria-label:nav.theme">◑</button>
@@ -642,6 +688,34 @@
       <div class="own"><span>07</span><p data-i18n="own7">Carried features from requirements and technical design through testing and production deployment, coordinating backend, frontend and analytics dependencies across sprint releases.</p></div>
     </div>
   </div>
+  <section class="demo" id="enroll">
+    <header><div><div class="tag">TRY IT</div><div class="kicker">02 · BULK ENROLLMENT · 5,000 RECORDS · SERVER-SIDE VALIDATION · LIVE PROGRESS</div><h2>Upload a messy sheet. Get a clean answer, row by row.</h2><p>Operators upload Excel sheets of people to enroll. Some rows are broken — bad IDs, duplicate emails, missing photos. The server validates every field, streams progress over a SignalR hub instead of making the browser poll, and returns exactly which rows failed and why, so the operator fixes 40 rows instead of re-uploading 5,000.</p></div>
+      <div class="ctl"><button class="btn" id="en-gen">GENERATE 5,000-ROW SHEET</button><button class="btn green" id="en-run" disabled>▶ ENROLL</button><button class="btn amber" id="en-dl" disabled>↓ REJECTS.CSV</button></div></header>
+    <div class="body">
+      <div style="display:grid;gap:10px">
+        <div class="row"><span>VALIDATED</span><div class="meter b"><i id="en-val"></i><span id="en-val-t">0 / 0</span></div></div>
+        <div class="row"><span>ENROLLED</span><div class="meter g"><i id="en-ok"></i><span id="en-ok-t">0</span></div></div>
+        <div class="row"><span>REJECTED</span><div class="meter r"><i id="en-bad"></i><span id="en-bad-t">0</span></div></div>
+        <div class="scroll"><table class="rows"><thead><tr><th>#</th><th>EMP ID</th><th>NAME</th><th>EMAIL</th><th>PHOTO</th><th>RESULT</th></tr></thead><tbody id="en-rows"></tbody></table></div>
+      </div>
+      <div class="stats"><div class="st"><span>HUB EVENTS</span><b id="en-ev">0</b><span>signalr progress msgs</span></div><div class="st"><span>ELAPSED</span><b id="en-time">0.0s</b></div><div class="st"><span>REJECT REASONS</span><b id="en-why" style="font-size:12px;font-family:'JetBrains Mono';line-height:1.5">—</b></div><div class="st"><span>OPERATOR FIXES</span><b class="a" id="en-fix">0</b><span>rows, not 5,000</span></div></div>
+      <div class="log" id="log2"></div>
+    </div>
+  </section>
+  <section class="demo" id="vec">
+    <header><div><div class="tag">TRY IT</div><div class="kicker">03 · VECTOR SEARCH · WATCHLIST MATCH &amp; DEDUP · −75% INDEX MEMORY</div><h2>Is this face already enrolled?</h2><p>Every enrollment produces an embedding. Before inserting, the service searches the index for near-duplicates above a similarity threshold — otherwise the same person ends up enrolled four times and the watchlist fires four alerts. Click anywhere to "enroll" a new embedding; drag the threshold to see dedup get stricter. The index toggle shows the memory trade-off I tuned.</p></div></header>
+    <div class="body">
+      <div><canvas id="cv" width="820" height="360"></canvas>
+        <div class="row" style="margin-top:10px"><span>THRESHOLD · <b id="v-th-t">0.80</b></span><input type="range" id="v-th" min="50" max="98" value="80"></div></div>
+      <div style="display:grid;gap:10px">
+        <div class="toggle" id="v-idx"><div><b>PRODUCT-QUANTISED INDEX</b><small>IVF_PQ instead of flat HNSW — compressed vectors, recall held ≥ 0.98</small></div><span class="sw"></span></div>
+        <div class="row"><span>INDEX MEMORY</span><div class="meter r"><i id="v-mem" style="width:100%"></i><span id="v-mem-t">100%</span></div></div>
+        <div class="stats"><div class="st"><span>ENROLLED</span><b id="v-n">0</b></div><div class="st"><span>DUPLICATES CAUGHT</span><b class="g" id="v-dup">0</b></div><div class="st"><span>LAST TOP-1 SIM</span><b id="v-sim">—</b></div><div class="st"><span>RECALL@10</span><b id="v-rec">1.00</b></div></div>
+        <button class="btn amber" id="v-seed">SEED 40 RANDOM FACES</button>
+      </div>
+      <div class="log" id="log3"></div>
+    </div>
+  </section>
 </section>
 
 <!-- BUILDS -->
@@ -768,6 +842,21 @@
     </article>
   </div>
 
+  <section class="demo" id="book">
+    <header><div><div class="tag">TRY IT</div><div class="kicker">01 · PARKNEST · NO DOUBLE-BOOK, NO DOUBLE-CHARGE</div><h2>Two renters, one slot, same millisecond.</h2><p>Alice and Bob both read "slot 3 is free" and both submit. Without a version check the second write silently overwrites the first and both get a confirmation. With <b>optimistic concurrency</b> the stale write is rejected. Then the payment: a client retry with the same <b>idempotency key</b> must not charge twice.</p></div>
+      <div class="ctl"><button class="btn green" id="bk-a">BOOK AS ALICE</button><button class="btn blue" id="bk-b">BOOK AS BOB</button><button class="btn amber" id="bk-race">⚡ BOTH AT ONCE</button><button class="btn" id="bk-retry">↻ RETRY PAYMENT (SAME KEY)</button><button class="btn" id="bk-reset">RESET</button></div></header>
+    <div class="body">
+      <div style="display:grid;gap:12px">
+        <div class="toggle on" id="bk-occ"><div><b>OPTIMISTIC CONCURRENCY</b><small>UPDATE … WHERE id=3 AND version=@seen — 0 rows affected ⇒ conflict</small></div><span class="sw"></span></div>
+        <div class="toggle on" id="bk-idem"><div><b>IDEMPOTENT LEDGER</b><small>UNIQUE(idempotency_key) — a retried charge returns the original receipt</small></div><span class="sw"></span></div>
+        <div class="slots" id="slots"></div>
+        <table class="ledger"><thead><tr><th>KEY</th><th>PAYER</th><th class="n">AMOUNT</th><th>RESULT</th></tr></thead><tbody id="ledger"></tbody></table>
+      </div>
+      <div class="stats"><div class="st"><span>CONFIRMATIONS</span><b id="bk-conf">0</b></div><div class="st"><span>DOUBLE-BOOKED</span><b class="r" id="bk-dbl">0</b></div><div class="st"><span>CHARGED</span><b id="bk-amt">₹0</b></div><div class="st"><span>DUPLICATE CHARGES</span><b class="r" id="bk-dup">0</b></div></div>
+      <div class="log" id="log1"></div>
+    </div>
+  </section>
+<p class="also" style="margin-top:14px">SIMULATED → generated data, real mechanics. The ParkNest design is public on GitHub; the I2V enrollment and dedup code is proprietary, so these are working models of the same problems — not screenshots.</p>
   <div class="also" data-i18n="builds.also">
     ALSO ON THE BENCH → <b>800+ LeetCode problems</b> across arrays, strings, graphs, trees and algorithm design ·
     <b>Adobe GenSolve</b>, top 5 percentile nationally · <b>Postman API Fundamentals</b> certified.
@@ -1185,6 +1274,116 @@
     ctx.beginPath(); ctx.moveTo(g*cell,0); ctx.lineTo(g*cell,c.height); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(0,g*cell); ctx.lineTo(c.width,g*cell); ctx.stroke();
   }
+})();
+</script>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var css=getComputedStyle(document.documentElement); function v(n){ return css.getPropertyValue(n).trim(); }
+  function logTo(el,html,cls){ var d=document.createElement('div'); d.className=cls||''; d.innerHTML='<span class="t">'+new Date().toLocaleTimeString('en-GB')+'</span> '+html; el.appendChild(d); while(el.children.length>7) el.removeChild(el.firstChild); }
+  function tog(el,fn){ el.setAttribute('role','switch'); el.tabIndex=0; function f(){ el.classList.toggle('on'); el.setAttribute('aria-checked',el.classList.contains('on')); fn(el.classList.contains('on')); } el.addEventListener('click',f); el.addEventListener('keydown',function(e){ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); f(); } }); }
+
+  /* ---------------- 1. booking race ---------------- */
+  var log1=document.getElementById('log1'), occ=true, idem=true, slots, ledger, conf, dbl, amt, dup, lastKey=null;
+  function bkReset(){ slots=[]; for(var i=1;i<=8;i++) slots.push({id:i,version:0,owner:null,owners:[]}); ledger=[]; conf=0; dbl=0; amt=0; dup=0; render(); logTo(log1,'8 slots free · price ₹120/slot · ready','ok'); }
+  function render(){
+    var h=''; slots.forEach(function(s){ var cls=s.owners.length>1?'x':(s.owner==='Alice'?'a':s.owner==='Bob'?'b':''); h+='<div class="slot '+cls+'"><span class="v">v'+s.version+'</span>SLOT '+s.id+'<small>'+(s.owners.length>1?'DOUBLE-BOOKED: '+s.owners.join(' + '):s.owner?'booked by '+s.owner:'free')+'</small></div>'; });
+    document.getElementById('slots').innerHTML=h;
+    document.getElementById('ledger').innerHTML=ledger.map(function(l){ return '<tr class="'+(l.dup?'dup':'')+'"><td>'+l.key+'</td><td>'+l.payer+'</td><td class="n">₹'+l.amount+'</td><td>'+l.result+'</td></tr>'; }).join('')||'<tr><td colspan="4" style="color:var(--soft)">no charges yet</td></tr>';
+    document.getElementById('bk-conf').textContent=conf; document.getElementById('bk-dbl').textContent=dbl; document.getElementById('bk-amt').textContent='₹'+amt; document.getElementById('bk-dup').textContent=dup;
+  }
+  // a "request" = read version, think, then write conditionally
+  function book(who,slotId,seenVersion){
+    var s=slots[slotId-1];
+    if(occ&&s.version!==seenVersion){ logTo(log1,who+': UPDATE slot '+slotId+' WHERE version='+seenVersion+' → 0 rows · <b>409 Conflict</b> · "slot taken, pick another"','ok'); return false; }
+    s.version++; s.owner=who; s.owners.push(who);
+    if(s.owners.length>1){ dbl++; logTo(log1,who+': UPDATE slot '+slotId+' (no version check) → 1 row · <b>both confirmed</b> · two cars, one slot','bad'); } else logTo(log1,who+': booked slot '+slotId+' · version '+(s.version-1)+' → '+s.version,'ok');
+    conf++; charge(who,slotId,'chg-'+slotId+'-'+who.toLowerCase()); return true;
+  }
+  function charge(who,slotId,key){
+    lastKey={who:who,key:key};
+    var existing=ledger.filter(function(l){return l.key===key;})[0];
+    if(idem&&existing){ ledger.push({key:key,payer:who,amount:0,result:'200 · returned original receipt'}); logTo(log1,'charge '+key+' seen before → <b>idempotent</b>: same receipt, ₹0 new','ok'); }
+    else { ledger.push({key:key,payer:who,amount:120,result:existing?'charged AGAIN':'charged',dup:!!existing}); amt+=120; if(existing){ dup++; logTo(log1,'charge '+key+' processed twice → <b>₹240 taken for one slot</b>','bad'); } }
+  }
+  function freeSlot(){ var f=slots.filter(function(s){return !s.owner;}); return f.length?f[0].id:slots[0].id; }
+  document.getElementById('bk-a').addEventListener('click',function(){ var id=freeSlot(); book('Alice',id,slots[id-1].version); render(); });
+  document.getElementById('bk-b').addEventListener('click',function(){ var id=freeSlot(); book('Bob',id,slots[id-1].version); render(); });
+  document.getElementById('bk-race').addEventListener('click',function(){ var id=freeSlot(), seen=slots[id-1].version; logTo(log1,'race: Alice and Bob both read slot '+id+' @ version '+seen+' … both submit','w'); book('Alice',id,seen); book('Bob',id,seen); render(); });
+  document.getElementById('bk-retry').addEventListener('click',function(){ if(!lastKey){ logTo(log1,'nothing to retry yet — book first','w'); return; } logTo(log1,lastKey.who+"'s client timed out and retried with the same idempotency key",'w'); charge(lastKey.who,0,lastKey.key); render(); });
+  document.getElementById('bk-reset').addEventListener('click',bkReset);
+  tog(document.getElementById('bk-occ'),function(o){ occ=o; logTo(log1,'optimistic concurrency '+(o?'ON':'OFF — last write wins'),o?'ok':'bad'); });
+  tog(document.getElementById('bk-idem'),function(o){ idem=o; logTo(log1,'idempotent ledger '+(o?'ON':'OFF — every request charges'),o?'ok':'bad'); });
+  bkReset();
+
+  /* ---------------- 2. bulk enrollment ---------------- */
+  var log2=document.getElementById('log2'), sheet=null, rejects=[];
+  var first=['Aarav','Priya','Rohan','Neha','Kabir','Ananya','Vikram','Isha','Dev','Meera','Arjun','Sana','Rahul','Tara','Yash','Diya'], last=['Sharma','Verma','Gupta','Singh','Mehta','Iyer','Khan','Reddy','Nair','Bose','Joshi','Kapoor'];
+  function gen(){
+    sheet=[]; var seenMail={};
+    for(var i=1;i<=5000;i++){
+      var fn=first[i%first.length], ln=last[(i*7)%last.length], r={n:i,id:'EMP'+String(10000+i),name:fn+' '+ln,email:(fn+'.'+ln+i).toLowerCase()+'@corp.example',photo:'ok'};
+      var roll=Math.random();
+      if(roll<0.004){ r.id='EMP'+String(10000+i).slice(0,3); } else if(roll<0.008){ r.email=r.email.replace('@',' at '); } else if(roll<0.013){ r.email=sheet[Math.max(0,i-9)].email; } else if(roll<0.016){ r.photo='missing'; } else if(roll<0.018){ r.name=''; }
+      sheet.push(r);
+    }
+    document.getElementById('en-run').disabled=false; document.getElementById('en-dl').disabled=true; rejects=[];
+    document.getElementById('en-rows').innerHTML=sheet.slice(0,12).map(function(r){ return '<tr><td>'+r.n+'</td><td>'+r.id+'</td><td>'+(r.name||'<i>(blank)</i>')+'</td><td>'+r.email+'</td><td>'+r.photo+'</td><td style="color:var(--soft)">pending</td></tr>'; }).join('')+'<tr><td colspan="6" style="color:var(--soft)">… 4,988 more rows</td></tr>';
+    ['en-val','en-ok','en-bad'].forEach(function(k){ document.getElementById(k).style.width='0'; }); document.getElementById('en-val-t').textContent='0 / 5000'; document.getElementById('en-ok-t').textContent='0'; document.getElementById('en-bad-t').textContent='0'; document.getElementById('en-ev').textContent='0'; document.getElementById('en-why').textContent='—'; document.getElementById('en-fix').textContent='0';
+    logTo(log2,'sheet generated: 5,000 rows · ~1.8% deliberately broken (bad IDs, malformed or duplicate emails, missing photos, blank names)','ok');
+  }
+  function validate(r,seen){
+    if(!/^EMP\d{5}$/.test(r.id)) return 'EMP_ID_FORMAT';
+    if(!r.name) return 'NAME_REQUIRED';
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email)) return 'EMAIL_FORMAT';
+    if(seen[r.email]) return 'EMAIL_DUPLICATE_ROW_'+seen[r.email]; seen[r.email]=r.n;
+    if(r.photo!=='ok') return 'PHOTO_MISSING';
+    return null;
+  }
+  document.getElementById('en-gen').addEventListener('click',gen);
+  document.getElementById('en-run').addEventListener('click',function(){
+    if(!sheet) return; this.disabled=true; var i=0,ok=0,bad=0,ev=0,seen={},why={},t0=performance.now(),tb=document.getElementById('en-rows'); rejects=[]; tb.innerHTML='';
+    logTo(log2,'POST /enroll/bulk · 202 Accepted · job 7f3a · subscribed to hub /progress','ok');
+    var iv=setInterval(function(){
+      for(var k=0;k<125&&i<sheet.length;k++,i++){ var r=sheet[i], e=validate(r,seen); if(e){ bad++; var key=e.replace(/_ROW_\d+/,''); why[key]=(why[key]||0)+1; rejects.push({r:r,e:e}); if(rejects.length<=60) tb.insertAdjacentHTML('beforeend','<tr class="bad"><td>'+r.n+'</td><td>'+r.id+'</td><td>'+(r.name||'(blank)')+'</td><td>'+r.email+'</td><td>'+r.photo+'</td><td>✗ '+e+'</td></tr>'); } else ok++; }
+      ev++; var pct=i/sheet.length*100;
+      document.getElementById('en-val').style.width=pct+'%'; document.getElementById('en-val-t').textContent=i+' / 5000';
+      document.getElementById('en-ok').style.width=ok/sheet.length*100+'%'; document.getElementById('en-ok-t').textContent=ok;
+      document.getElementById('en-bad').style.width=Math.max(bad/sheet.length*100,bad?2:0)+'%'; document.getElementById('en-bad-t').textContent=bad;
+      document.getElementById('en-ev').textContent=ev; document.getElementById('en-time').textContent=((performance.now()-t0)/1000).toFixed(1)+'s'; document.getElementById('en-fix').textContent=bad;
+      document.getElementById('en-why').innerHTML=Object.keys(why).map(function(k){return k+' × '+why[k];}).join('<br>')||'—';
+      if(ev%8===0) logTo(log2,'hub → progress { done: '+i+', ok: '+ok+', rejected: '+bad+' }','w');
+      if(i>=sheet.length){ clearInterval(iv); document.getElementById('en-dl').disabled=false; logTo(log2,'job 7f3a complete · '+ok+' enrolled · '+bad+' rejected with row + reason · operator fixes '+bad+' rows and re-submits only those','ok'); tb.insertAdjacentHTML('beforeend','<tr class="ok"><td>✓</td><td colspan="5">'+ok+' rows enrolled — showing the '+Math.min(rejects.length,60)+' rejected rows above</td></tr>'); }
+    },reduce?5:60);
+  });
+  document.getElementById('en-dl').addEventListener('click',function(){ var csv='row,emp_id,name,email,photo,reason\n'+rejects.map(function(x){return [x.r.n,x.r.id,'"'+x.r.name+'"',x.r.email,x.r.photo,x.e].join(',');}).join('\n'); var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='rejects.csv'; a.click(); logTo(log2,'rejects.csv downloaded · '+rejects.length+' rows','ok'); });
+
+  /* ---------------- 3. vector dedup ---------------- */
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d'), W=cv.width, H=cv.height, log3=document.getElementById('log3');
+  var pts=[], th=0.80, pq=false, dups=0, lastSim=null;
+  function sim(a,b){ var dx=a.x-b.x, dy=a.y-b.y; var d=Math.sqrt(dx*dx+dy*dy); return Math.max(0,1-d/220); } // distance→"cosine-ish" similarity for the 2-D toy
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle=v('--paper-2'); ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle=v('--line'); ctx.lineWidth=1; ctx.globalAlpha=.15; for(var x=0;x<W;x+=40){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); } for(var y=0;y<H;y+=40){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); } ctx.globalAlpha=1;
+    var r=(1-th)*220;
+    pts.forEach(function(p){ ctx.beginPath(); ctx.arc(p.x,p.y,r,0,7); ctx.strokeStyle=v('--soft'); ctx.globalAlpha=.18; ctx.stroke(); ctx.globalAlpha=1; });
+    pts.forEach(function(p,i){ ctx.beginPath(); ctx.arc(p.x,p.y,6,0,7); ctx.fillStyle=p.dup?v('--red'):v('--green'); ctx.fill(); ctx.strokeStyle=v('--line'); ctx.lineWidth=1.5; ctx.stroke(); if(p.link){ ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.link.x,p.link.y); ctx.strokeStyle=v('--red'); ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]); } });
+    ctx.fillStyle=v('--soft'); ctx.font='700 11px JetBrains Mono, monospace'; ctx.fillText('2-D projection of the embedding space · circle = similarity threshold · click to enroll',10,H-12);
+  }
+  function enroll(x,y,quiet){
+    var p={x:x,y:y}, best=null, bs=0; pts.forEach(function(q){ if(q.dup) return; var s=sim(p,q); if(s>bs){ bs=s; best=q; } });
+    // PQ index: quantisation error nudges similarity slightly
+    var seen=pq?bs*(0.985+Math.random()*0.03):bs; lastSim=best?seen:null;
+    if(best&&seen>=th){ p.dup=true; p.link=best; dups++; if(!quiet) logTo(log3,'top-1 similarity '+seen.toFixed(3)+' ≥ '+th.toFixed(2)+' → <b>rejected as duplicate</b> of an existing enrollment','bad'); }
+    else if(!quiet) logTo(log3,(best?'top-1 similarity '+seen.toFixed(3)+' < '+th.toFixed(2)+' → ':'index empty → ')+'inserted · watchlist updated','ok');
+    pts.push(p); stats(); draw();
+  }
+  function stats(){ document.getElementById('v-n').textContent=pts.filter(function(p){return !p.dup;}).length; document.getElementById('v-dup').textContent=dups; document.getElementById('v-sim').textContent=lastSim==null?'—':lastSim.toFixed(3); document.getElementById('v-rec').textContent=pq?'0.98':'1.00'; var m=document.getElementById('v-mem'); m.style.width=(pq?25:100)+'%'; m.parentNode.className='meter '+(pq?'g':'r'); document.getElementById('v-mem-t').textContent=pq?'25% · IVF_PQ':'100% · HNSW flat'; }
+  cv.addEventListener('click',function(e){ var r=cv.getBoundingClientRect(); enroll((e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height); });
+  document.getElementById('v-th').addEventListener('input',function(){ th=this.value/100; document.getElementById('v-th-t').textContent=th.toFixed(2); draw(); });
+  document.getElementById('v-seed').addEventListener('click',function(){ var seed=11; function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; } for(var i=0;i<40;i++){ var cx=80+rnd()*(W-160), cy=50+rnd()*(H-110); enroll(cx,cy,true); if(rnd()<0.3) enroll(cx+(rnd()-.5)*40,cy+(rnd()-.5)*40,true); } logTo(log3,'seeded 40 faces plus a few near-duplicates · red = caught before insert','ok'); });
+  tog(document.getElementById('v-idx'),function(o){ pq=o; stats(); logTo(log3,o?'switched to IVF_PQ: vectors quantised, index memory −75%, recall@10 held at 0.98 — the production trade-off':'switched to flat HNSW: exact, 4× the memory','ok'); });
+  stats(); draw(); logTo(log3,'click the canvas to enroll · or seed 40 faces','ok');
 })();
 </script>
 
